@@ -1,6 +1,8 @@
-package br.edu.ifrn.sc.info.iStudyServer.dominio;
+package br.edu.ifrn.sc.info.istudy.dominio;
 
-public class Disciplina {
+import java.io.Serializable;
+
+public class Disciplina implements Serializable {
 
 	private int id;
 	private String nome;

@@ -1,4 +1,4 @@
-package br.edu.ifrn.sc.info.iStudyServer.dominio;
+package br.edu.ifrn.sc.info.istudy.dominio;
 
 public class Conteudo {
 	
