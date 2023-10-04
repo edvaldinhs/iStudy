@@ -24,6 +24,8 @@ public class TelaInicial extends AppCompatActivity {
     private Button botaoCliqueAqui;
     private EditText etTelefone;
 
+    private EditText etViewBuscar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,39 +33,101 @@ public class TelaInicial extends AppCompatActivity {
 
         botaoCliqueAqui = findViewById(R.id.botaoConfirmar);
         etTelefone = findViewById(R.id.etTelefone);
-
+        etViewBuscar = findViewById(R.id.viewBuscar);
+        Disciplina disciplina = new Disciplina(3, "Redação");
 
         botaoCliqueAqui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                buscarDisciplinas();
-
-                //  Intent intent = new Intent(TelaInicial.this, TelaDisciplinas.class);
-              //  startActivity(intent);
+                buscarDisciplinasPeloID(1);
 
             }
         });
 
     }
 
-    public void buscarDisciplinas() {
-
+    public void inserirDisciplina(Disciplina disciplina){
         RetrofitConfig config = new RetrofitConfig();
         DisciplinaWS disciplinaWS = config.getDisciplinaWS();
-        Call<List<Disciplina>> metodoListar = disciplinaWS.listarTodas();
+        Call<Boolean> metodoInserir = disciplinaWS.inserir(disciplina);
 
-        metodoListar.enqueue(new Callback<List<Disciplina>>() {
+        metodoInserir.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<List<Disciplina>> call, Response<List<Disciplina>> resposta) {
-                List<Disciplina> disciplinas = resposta.body();
-                etTelefone.setText(disciplinas.get(0).getNome());
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toast.makeText(TelaInicial.this, "Disciplina Inserida", Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onFailure(Call<List<Disciplina>> call, Throwable t) {
-
+            public void onFailure(Call<Boolean> call, Throwable t) {
                 Toast.makeText(TelaInicial.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void removerDisciplina(int id){
+        RetrofitConfig config = new RetrofitConfig();
+        DisciplinaWS disciplinaWS = config.getDisciplinaWS();
+        Call<Boolean> metodoRemover = disciplinaWS.remover(id);
+
+        metodoRemover.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toast.makeText(TelaInicial.this, "Disciplina Removida", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(TelaInicial.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+//    public void buscarDisciplinas() {
+//
+//        RetrofitConfig config = new RetrofitConfig();
+//        DisciplinaWS disciplinaWS = config.getDisciplinaWS();
+//        Call<List<Disciplina>> metodoListar = disciplinaWS.listarTodas();
+//
+//        metodoListar.enqueue(new Callback<List<Disciplina>>() {
+//            @Override
+//            public void onResponse(Call<List<Disciplina>> call, Response<List<Disciplina>> resposta) {
+//                List<Disciplina> disciplinas = resposta.body();
+//
+//                try {
+//                    int id = Integer.parseInt(etViewBuscar.getText().toString());
+//                    if(id > disciplinas.size() || id < 0){
+//                        Toast.makeText(TelaInicial.this, "Id inexistente", Toast.LENGTH_LONG).show();
+//                    }else{
+//                        etTelefone.setText(disciplinas.get(id-1).getNome());
+//                    }
+//                }catch(Exception e){
+//                    Toast.makeText(TelaInicial.this, "Digite um número", Toast.LENGTH_LONG).show();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Disciplina>> call, Throwable t) {
+//
+//                Toast.makeText(TelaInicial.this, t.getMessage(), Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
+    public void buscarDisciplinasPeloID(int id) {
+
+        RetrofitConfig config = new RetrofitConfig();
+        DisciplinaWS disciplinaWS = config.getDisciplinaWS();
+        Call<Disciplina> metodoBuscar = disciplinaWS.buscar(id);
+
+        metodoBuscar.enqueue(new Callback<Disciplina>() {
+            @Override
+            public void onResponse(Call<Disciplina> call, Response<Disciplina> response) {
+                Disciplina disciplina = response.body();
+                etTelefone.setText(disciplina.getNome());
+            }
+
+            @Override
+            public void onFailure(Call<Disciplina> call, Throwable t) {
+
             }
         });
     }
