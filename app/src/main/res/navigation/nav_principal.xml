@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_principal"
+    app:startDestination="@id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/desempenho"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Desempenho"
+        android:label="Desempenho" />
+    <fragment
+        android:id="@+id/estudos"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.TelaDisciplinas"
+        android:label="fragment_tela_disciplinas"
+        tools:layout="@layout/fragment_tela_disciplinas" />
+    <fragment
+        android:id="@+id/ranking"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Ranking"
+        android:label="fragment_ranking"
+        tools:layout="@layout/fragment_ranking" />
+    <fragment
+        android:id="@+id/perfil"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Perfil"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
+</navigation>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_home"
+        android:iconTint="@color/aristofany_black"
+        android:iconTintMode="add"
+        android:title="Home" />
+    <item
+        android:id="@+id/desempenho"
+        android:icon="@drawable/ic_bar_chart"
+        android:iconTint="@color/aristofany_black"
+        android:title="Desempenho"
+
+        />
+    <item
+        android:id="@+id/estudos"
+        android:icon="@drawable/ic_book"
+        android:iconTint="@color/aristofany_black"
+        android:title="Estudos"
+        />
+    <item
+        android:id="@+id/ranking"
+        android:icon="@drawable/ic_trofeu"
+        android:iconTint="@color/aristofany_black"
+        android:title="Ranking"
+        />
+    <item
+        android:id="@+id/perfil"
+        android:icon="@drawable/ic_profile"
+        android:iconTint="@color/aristofany_black"
+        android:title="Perfil"
+        />
+</menu>

@@ -52,13 +52,14 @@
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@id/bottomNavView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.0">
+        app:navGraph="@navigation/nav_principal"
+        >
 
     </androidx.fragment.app.FragmentContainerView>
 
@@ -67,54 +68,14 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="#F5F4F4"
+        app:itemTextColor="@drawable/seletor_cor_icone_navbar"
+        app:itemIconTint="@drawable/seletor_cor_icone_navbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frame_layout">
+        app:layout_constraintTop_toBottomOf="@+id/frame_layout"
+        app:menu="@menu/bottom_nav_menu"
+        ></com.google.android.material.bottomnavigation.BottomNavigationView>
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical|left"
-            android:layout_marginLeft="30dp"
-            app:srcCompat="@drawable/ic_home"
-            app:tint="@color/aristofany_black" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical|left"
-            android:layout_marginLeft="105dp"
-            app:srcCompat="@drawable/ic_bar_chart"
-            app:tint="@color/aristofany_black" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:layout_marginBottom="8dp"
-            app:srcCompat="@drawable/ic_book"
-            app:tint="@color/aristofany_blue" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="105dp"
-            app:srcCompat="@drawable/ic_trofeu"
-            app:tint="@color/aristofany_black" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical|right"
-            android:padding="3.5dp"
-            android:layout_marginRight="30dp"
-            app:srcCompat="@drawable/ic_profile"
-            app:tint="@color/aristofany_black" />
-
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
