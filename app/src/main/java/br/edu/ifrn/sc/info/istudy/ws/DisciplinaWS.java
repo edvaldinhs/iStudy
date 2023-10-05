@@ -8,6 +8,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface DisciplinaWS {
@@ -18,7 +19,7 @@ public interface DisciplinaWS {
     @POST("disciplinas/inserir")
     Call< Boolean > inserir(@Body Disciplina disciplina);
 
-    @POST("disciplinas/atualizar")
+    @PUT("disciplinas/atualizar")
     Call< Boolean > atualizar(@Body Disciplina disciplina);
 
     @DELETE("disciplinas/remover/{id}")
