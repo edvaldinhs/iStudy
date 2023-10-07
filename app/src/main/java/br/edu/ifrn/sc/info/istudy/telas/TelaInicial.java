@@ -12,12 +12,15 @@ import android.widget.Toast;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
 import br.edu.ifrn.sc.info.istudy.dominio.Titulo;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
+import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
 import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
 import br.edu.ifrn.sc.info.istudy.ws.EstudanteWS;
+import br.edu.ifrn.sc.info.istudy.ws.TituloWS;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -200,6 +203,155 @@ public class TelaInicial extends AppCompatActivity {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 Toast.makeText(TelaInicial.this, "Estudante Atualizado", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(TelaInicial.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void inserirConteudo(Conteudo conteudo){
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<Boolean> metodoInserir = conteudoWS.inserir(conteudo);
+
+        metodoInserir.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toast.makeText(TelaInicial.this, "Conteudo Inserido", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(TelaInicial.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void removerConteudo(int id){
+
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<Boolean> metodoRemover = conteudoWS.remover(id);
+
+        metodoRemover.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toast.makeText(TelaInicial.this, "Conteudo Removido", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(TelaInicial.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void buscarConteudo(int id) {
+
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<Conteudo> metodoBuscar = conteudoWS.buscar(id);
+
+        metodoBuscar.enqueue(new Callback<Conteudo>() {
+            @Override
+            public void onResponse(Call<Conteudo> call, Response<Conteudo> response) {
+                Conteudo conteudo = response.body();
+                etTelefone.setText(conteudo.getNome());
+            }
+
+            @Override
+            public void onFailure(Call<Conteudo> call, Throwable t) {
+
+            }
+        });
+    }
+    public void atualizarConteudo(Conteudo conteudo) {
+
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<Boolean> metodoAtualizar = conteudoWS.atualizar(conteudo);
+
+        metodoAtualizar.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toast.makeText(TelaInicial.this, "Conteudo Atualizado", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(TelaInicial.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void inserirTitulo(Titulo titulo){
+        RetrofitConfig config = new RetrofitConfig();
+        TituloWS tituloWS = config.getTituloWS();
+        Call<Boolean> metodoInserir = tituloWS.inserir(titulo);
+
+        metodoInserir.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toast.makeText(TelaInicial.this, "Titulo Inserido", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(TelaInicial.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void removerTitulo(int id){
+        RetrofitConfig config = new RetrofitConfig();
+        TituloWS tituloWS = config.getTituloWS();
+        Call<Boolean> metodoRemover = tituloWS.remover(id);
+
+        metodoRemover.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toast.makeText(TelaInicial.this, "Titulo Removido", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(TelaInicial.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void buscarTitulo(int id) {
+
+        RetrofitConfig config = new RetrofitConfig();
+        TituloWS tituloWS = config.getTituloWS();
+        Call<Titulo> metodoBuscar = tituloWS.buscar(id);
+
+        metodoBuscar.enqueue(new Callback<Titulo>() {
+            @Override
+            public void onResponse(Call<Titulo> call, Response<Titulo> response) {
+                Titulo titulo = response.body();
+                etTelefone.setText(titulo.getDescricao());
+            }
+
+            @Override
+            public void onFailure(Call<Titulo> call, Throwable t) {
+
+            }
+        });
+    }
+    public void atualizarTitulo(Titulo titulo) {
+
+        RetrofitConfig config = new RetrofitConfig();
+        TituloWS tituloWS = config.getTituloWS();
+        Call<Boolean> metodoAtualizar = tituloWS.atualizar(titulo);
+
+        metodoAtualizar.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toast.makeText(TelaInicial.this, "Titulo Atualizado", Toast.LENGTH_LONG).show();
             }
 
             @Override

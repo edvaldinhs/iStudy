@@ -3,6 +3,7 @@ package br.edu.ifrn.sc.info.istudy.retrofit;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
 import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
 import br.edu.ifrn.sc.info.istudy.ws.EstudanteWS;
+import br.edu.ifrn.sc.info.istudy.ws.TituloWS;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -25,6 +26,9 @@ public class RetrofitConfig {
     }
     public EstudanteWS getEstudanteWS() {
         return retrofit.create(EstudanteWS.class);
+    }
+    public TituloWS getTituloWS() {
+        return retrofit.create(TituloWS.class);
     }
 
 }
