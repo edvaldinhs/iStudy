@@ -1,5 +1,6 @@
 package br.edu.ifrn.sc.info.istudy.retrofit;
 
+import br.edu.ifrn.sc.info.istudy.ws.ConquistaWS;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
 import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
 import br.edu.ifrn.sc.info.istudy.ws.EstudanteWS;
@@ -29,6 +30,9 @@ public class RetrofitConfig {
     }
     public TituloWS getTituloWS() {
         return retrofit.create(TituloWS.class);
+    }
+    public ConquistaWS getConquistaWS() {
+        return retrofit.create(ConquistaWS.class);
     }
 
 }

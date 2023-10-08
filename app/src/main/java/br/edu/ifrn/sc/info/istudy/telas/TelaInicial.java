@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,11 +13,13 @@ import android.widget.Toast;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.dominio.Conquista;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
 import br.edu.ifrn.sc.info.istudy.dominio.Titulo;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
+import br.edu.ifrn.sc.info.istudy.ws.ConquistaWS;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
 import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
 import br.edu.ifrn.sc.info.istudy.ws.EstudanteWS;
@@ -40,7 +43,8 @@ public class TelaInicial extends AppCompatActivity {
         botaoCliqueAqui = findViewById(R.id.botaoConfirmar);
         etTelefone = findViewById(R.id.etTelefone);
         etViewBuscar = findViewById(R.id.viewBuscar);
-        Estudante estudante = new Estudante("rebequinha@gmail.com", 100, "Eduarda", "321", "", new Titulo(2, "Intermediário"));
+//        Estudante estudante = new Estudante("rebequinha@gmail.com", 100, "Eduarda", "321", "", new Titulo(2, "Intermediário"));
+        Conquista conquista = new Conquista(2, "seaj.jpg", "teste", "teste", "2023-10-07");
 
 
         botaoCliqueAqui.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +60,7 @@ public class TelaInicial extends AppCompatActivity {
 //                inserirEstudante(estudante);
 
 //                buscarEstudante(email);
+
 
                 Intent intent = new Intent(TelaInicial.this, TelaPrincipal.class);
                 startActivity(intent);
@@ -360,4 +365,79 @@ public class TelaInicial extends AppCompatActivity {
             }
         });
     }
+
+    public void inserirConquista(Conquista conquista){
+        RetrofitConfig config = new RetrofitConfig();
+        ConquistaWS conquistaWS = config.getConquistaWS();
+        Call<Boolean> metodoInserir = conquistaWS.inserir(conquista);
+
+        metodoInserir.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toast.makeText(TelaInicial.this, "Conquista Inserida", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(TelaInicial.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void removerConquista(int id){
+        RetrofitConfig config = new RetrofitConfig();
+        ConquistaWS conquistaWS = config.getConquistaWS();
+        Call<Boolean> metodoRemover = conquistaWS.remover(id);
+
+        metodoRemover.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toast.makeText(TelaInicial.this, "Conquista Removida", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(TelaInicial.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void buscarConquista(int id) {
+
+        RetrofitConfig config = new RetrofitConfig();
+        ConquistaWS conquistaWS = config.getConquistaWS();
+        Call<Conquista> metodoBuscar = conquistaWS.buscar(id);
+
+        metodoBuscar.enqueue(new Callback<Conquista>() {
+            @Override
+            public void onResponse(Call<Conquista> call, Response<Conquista> response) {
+                Conquista conquista = response.body();
+                etTelefone.setText(conquista.getNome());
+            }
+
+            @Override
+            public void onFailure(Call<Conquista> call, Throwable t) {
+
+            }
+        });
+    }
+    public void atualizarConquista(Conquista conquista) {
+
+        RetrofitConfig config = new RetrofitConfig();
+        ConquistaWS conquistaWS = config.getConquistaWS();
+        Call<Boolean> metodoAtualizar = conquistaWS.atualizar(conquista);
+
+        metodoAtualizar.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toast.makeText(TelaInicial.this, "Conquista Atualizada", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(TelaInicial.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 }
