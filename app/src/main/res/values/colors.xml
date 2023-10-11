@@ -13,6 +13,7 @@
     <color name="istudy_roxo_40">#40A547F9</color>
     <color name="istudy_verde">#7EBA2F</color>
     <color name="istudy_verde_40">#407EBA2F</color>
-
+    <color name="istudy_cinza">#A5A5A5</color>
+    <color name="istudy_cinza_40">#40A5A5A5</color>
 
 </resources>

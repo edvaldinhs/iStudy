@@ -3,27 +3,38 @@ package br.edu.ifrn.sc.info.istudy.telas.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.adapters.AdapterDisciplinas;
+import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 
 
 public class Home extends Fragment {
 
+    RecyclerView rvDisciplina;
+
+    ArrayList<Disciplina> disciplinas = new ArrayList<>();
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     public Home() {
-        // Required empty public constructor
+
     }
+
     public static Home newInstance(String param1, String param2) {
         Home fragment = new Home();
         Bundle args = new Bundle();
@@ -48,4 +59,5 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
+
 }

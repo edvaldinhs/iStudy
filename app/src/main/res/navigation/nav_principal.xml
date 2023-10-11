@@ -16,7 +16,7 @@
         android:label="Desempenho" />
     <fragment
         android:id="@+id/estudos"
-        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.TelaDisciplinas"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Quizzes"
         android:label="fragment_tela_disciplinas"
         tools:layout="@layout/fragment_tela_disciplinas" />
     <fragment

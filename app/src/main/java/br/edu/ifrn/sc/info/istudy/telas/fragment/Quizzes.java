@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import br.edu.ifrn.sc.info.istudy.R;
 
-public class TelaDisciplinas extends Fragment {
+public class Quizzes extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -18,12 +18,12 @@ public class TelaDisciplinas extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public TelaDisciplinas() {
+    public Quizzes() {
 
     }
 
-    public static TelaDisciplinas newInstance(String param1, String param2) {
-        TelaDisciplinas fragment = new TelaDisciplinas();
+    public static Quizzes newInstance(String param1, String param2) {
+        Quizzes fragment = new Quizzes();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
