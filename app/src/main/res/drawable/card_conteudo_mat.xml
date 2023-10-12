@@ -44,7 +44,7 @@
         android:translateY="30.20675">
         <path
             android:pathData="M15.026843 16.999459L15.026843 12.706126L22.463247 16.999459L18.745045 19.147957L15.026843 21.294623ZM15.026843 16.999459"
-            android:fillColor="#F5F5F5"
+            android:fillColor="@color/aristofany_white"
             android:strokeColor="#F5F5F5"
             android:strokeWidth="3"
             android:strokeLineJoin="round" />

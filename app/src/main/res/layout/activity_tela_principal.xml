@@ -58,8 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:navGraph="@navigation/nav_principal"
-        >
+        app:navGraph="@navigation/nav_principal">
 
     </androidx.fragment.app.FragmentContainerView>
 

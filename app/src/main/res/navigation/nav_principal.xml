@@ -17,8 +17,8 @@
     <fragment
         android:id="@+id/estudos"
         android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Quizzes"
-        android:label="fragment_tela_disciplinas"
-        tools:layout="@layout/fragment_tela_disciplinas" />
+        android:label="fragment_quizzes"
+        tools:layout="@layout/fragment_quizzes" />
     <fragment
         android:id="@+id/ranking"
         android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Ranking"
