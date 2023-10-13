@@ -82,13 +82,12 @@ public class Home extends Fragment {
 //        disciplinas.add(disciplina2);
 
 
-        listarDisciplinas();
+        preencherDisciplinas();
         return view;
     }
 
     //Método Pra listar os cards de Disciplinas
     private void listarDisciplinas(){
-        preencherDisciplinas();
         AdapterDisciplinas adapterDisciplinas = new AdapterDisciplinas(getActivity(), disciplinas);
         rvDisciplina.setAdapter(adapterDisciplinas);
     }
@@ -103,6 +102,7 @@ public class Home extends Fragment {
             @Override
             public void onResponse(Call<List<Disciplina>> call, Response<List<Disciplina>> response) {
                 disciplinas = response.body();
+                listarDisciplinas();
             }
 
             @Override
