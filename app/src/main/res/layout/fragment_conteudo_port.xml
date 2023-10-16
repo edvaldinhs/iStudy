@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".telas.fragment.ConteudoPort">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/botaoProcurarConteudoPor"
+            android:layout_width="330dp"
+            android:layout_height="68dp"
+            android:fontFamily="@font/lexend_semibold"
+            android:text="Procure por conteúdos de português"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/aristofany_black"
+            android:textSize="13sp"
+            app:backgroundTint="#ECECEC"
+            app:cornerRadius="24dp"
+            app:icon="@drawable/ic_lupa"
+            app:iconGravity="textEnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/conteudosPort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/lexend_semibold"
+            android:text="Língua Portuguesa"
+            android:textColor="@color/aristofany_black"
+            android:textSize="22dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/botaoProcurarConteudoPor" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewConteudoPort"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/conteudosPort" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
