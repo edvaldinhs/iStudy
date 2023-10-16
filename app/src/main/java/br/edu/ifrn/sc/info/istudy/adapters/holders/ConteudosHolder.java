@@ -27,7 +27,7 @@ public class ConteudosHolder extends RecyclerView.ViewHolder {
     public void bind(Conteudo conteudo) {
         this.conteudo = conteudo;
 
-        mudarDeCor();
+//        mudarDeCor();
 
         if(!conteudo.getNome().isEmpty()){
             tvNomeConteudo.setText(conteudo.getNome());

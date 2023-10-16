@@ -28,7 +28,7 @@ public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {
     @NonNull
     @Override
     public ConteudosHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.card_disciplina, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.card_conteudo, parent, false);
         return new ConteudosHolder(view);
     }
 
