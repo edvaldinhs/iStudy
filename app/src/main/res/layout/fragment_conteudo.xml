@@ -11,39 +11,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/botaoProcurarConteudo"
+        <EditText
+            android:id="@+id/etProcurarConteudo"
             android:layout_width="330dp"
-            android:layout_height="68dp"
-            android:fontFamily="@font/lexend_semibold"
-            android:text="Procure por conteúdos"
+            android:layout_height="64dp"
+            android:background="@drawable/borda_redonda"
+            android:drawableEnd="@drawable/ic_lupa"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/inter_regular"
+            android:hint="Procure por conteúdos"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textColor="@color/aristofany_black"
+            android:textColorHint="@color/aristofany_black"
             android:textSize="13sp"
-            app:backgroundTint="#ECECEC"
-            app:cornerRadius="24dp"
-            app:icon="@drawable/ic_lupa"
-            app:iconGravity="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/conteudos"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/conteudos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="19dp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/lexend_semibold"
             android:text="Conteúdo"
             android:textColor="@color/aristofany_black"
             android:textSize="22dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/botaoProcurarConteudo"
             app:layout_constraintBottom_toTopOf="@id/recyclerViewConteudo"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etProcurarConteudo" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewConteudo"
             android:layout_width="match_parent"
