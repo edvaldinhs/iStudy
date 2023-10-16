@@ -225,7 +225,7 @@ public class TelaInicial extends AppCompatActivity {
         metodoInserir.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Toast.makeText(TelaInicial.this, "Conteudo Inserido", Toast.LENGTH_LONG).show();
+                Toast.makeText(TelaInicial.this, "Frag_Conteudo Inserido", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -244,7 +244,7 @@ public class TelaInicial extends AppCompatActivity {
         metodoRemover.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Toast.makeText(TelaInicial.this, "Conteudo Removido", Toast.LENGTH_LONG).show();
+                Toast.makeText(TelaInicial.this, "Frag_Conteudo Removido", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -282,7 +282,7 @@ public class TelaInicial extends AppCompatActivity {
         metodoAtualizar.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Toast.makeText(TelaInicial.this, "Conteudo Atualizado", Toast.LENGTH_LONG).show();
+                Toast.makeText(TelaInicial.this, "Frag_Conteudo Atualizado", Toast.LENGTH_LONG).show();
             }
 
             @Override

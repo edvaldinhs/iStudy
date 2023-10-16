@@ -18,7 +18,7 @@ import br.edu.ifrn.sc.info.istudy.databinding.ActivityTelaPrincipalBinding;
 
 public class TelaPrincipal extends AppCompatActivity {
 
-    private ImageView retorno;
+    private ImageView voltar;
     private TextView iStudyLogo;
     private ActivityTelaPrincipalBinding binding;
 
@@ -36,14 +36,20 @@ public class TelaPrincipal extends AppCompatActivity {
         initNavigation();
 
         iStudyLogo = findViewById(R.id.iStudyLogo);
-        retorno = findViewById(R.id.voltar);
+        voltar = findViewById(R.id.voltar);
 
         String i = getColoredSpanned("i", "#7EBA2F");
         String study = getColoredSpanned("Study","#A547F9");
 
         iStudyLogo.setText(Html.fromHtml(i+study));
 
-        retorno.setVisibility(View.INVISIBLE);
+
+        voltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private String getColoredSpanned(String text, String color) {

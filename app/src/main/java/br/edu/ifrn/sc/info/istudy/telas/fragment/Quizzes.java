@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,6 @@ public class Quizzes extends Fragment {
         //Usa uma classe chamada LinearLayoutManager pra organizar os cards de disciplina
         rvQuizzesByDisciplina.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        //Testes de Funcionamento
 
         preencherDisciplinas();
 
@@ -89,6 +89,9 @@ public class Quizzes extends Fragment {
         DisciplinaWS disciplinaWS = config.getDisciplinaWS();
         Call<List<Disciplina>> metodoListar = disciplinaWS.listarTodas();
 
+        //Deixa o botão voltar visível
+        getActivity().findViewById(R.id.voltar).setVisibility(View.VISIBLE);
+
         metodoListar.enqueue(new Callback<List<Disciplina>>() {
             @Override
             public void onResponse(Call<List<Disciplina>> call, Response<List<Disciplina>> response) {
@@ -98,7 +101,12 @@ public class Quizzes extends Fragment {
 
             @Override
             public void onFailure(Call<List<Disciplina>> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                try {
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }catch(NullPointerException nullPointerException){
+                    Log.d("ErroPreencher",nullPointerException.getMessage());
+                }
+
             }
         });
     }

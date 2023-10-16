@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,9 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        //Deixa o botão voltar invisível na home
+        getActivity().findViewById(R.id.voltar).setVisibility(View.INVISIBLE);
+
         //Diz quem é e de onde veio o RecyclerView
         rvDisciplina = view.findViewById(R.id.recyclerview_Disciplinas);
 
@@ -107,7 +111,11 @@ public class Home extends Fragment {
 
             @Override
             public void onFailure(Call<List<Disciplina>> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                try {
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }catch(NullPointerException nullPointerException){
+                    Log.d("ErroPreencher",nullPointerException.getMessage());
+                }
             }
         });
     }
