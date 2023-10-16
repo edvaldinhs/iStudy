@@ -15,17 +15,14 @@ import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterConteudos;
-import br.edu.ifrn.sc.info.istudy.adapters.AdapterDisciplinas;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
-import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
-import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Frag_Conteudo extends Fragment {
+public class FragConteudo extends Fragment {
 
     //Cria o RecyclerView para os cards dos conteudos
     RecyclerView rvConteudo;
@@ -40,12 +37,12 @@ public class Frag_Conteudo extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Frag_Conteudo() {
+    public FragConteudo() {
 
     }
 
-    public static Frag_Conteudo newInstance(String param1, String param2) {
-        Frag_Conteudo fragment = new Frag_Conteudo();
+    public static FragConteudo newInstance(String param1, String param2) {
+        FragConteudo fragment = new FragConteudo();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".telas.fragment.Frag_Conteudo">
+    tools:context=".telas.fragment.FragConteudo">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

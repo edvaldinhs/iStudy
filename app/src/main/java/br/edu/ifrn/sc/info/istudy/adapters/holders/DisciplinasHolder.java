@@ -1,17 +1,22 @@
 package br.edu.ifrn.sc.info.istudy.adapters.holders;
 
 
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
+import br.edu.ifrn.sc.info.istudy.telas.fragment.FragConteudo;
 
-public class DisciplinasHolder extends RecyclerView.ViewHolder {
+public class DisciplinasHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     //Cria disciplina, pois será necessário receber os dados
     private Disciplina disciplina;
@@ -20,12 +25,20 @@ public class DisciplinasHolder extends RecyclerView.ViewHolder {
     private ConstraintLayout clCardDisciplina;
     private TextView tvNomeDisciplina;
 
-    public DisciplinasHolder(@NonNull View itemView) {
+    private OnDisciplinaClickListener disciplinaClickListener;
+
+    private NavController navController;
+
+    public DisciplinasHolder(@NonNull View itemView, OnDisciplinaClickListener disciplinaClickListener, NavController navController) {
         super(itemView);
 
         //Diz quem é quem, e de onde veio cada um
         clCardDisciplina = itemView.findViewById(R.id.card_disciplina);
         tvNomeDisciplina = itemView.findViewById(R.id.tvNomeDisciplina);
+
+        this.disciplinaClickListener = disciplinaClickListener;
+        this.navController = navController;
+
     }
 
     //Método pra modificar os dados no card
@@ -38,6 +51,7 @@ public class DisciplinasHolder extends RecyclerView.ViewHolder {
         if(!disciplina.getNome().isEmpty()){
             tvNomeDisciplina.setText(disciplina.getNome());
         }
+
     }
 
     //Método para mudar a cor do card
@@ -52,5 +66,31 @@ public class DisciplinasHolder extends RecyclerView.ViewHolder {
         }else {
             clCardDisciplina.setBackgroundResource(R.drawable.istudy_aprenda_port);
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        Log.e("HomeFragment", "To clicando");
+        int viewId = view.getId();
+
+        if (viewId == R.id.card_disciplina) {
+            try {
+                disciplinaClickListener.onDisciplinaClick(disciplina.getId());
+            } catch (NullPointerException nullPointerException) {
+
+            }
+        }
+
+//        switch (viewId) {
+//            case R.id.card_disciplina:
+//                try {
+//                    disciplinaClickListener.onBlockClick(disciplina.getId());
+//                }catch (NullPointerException nullPointerException){
+//
+//                }
+//                break;
+//            default:
+//                break;
+//        }
     }
 }

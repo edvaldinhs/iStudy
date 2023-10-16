@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.DisciplinasHolder;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 
 public class AdapterDisciplinas extends RecyclerView.Adapter<DisciplinasHolder> {
@@ -23,18 +25,23 @@ public class AdapterDisciplinas extends RecyclerView.Adapter<DisciplinasHolder> 
     //ArrayList para guardar as disciplinas
     List<Disciplina> disciplinas;
 
+    private NavController navController;
+
+    private OnDisciplinaClickListener disciplinaClickListener;
+
     //Construtor
-    public AdapterDisciplinas(Context context, List<Disciplina> disciplinas){
+    public AdapterDisciplinas(Context context, List<Disciplina> disciplinas, OnDisciplinaClickListener listener, NavController navController){
         mContext = context;
         this.disciplinas = disciplinas;
+        this.disciplinaClickListener = listener;
+        this.navController = navController;
     }
 
-    @NonNull
-    @Override
     public DisciplinasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //Quando instanciar o DisciplinasHolder ele cria os cards
         View view = LayoutInflater.from(mContext).inflate(R.layout.card_disciplina, parent, false);
-        return new DisciplinasHolder(view);
+        DisciplinasHolder holder = new DisciplinasHolder(view, disciplinaClickListener, navController);
+        view.setOnClickListener(holder); // Add this line to set the click listener
+        return holder;
     }
 
     @Override

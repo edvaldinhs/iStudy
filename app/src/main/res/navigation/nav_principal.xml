@@ -9,10 +9,14 @@
         android:id="@+id/home"
         android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Home"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_conteudo"
+            app:destination="@id/conteudo" />
+    </fragment>
     <fragment
         android:id="@+id/desempenho"
-        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Frag_Conteudo"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Desempenho"
         android:label="Desempenho" />
     <fragment
         android:id="@+id/estudos"
@@ -29,4 +33,9 @@
         android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Perfil"
         android:label="fragment_perfil"
         tools:layout="@layout/fragment_perfil" />
+    <fragment
+        android:id="@+id/conteudo"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.FragConteudo"
+        android:label="fragment_conteudo"
+        tools:layout="@layout/fragment_conteudo" />
 </navigation>

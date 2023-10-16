@@ -3,6 +3,8 @@ package br.edu.ifrn.sc.info.istudy.telas.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +20,7 @@ import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterDisciplinas;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.telas.TelaInicial;
@@ -27,13 +30,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class Home extends Fragment {
+public class Home extends Fragment implements OnDisciplinaClickListener {
 
     //Cria o RecyclerView para os cards das disciplinas
     RecyclerView rvDisciplina;
 
     //Armazena as disciplinas
     List<Disciplina> disciplinas = new ArrayList<>();
+
+    NavController navController;
 
 
     private static final String ARG_PARAM1 = "param1";
@@ -73,18 +78,13 @@ public class Home extends Fragment {
         //Deixa o botão voltar invisível na home
         getActivity().findViewById(R.id.voltar).setVisibility(View.INVISIBLE);
 
+        navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
+
         //Diz quem é e de onde veio o RecyclerView
         rvDisciplina = view.findViewById(R.id.recyclerview_Disciplinas);
 
         //Usa uma classe chamada LinearLayoutManager pra organizar os cards de disciplina
         rvDisciplina.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
-        //Testes de Funcionamento
-//        Disciplina disciplina = new Disciplina(1,"Teste");
-//        Disciplina disciplina2 = new Disciplina(2,"Matemautica");
-//        disciplinas.add(disciplina);
-//        disciplinas.add(disciplina2);
-
 
         preencherDisciplinas();
         return view;
@@ -92,7 +92,7 @@ public class Home extends Fragment {
 
     //Método Pra listar os cards de Disciplinas
     private void listarDisciplinas(){
-        AdapterDisciplinas adapterDisciplinas = new AdapterDisciplinas(getActivity(), disciplinas);
+        AdapterDisciplinas adapterDisciplinas = new AdapterDisciplinas(getActivity(), disciplinas, this, navController);
         rvDisciplina.setAdapter(adapterDisciplinas);
     }
 
@@ -114,10 +114,25 @@ public class Home extends Fragment {
                 try {
                     Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
                 }catch(NullPointerException nullPointerException){
-                    Log.d("ErroPreencher",nullPointerException.getMessage());
+                    Log.e("ErroPreencher",nullPointerException.getMessage());
                 }
             }
         });
     }
 
+    @Override
+    public void onDisciplinaClick(int id) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("disciplinaId", id);
+
+        FragConteudo fragConteudo = new FragConteudo();
+        fragConteudo.setArguments(bundle);
+
+        if (navController != null) {
+            navController.navigate(R.id.action_home_to_conteudo);
+            Log.e("HomeFragment", "To clicando");
+        } else {
+            Log.e("HomeFragment", "NavController is null");
+        }
+    }
 }
