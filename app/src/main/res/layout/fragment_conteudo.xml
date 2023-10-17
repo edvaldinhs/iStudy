@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="19dp"
             android:layout_marginBottom="20dp"
-            android:fontFamily="@font/lexend_semibold"
+            android:fontFamily="@font/lexend_semiboldttf"
             android:text="Conteúdo"
             android:textColor="@color/aristofany_black"
             android:textSize="22dp"

@@ -21,7 +21,7 @@
             android:id="@+id/iStudyLogo"
             android:layout_width="127dp"
             android:layout_height="77dp"
-            android:fontFamily="@font/lexend_semibold"
+            android:fontFamily="@font/lexend_semiboldttf"
             android:gravity="left|center"
             android:text="iStudy"
             android:textSize="30dp"
