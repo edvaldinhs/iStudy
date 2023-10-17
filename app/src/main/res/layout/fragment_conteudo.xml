@@ -12,10 +12,10 @@
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/etProcurarConteudo"
+            android:id="@+id/tvProcurarConteudo"
             android:layout_width="330dp"
             android:layout_height="64dp"
-            android:background="@drawable/borda_redonda"
+            android:background="@drawable/borda_redonda_search"
             android:drawableEnd="@drawable/ic_lupa"
             android:padding="10dp"
             android:fontFamily="@font/inter_regular"
@@ -26,6 +26,7 @@
             android:textColorHint="@color/aristofany_black"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/conteudos"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +44,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etProcurarConteudo" />
+            app:layout_constraintTop_toBottomOf="@+id/tvProcurarConteudo" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewConteudo"

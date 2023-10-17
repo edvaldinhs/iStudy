@@ -6,12 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.ConteudosHolder;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.DisciplinasHolder;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 
 public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {
@@ -20,16 +24,19 @@ public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {
 
     List<Conteudo> conteudos;
 
-    public AdapterConteudos(Context context, List<Conteudo> conteudos){
+    NavController navController;
+
+    public AdapterConteudos(Context context, List<Conteudo> conteudos, NavController navController){
         mContext = context;
         this.conteudos = conteudos;
+        this.navController = navController;
     }
 
-    @NonNull
-    @Override
     public ConteudosHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.card_conteudo, parent, false);
-        return new ConteudosHolder(view);
+        ConteudosHolder holder = new ConteudosHolder(view, navController);
+        view.setOnClickListener(holder);
+        return holder;
     }
 
     @Override

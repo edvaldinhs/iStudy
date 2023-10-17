@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.ConteudosHolder;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.QuizzesByDisciplinaHolder;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 
 public class AdapterQuizzesByDisciplinas extends RecyclerView.Adapter<QuizzesByDisciplinaHolder> {
@@ -23,18 +26,23 @@ public class AdapterQuizzesByDisciplinas extends RecyclerView.Adapter<QuizzesByD
     //ArrayList para guardar as disciplinas
     List<Disciplina> disciplinas;
 
+    private NavController navController;
+
+    private OnQuizzesByDisciplinaClickListener quizzesByDisciplinaClickListener;
+
     //Construtor
-    public AdapterQuizzesByDisciplinas(Context context, List<Disciplina> disciplinas){
+    public AdapterQuizzesByDisciplinas(Context context, List<Disciplina> disciplinas, OnQuizzesByDisciplinaClickListener listener, NavController navController){
         mContext = context;
         this.disciplinas = disciplinas;
+        quizzesByDisciplinaClickListener = listener;
+        this.navController = navController;
     }
 
-    @NonNull
-    @Override
     public QuizzesByDisciplinaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //Quando instanciar o QuizzesByDisciplinaHolder ele cria os cards
         View view = LayoutInflater.from(mContext).inflate(R.layout.card_quiz, parent, false);
-        return new QuizzesByDisciplinaHolder(view);
+        QuizzesByDisciplinaHolder holder = new QuizzesByDisciplinaHolder(view, quizzesByDisciplinaClickListener, navController);
+        view.setOnClickListener(holder);
+        return holder;
     }
 
     @Override

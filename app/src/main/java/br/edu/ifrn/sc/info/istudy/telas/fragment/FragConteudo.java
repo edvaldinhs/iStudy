@@ -3,6 +3,8 @@ package br.edu.ifrn.sc.info.istudy.telas.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +17,7 @@ import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterConteudos;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
@@ -22,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragConteudo extends Fragment {
+public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClickListener {
 
     //Cria o RecyclerView para os cards dos conteudos
     RecyclerView rvConteudo;
@@ -30,6 +33,7 @@ public class FragConteudo extends Fragment {
     //Armazena as conteudos
     List<Conteudo> conteudos = new ArrayList<>();
 
+    NavController navController;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -60,9 +64,12 @@ public class FragConteudo extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conteudo, container, false);
+
+        getActivity().findViewById(R.id.voltar).setVisibility(View.VISIBLE);
+
+        navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
 
         rvConteudo = view.findViewById(R.id.recyclerViewConteudo);
 
@@ -75,7 +82,7 @@ public class FragConteudo extends Fragment {
 
     //Método Pra listar os cards de Conteudos
     private void listarConteudos(){
-        AdapterConteudos adapterConteudos = new AdapterConteudos(getActivity(), conteudos);
+        AdapterConteudos adapterConteudos = new AdapterConteudos(getActivity(), conteudos, navController);
         rvConteudo.setAdapter(adapterConteudos);
     }
 
@@ -96,5 +103,10 @@ public class FragConteudo extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onQuizzesByDisciplinaClick(int id) {
+
     }
 }
