@@ -3,6 +3,7 @@ package br.edu.ifrn.sc.info.istudy.telas.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -67,6 +68,7 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     //Quando criar a tela e seus componentes, esse código roda
@@ -75,10 +77,10 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
+
         //Deixa o botão voltar invisível na home
         getActivity().findViewById(R.id.voltar).setVisibility(View.INVISIBLE);
-
-        navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
 
         //Diz quem é e de onde veio o RecyclerView
         rvDisciplina = view.findViewById(R.id.recyclerview_Disciplinas);
@@ -86,7 +88,10 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
         //Usa uma classe chamada LinearLayoutManager pra organizar os cards de disciplina
         rvDisciplina.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
+
         preencherDisciplinas();
+
+//        navController.navigate(R.id.action_home_to_conteudo);
         return view;
     }
 
@@ -130,7 +135,7 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
 
         if (navController != null) {
             navController.navigate(R.id.action_home_to_conteudo);
-            Log.e("HomeFragment", "To clicando");
+            Log.e("HomeFragment", navController.toString());
         } else {
             Log.e("HomeFragment", "NavController is null");
         }

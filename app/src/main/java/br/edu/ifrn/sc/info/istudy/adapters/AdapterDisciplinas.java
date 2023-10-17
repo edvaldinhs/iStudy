@@ -40,7 +40,7 @@ public class AdapterDisciplinas extends RecyclerView.Adapter<DisciplinasHolder> 
     public DisciplinasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.card_disciplina, parent, false);
         DisciplinasHolder holder = new DisciplinasHolder(view, disciplinaClickListener, navController);
-        view.setOnClickListener(holder); // Add this line to set the click listener
+        view.setOnClickListener(holder);
         return holder;
     }
 

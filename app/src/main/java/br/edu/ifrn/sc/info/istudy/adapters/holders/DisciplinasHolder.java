@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
-import br.edu.ifrn.sc.info.istudy.telas.fragment.FragConteudo;
 
 public class DisciplinasHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -38,6 +37,8 @@ public class DisciplinasHolder extends RecyclerView.ViewHolder implements View.O
 
         this.disciplinaClickListener = disciplinaClickListener;
         this.navController = navController;
+        clCardDisciplina.setOnClickListener(this);
+
 
     }
 
@@ -70,7 +71,6 @@ public class DisciplinasHolder extends RecyclerView.ViewHolder implements View.O
 
     @Override
     public void onClick(View view) {
-        Log.e("HomeFragment", "To clicando");
         int viewId = view.getId();
 
         if (viewId == R.id.card_disciplina) {
@@ -80,11 +80,10 @@ public class DisciplinasHolder extends RecyclerView.ViewHolder implements View.O
 
             }
         }
-
 //        switch (viewId) {
 //            case R.id.card_disciplina:
 //                try {
-//                    disciplinaClickListener.onBlockClick(disciplina.getId());
+//                    disciplinaClickListener.onDisciplinaClick(disciplina.getId());
 //                }catch (NullPointerException nullPointerException){
 //
 //                }

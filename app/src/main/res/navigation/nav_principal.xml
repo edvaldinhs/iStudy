@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/desempenho"
-        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Desempenho"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.FragConteudo"
         android:label="Desempenho" />
     <fragment
         android:id="@+id/estudos"
