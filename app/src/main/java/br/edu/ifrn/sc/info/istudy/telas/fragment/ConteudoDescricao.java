@@ -1,15 +1,27 @@
 package br.edu.ifrn.sc.info.istudy.telas.fragment;
 
+import android.location.GnssAntennaInfo;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.Locale;
 
 import br.edu.ifrn.sc.info.istudy.R;
 public class ConteudoDescricao extends Fragment {
+
+    ImageView botaoTts;
+
+    TextView tvDescricao;
+
+    TextToSpeech tts;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -40,6 +52,29 @@ public class ConteudoDescricao extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_conteudo_descricao, container, false);
+        View view = inflater.inflate(R.layout.fragment_conteudo_descricao, container, false);
+
+        botaoTts = view.findViewById(R.id.botaoTts);
+
+        tvDescricao = view.findViewById(R.id.descricao);
+
+        tts = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if(i == TextToSpeech.SUCCESS){
+                   int linguagem = tts.setLanguage(Locale.ITALY);
+                }
+            }
+        });
+
+        botaoTts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String texto = tvDescricao.getText().toString();
+                int falar = tts.speak(texto, tts.QUEUE_FLUSH, null);
+            }
+        });
+
+        return view;
     }
 }
