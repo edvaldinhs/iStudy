@@ -34,7 +34,7 @@ public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {
 
     public ConteudosHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.card_conteudo, parent, false);
-        ConteudosHolder holder = new ConteudosHolder(view, navController);
+        ConteudosHolder holder = new ConteudosHolder(view);
         view.setOnClickListener(holder);
         return holder;
     }

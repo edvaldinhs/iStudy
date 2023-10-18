@@ -26,12 +26,12 @@
             android:textColorHint="@color/aristofany_black"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/conteudos"
+            app:layout_constraintBottom_toTopOf="@id/tvDisciplinas"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/conteudos"
+            android:id="@+id/tvDisciplinas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="19dp"
@@ -53,7 +53,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/conteudos" />
+            app:layout_constraintTop_toBottomOf="@+id/tvDisciplinas" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

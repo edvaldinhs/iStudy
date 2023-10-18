@@ -41,6 +41,7 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
 
     NavController navController;
 
+    String nomeDisciplina;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -127,14 +128,12 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
 
     @Override
     public void onDisciplinaClick(int id) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("disciplinaId", id);
+        Bundle cartinha = new Bundle();
 
-        FragConteudo fragConteudo = new FragConteudo();
-        fragConteudo.setArguments(bundle);
+        cartinha.putInt("disciplinaId", id);
 
         if (navController != null) {
-            navController.navigate(R.id.action_home_to_conteudo);
+            navController.navigate(R.id.action_home_to_conteudo, cartinha);
             Log.e("HomeFragment", navController.toString());
         } else {
             Log.e("HomeFragment", "NavController is null");

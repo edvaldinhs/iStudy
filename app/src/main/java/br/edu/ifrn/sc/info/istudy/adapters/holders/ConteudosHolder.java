@@ -19,7 +19,7 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
     private ConstraintLayout clCardConteudo;
     private TextView tvNomeConteudo;
 
-    public ConteudosHolder(@NonNull View itemView, NavController navController) {
+    public ConteudosHolder(@NonNull View itemView) {
         super(itemView);
         clCardConteudo = itemView.findViewById(R.id.card_conteudo);
         tvNomeConteudo = itemView.findViewById(R.id.tvNomeConteudo);
@@ -40,10 +40,11 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
 
         if(conteudo.getId() == 1){
             clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_port);
+
         }else if (conteudo.getId() == 2){
             clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_mat);
         }else {
-            clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_port);
+            clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_bloqueado);
         }
     }
 

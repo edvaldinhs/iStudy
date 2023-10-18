@@ -8,9 +8,11 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +21,10 @@ import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterConteudos;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
+import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
+import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,12 +32,20 @@ import retrofit2.Response;
 public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClickListener {
 
     //Cria o RecyclerView para os cards dos conteudos
-    RecyclerView rvConteudo;
+    private RecyclerView rvConteudo;
 
     //Armazena as conteudos
-    List<Conteudo> conteudos = new ArrayList<>();
+    private List<Conteudo> conteudos = new ArrayList<>();
 
-    NavController navController;
+    private NavController navController;
+
+    private Bundle extras;
+
+    TextView tvNomeDisciplina;
+
+    private int id;
+
+    private String nomeDisciplina;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -67,7 +79,19 @@ public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conteudo, container, false);
 
+        tvNomeDisciplina = view.findViewById(R.id.tvDisciplinas);
+
+        extras = getArguments();
+
+        if(extras != null){
+            id = extras.getInt("disciplinaId");
+
+            setarNomeDisciplinasPeloID(id);
+        }
+
         getActivity().findViewById(R.id.voltar).setVisibility(View.VISIBLE);
+
+
 
         navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
 
@@ -101,6 +125,24 @@ public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClick
             @Override
             public void onFailure(Call<List<Conteudo>> call, Throwable t) {
 
+            }
+        });
+    }
+    public void setarNomeDisciplinasPeloID(int id) {
+        RetrofitConfig config = new RetrofitConfig();
+        DisciplinaWS disciplinaWS = config.getDisciplinaWS();
+        Call<Disciplina> metodoBuscar = disciplinaWS.buscar(id);
+
+        metodoBuscar.enqueue(new Callback<Disciplina>() {
+            @Override
+            public void onResponse(Call<Disciplina> call, Response<Disciplina> response) {
+                Disciplina disciplina = response.body();
+                tvNomeDisciplina.setText(disciplina.getNome());
+            }
+
+            @Override
+            public void onFailure(Call<Disciplina> call, Throwable t) {
+                Log.e("pedro", t.getMessage());
             }
         });
     }
