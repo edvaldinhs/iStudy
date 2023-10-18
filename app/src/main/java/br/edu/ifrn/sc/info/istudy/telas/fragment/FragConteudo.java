@@ -79,19 +79,7 @@ public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conteudo, container, false);
 
-        tvNomeDisciplina = view.findViewById(R.id.tvDisciplinas);
-
-        extras = getArguments();
-
-        if(extras != null){
-            id = extras.getInt("disciplinaId");
-
-            setarNomeDisciplinasPeloID(id);
-        }
-
         getActivity().findViewById(R.id.voltar).setVisibility(View.VISIBLE);
-
-
 
         navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
 
@@ -99,7 +87,15 @@ public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClick
 
         rvConteudo.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        preencherConteudos();
+        tvNomeDisciplina = view.findViewById(R.id.tvDisciplinas);
+
+        extras = getArguments();
+
+        if(extras != null){
+            id = extras.getInt("disciplinaId");
+            setarNomeDisciplinasPeloID(id);
+            preencherConteudos(id);
+        }
 
         return view;
     }
@@ -110,7 +106,7 @@ public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClick
         rvConteudo.setAdapter(adapterConteudos);
     }
 
-    private void preencherConteudos(){
+    private void preencherConteudos(int id){
         RetrofitConfig config = new RetrofitConfig();
         ConteudoWS conteudoWS = config.getConteudoWS();
         Call<List<Conteudo>> metodoListar = conteudoWS.listarTodos();
@@ -118,7 +114,12 @@ public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClick
         metodoListar.enqueue(new Callback<List<Conteudo>>() {
             @Override
             public void onResponse(Call<List<Conteudo>> call, Response<List<Conteudo>> response) {
-                conteudos = response.body();
+//                conteudos = response.body();
+                for(Conteudo conteudo : response.body()){
+                    if(conteudo.getId() == id){
+                        conteudos.add(conteudo);
+                    }
+                }
                 listarConteudos();
             }
 
