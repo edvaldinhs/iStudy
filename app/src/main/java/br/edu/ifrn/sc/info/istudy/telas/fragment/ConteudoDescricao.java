@@ -62,7 +62,7 @@ public class ConteudoDescricao extends Fragment {
             @Override
             public void onInit(int i) {
                 if(i == TextToSpeech.SUCCESS){
-                   int linguagem = tts.setLanguage(Locale.ITALY);
+                   int linguagem = tts.setLanguage(Locale.forLanguageTag("pt-BR"));
                 }
             }
         });
@@ -71,6 +71,7 @@ public class ConteudoDescricao extends Fragment {
             @Override
             public void onClick(View view) {
                 String texto = tvDescricao.getText().toString();
+//                texto = "Bom dia Daniel, tudo bom?";
                 int falar = tts.speak(texto, tts.QUEUE_FLUSH, null);
             }
         });
