@@ -9,6 +9,8 @@ import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConteudoClickListener;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 
@@ -18,6 +20,10 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
 
     private ConstraintLayout clCardConteudo;
     private TextView tvNomeConteudo;
+
+    private OnConteudoClickListener conteudoClickListener;
+
+    private NavController navController;
 
     public ConteudosHolder(@NonNull View itemView) {
         super(itemView);
@@ -38,10 +44,10 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
 
     private void mudarDeCor(){
 
-        if(conteudo.getId() == 1){
+        if(conteudo.getId() == 1 && conteudo.getBloqueado() == false){
             clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_port);
 
-        }else if (conteudo.getId() == 2){
+        }else if (conteudo.getId() == 2 && conteudo.getBloqueado() == false){
             clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_mat);
         }else {
             clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_bloqueado);
@@ -54,6 +60,9 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
 
         if (viewId == R.id.card_conteudo) {
             try {
+                if (conteudo.getBloqueado() == false) {
+                    conteudoClickListener.onConteudoClick(conteudo.getId());
+                }
 
             } catch (NullPointerException nullPointerException) {
 

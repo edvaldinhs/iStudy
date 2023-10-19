@@ -3,6 +3,7 @@ package br.edu.ifrn.sc.info.istudy.ws;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
+import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -15,6 +16,10 @@ public interface ConteudoWS {
 
     @GET("conteudos/listarTodos")
     Call< List<Conteudo> > listarTodos();
+
+    @GET("conteudos/listarTodosDesbloqueados")
+    Call< List<Conteudo> > listarTodosDesbloqueados(@Body Estudante estudante);
+
 
     @POST("conteudos/inserir")
     Call< Boolean > inserir(@Body Conteudo conteudo);
