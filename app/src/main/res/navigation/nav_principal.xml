@@ -41,10 +41,26 @@
         android:id="@+id/conteudo"
         android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.FragConteudo"
         android:label="fragment_conteudo"
-        tools:layout="@layout/fragment_conteudo" />
+        tools:layout="@layout/fragment_conteudo" >
+        <action
+            android:id="@+id/action_conteudo_to_conteudoDescricao"
+            app:destination="@id/conteudoDescricao" />
+        <action
+            android:id="@+id/action_conteudo_to_conteudoDescricaoImagem"
+            app:destination="@id/conteudoDescricaoImagem" />
+    </fragment>
     <fragment
         android:id="@+id/quiz"
         android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Quizzes"
         android:label="fragment_quiz"
         tools:layout="@layout/fragment_quizzes" />
+    <fragment
+        android:id="@+id/conteudoDescricaoImagem"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.ConteudoDescricaoImagem"
+        android:label="ConteudoDescricaoImagem" />
+    <fragment
+        android:id="@+id/conteudoDescricao"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.ConteudoDescricao"
+        android:label="fragment_conteudo_descricao_imagem"
+        tools:layout="@layout/fragment_conteudo_descricao_imagem" />
 </navigation>

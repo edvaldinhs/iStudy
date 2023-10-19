@@ -33,7 +33,7 @@ public class AdapterDisciplinas extends RecyclerView.Adapter<DisciplinasHolder> 
     public AdapterDisciplinas(Context context, List<Disciplina> disciplinas, OnDisciplinaClickListener listener, NavController navController){
         mContext = context;
         this.disciplinas = disciplinas;
-        this.disciplinaClickListener = listener;
+        disciplinaClickListener = listener;
         this.navController = navController;
     }
 

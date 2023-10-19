@@ -19,7 +19,7 @@ import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterConteudos;
-import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConteudoClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClickListener {
+public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
     //Cria o RecyclerView para os cards dos conteudos
     private RecyclerView rvConteudo;
@@ -102,7 +102,7 @@ public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClick
 
     //Método pra listar os cards de Conteudos
     private void listarConteudos(){
-        AdapterConteudos adapterConteudos = new AdapterConteudos(getActivity(), conteudos, navController);
+        AdapterConteudos adapterConteudos = new AdapterConteudos(getActivity(), conteudos, navController,this);
         rvConteudo.setAdapter(adapterConteudos);
     }
 
@@ -114,18 +114,19 @@ public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClick
         metodoListar.enqueue(new Callback<List<Conteudo>>() {
             @Override
             public void onResponse(Call<List<Conteudo>> call, Response<List<Conteudo>> response) {
-//                conteudos = response.body();
-                for(Conteudo conteudo : response.body()){
-                    if(conteudo.getId() == id){
-                        conteudos.add(conteudo);
+                if (response.body() != null) {
+                    for (Conteudo conteudo : response.body()) {
+                        if (conteudo.getDisciplina().getId() == id) {
+                            conteudos.add(conteudo);
+                        }
                     }
+                    listarConteudos();
+                } else {
                 }
-                listarConteudos();
             }
 
             @Override
             public void onFailure(Call<List<Conteudo>> call, Throwable t) {
-
             }
         });
     }
@@ -149,7 +150,16 @@ public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClick
     }
 
     @Override
-    public void onQuizzesByDisciplinaClick(int id) {
+    public void onConteudoClick(int id) {
+        Bundle cartinha = new Bundle();
 
+        cartinha.putInt("conteudoId", id);
+
+        if (navController != null) {
+            navController.navigate(R.id.action_conteudo_to_conteudoDescricao, cartinha);
+            Log.e("HomeFragment", navController.toString());
+        } else {
+            Log.e("HomeFragment", "NavController is null");
+        }
     }
 }

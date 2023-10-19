@@ -13,6 +13,8 @@ import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.ConteudosHolder;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConteudoClickListener;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 
 public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {
@@ -23,15 +25,18 @@ public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {
 
     NavController navController;
 
-    public AdapterConteudos(Context context, List<Conteudo> conteudos, NavController navController){
+    OnConteudoClickListener onConteudoClickListener;
+
+    public AdapterConteudos(Context context, List<Conteudo> conteudos, NavController navController, OnConteudoClickListener listener){
         mContext = context;
         this.conteudos = conteudos;
         this.navController = navController;
+        onConteudoClickListener = listener;
     }
 
     public ConteudosHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.card_conteudo, parent, false);
-        ConteudosHolder holder = new ConteudosHolder(view);
+        ConteudosHolder holder = new ConteudosHolder(view, onConteudoClickListener);
         view.setOnClickListener(holder);
         return holder;
     }

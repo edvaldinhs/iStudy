@@ -23,13 +23,13 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
 
     private OnConteudoClickListener conteudoClickListener;
 
-    private NavController navController;
-
-    public ConteudosHolder(@NonNull View itemView) {
+    public ConteudosHolder(@NonNull View itemView, OnConteudoClickListener listener) {
         super(itemView);
         clCardConteudo = itemView.findViewById(R.id.card_conteudo);
         tvNomeConteudo = itemView.findViewById(R.id.tvNomeConteudo);
         clCardConteudo.setOnClickListener(this);
+
+        conteudoClickListener = listener;
     }
 
     public void bind(Conteudo conteudo) {
@@ -44,10 +44,10 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
 
     private void mudarDeCor(){
 
-        if(conteudo.getId() == 1 && conteudo.getBloqueado() == false){
+        if(conteudo.getDisciplina().getId() == 1 && conteudo.getBloqueado() == false){
             clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_port);
 
-        }else if (conteudo.getId() == 2 && conteudo.getBloqueado() == false){
+        }else if (conteudo.getDisciplina().getId() == 2 && conteudo.getBloqueado() == false){
             clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_mat);
         }else {
             clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_bloqueado);
