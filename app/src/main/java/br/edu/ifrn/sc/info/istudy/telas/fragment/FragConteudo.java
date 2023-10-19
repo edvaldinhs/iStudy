@@ -41,7 +41,7 @@ public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClick
 
     private Bundle extras;
 
-    TextView tvNomeDisciplina;
+    private TextView tvNomeDisciplina;
 
     private int id;
 
@@ -100,7 +100,7 @@ public class FragConteudo extends Fragment implements OnQuizzesByDisciplinaClick
         return view;
     }
 
-    //Método Pra listar os cards de Conteudos
+    //Método pra listar os cards de Conteudos
     private void listarConteudos(){
         AdapterConteudos adapterConteudos = new AdapterConteudos(getActivity(), conteudos, navController);
         rvConteudo.setAdapter(adapterConteudos);

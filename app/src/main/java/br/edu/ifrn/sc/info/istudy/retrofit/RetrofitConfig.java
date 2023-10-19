@@ -1,5 +1,6 @@
 package br.edu.ifrn.sc.info.istudy.retrofit;
 
+import br.edu.ifrn.sc.info.istudy.ws.AtividadeWS;
 import br.edu.ifrn.sc.info.istudy.ws.ConquistaWS;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
 import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
@@ -14,7 +15,7 @@ public class RetrofitConfig {
 
     public RetrofitConfig() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.117:8080/iStudyServer/webapi/")
+                .baseUrl("http://10.161.1.80:8080/iStudyServer/webapi/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }
@@ -34,5 +35,7 @@ public class RetrofitConfig {
     public ConquistaWS getConquistaWS() {
         return retrofit.create(ConquistaWS.class);
     }
-
+    public AtividadeWS getAtividadeWS() {
+        return retrofit.create(AtividadeWS.class);
+    }
 }

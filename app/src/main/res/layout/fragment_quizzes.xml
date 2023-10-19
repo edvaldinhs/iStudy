@@ -1,33 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".telas.fragment.Quizzes">
 
-
-    <TextView
-        android:id="@+id/titulo_quizzes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/lexend_semiboldttf"
-        android:text="Quizzes"
-        android:textColor="@color/aristofany_black"
-        android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@+id/rvQuizzesByDisciplina"
-        app:layout_constraintEnd_toEndOf="@+id/rvQuizzesByDisciplina"
-        app:layout_constraintStart_toStartOf="@+id/rvQuizzesByDisciplina"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvQuizzesByDisciplina"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titulo_quizzes" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/tvProcurarQuizzes"
+            android:layout_width="330dp"
+            android:layout_height="64dp"
+            android:background="@drawable/borda_redonda_search"
+            android:drawableEnd="@drawable/ic_lupa"
+            android:padding="10dp"
+            android:fontFamily="@font/inter_regular"
+            android:hint="Procure por quizzes"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/aristofany_black"
+            android:textColorHint="@color/aristofany_black"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvDisciplinas"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDisciplinas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/lexend_semiboldttf"
+            android:text="Disciplina"
+            android:textColor="@color/aristofany_black"
+            android:textSize="22dp"
+            app:layout_constraintBottom_toTopOf="@id/recyclerViewQuizzes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvProcurarQuizzes" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewQuizzes"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDisciplinas" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

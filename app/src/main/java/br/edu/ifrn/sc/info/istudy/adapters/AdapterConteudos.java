@@ -13,9 +13,6 @@ import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.ConteudosHolder;
-import br.edu.ifrn.sc.info.istudy.adapters.holders.DisciplinasHolder;
-import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
-import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 
 public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {

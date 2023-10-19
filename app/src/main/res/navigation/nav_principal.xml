@@ -20,12 +20,12 @@
         android:label="Desempenho" />
     <fragment
         android:id="@+id/estudos"
-        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Quizzes"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.QuizzesByDisciplina"
         android:label="fragment_quizzes"
-        tools:layout="@layout/fragment_quizzes" >
+        tools:layout="@layout/fragment_quizzes_by_discipliana" >
         <action
-            android:id="@+id/action_estudos_to_quizzesRealOficial"
-            app:destination="@id/quizzesRealOficial" />
+            android:id="@+id/action_estudos_to_quiz"
+            app:destination="@id/quiz" />
     </fragment>
     <fragment
         android:id="@+id/ranking"
@@ -43,8 +43,8 @@
         android:label="fragment_conteudo"
         tools:layout="@layout/fragment_conteudo" />
     <fragment
-        android:id="@+id/quizzesRealOficial"
-        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.QuizzesRealOficial"
-        android:label="fragment_quizzes_real_oficial"
-        tools:layout="@layout/fragment_quizzes_real_oficial" />
+        android:id="@+id/quiz"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Quizzes"
+        android:label="fragment_quiz"
+        tools:layout="@layout/fragment_quizzes" />
 </navigation>

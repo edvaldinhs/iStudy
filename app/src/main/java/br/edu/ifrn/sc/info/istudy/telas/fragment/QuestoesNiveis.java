@@ -10,20 +10,37 @@ import android.view.ViewGroup;
 
 import br.edu.ifrn.sc.info.istudy.R;
 
-public class QuizzesRealOficial extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link QuestoesNiveis#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class QuestoesNiveis extends Fragment {
 
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-
+    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public QuizzesRealOficial() {
+    public QuestoesNiveis() {
+        // Required empty public constructor
     }
 
-    public static QuizzesRealOficial newInstance(String param1, String param2) {
-        QuizzesRealOficial fragment = new QuizzesRealOficial();
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment QuestoesNiveis.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static QuestoesNiveis newInstance(String param1, String param2) {
+        QuestoesNiveis fragment = new QuestoesNiveis();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -43,6 +60,7 @@ public class QuizzesRealOficial extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_quizzes_real_oficial, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_questoes_niveis, container, false);
     }
 }

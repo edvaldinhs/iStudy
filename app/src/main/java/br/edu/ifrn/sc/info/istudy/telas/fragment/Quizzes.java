@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,40 +13,45 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
-import br.edu.ifrn.sc.info.istudy.adapters.AdapterDisciplinas;
-import br.edu.ifrn.sc.info.istudy.adapters.AdapterQuizzesByDisciplinas;
-import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
+import br.edu.ifrn.sc.info.istudy.adapters.AdapterQuiz;
+import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
+import br.edu.ifrn.sc.info.istudy.ws.AtividadeWS;
 import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Quizzes extends Fragment implements OnQuizzesByDisciplinaClickListener {
+public class Quizzes extends Fragment {
 
-    //Cria o RecyclerView para os cards das disciplinas
-    RecyclerView rvQuizzesByDisciplina;
+    private RecyclerView rvQuizzes;
 
-    //Armazena as disciplinas
-    List<Disciplina> disciplinas = new ArrayList<>();
+    //Armazena as quizzes
+    private List<Atividade> quizzes = new ArrayList<>();
 
-    NavController navController;
+    private NavController navController;
+
+    private Bundle extras;
+
+    private TextView tvNomeDisciplina;
+
+    private int id;
+
+    private String nomeDisciplina;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     private String mParam1;
     private String mParam2;
-
     public Quizzes() {
-
     }
 
     public static Quizzes newInstance(String param1, String param2) {
@@ -70,66 +76,67 @@ public class Quizzes extends Fragment implements OnQuizzesByDisciplinaClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quizzes, container, false);
-
-        //Diz quem é e de onde veio o RecyclerView
-        rvQuizzesByDisciplina = view.findViewById(R.id.rvQuizzesByDisciplina);
-
         navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
 
-        //Usa uma classe chamada LinearLayoutManager pra organizar os cards de disciplina
-        rvQuizzesByDisciplina.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        rvQuizzes = view.findViewById(R.id.recyclerViewQuizzes);
 
-        preencherDisciplinas();
+        rvQuizzes.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
+        tvNomeDisciplina = view.findViewById(R.id.tvDisciplinas);
+
+        extras = getArguments();
+
+        if(extras != null){
+            id = extras.getInt("disciplinaId");
+            setarNomeDisciplinasPeloID(id);
+            preencherQuizzes(id);
+        }
+        
         return view;
     }
-
+    
     private void listarQuizzes(){
-        AdapterQuizzesByDisciplinas adapterQuizzesByDisciplinas = new AdapterQuizzesByDisciplinas(getActivity(), disciplinas, this, navController);
-        rvQuizzesByDisciplina.setAdapter(adapterQuizzesByDisciplinas);
+        AdapterQuiz adapterQuizzes = new AdapterQuiz(getActivity(), quizzes, navController);
+        rvQuizzes.setAdapter(adapterQuizzes);
     }
-
-    //Usando o Web service pra preencher a lista de disciplinas
-    private void preencherDisciplinas(){
+    private void preencherQuizzes(int id) {
         RetrofitConfig config = new RetrofitConfig();
-        DisciplinaWS disciplinaWS = config.getDisciplinaWS();
-        Call<List<Disciplina>> metodoListar = disciplinaWS.listarTodas();
+        AtividadeWS atividadeWS = config.getAtividadeWS();
+        Call<List<Atividade>> metodoListar = atividadeWS.listarTodas();
 
-        //Deixa o botão voltar visível
-        getActivity().findViewById(R.id.voltar).setVisibility(View.VISIBLE);
-
-        metodoListar.enqueue(new Callback<List<Disciplina>>() {
+        metodoListar.enqueue(new Callback<List<Atividade>>() {
             @Override
-            public void onResponse(Call<List<Disciplina>> call, Response<List<Disciplina>> response) {
-                disciplinas = response.body();
+            public void onResponse(Call<List<Atividade>> call, Response<List<Atividade>> response) {
+                for(Atividade atividade : response.body()){
+                    if(atividade.getConteudo().getDisciplina().getId() == id){
+                        quizzes.add(atividade);
+                    }
+                }
                 listarQuizzes();
             }
 
             @Override
-            public void onFailure(Call<List<Disciplina>> call, Throwable t) {
-                try {
-                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                }catch(NullPointerException nullPointerException){
-                    Log.d("ErroPreencher",nullPointerException.getMessage());
-                }
+            public void onFailure(Call<List<Atividade>> call, Throwable t) {
 
             }
         });
     }
+    public void setarNomeDisciplinasPeloID(int id) {
+        RetrofitConfig config = new RetrofitConfig();
+        DisciplinaWS disciplinaWS = config.getDisciplinaWS();
+        Call<Disciplina> metodoBuscar = disciplinaWS.buscar(id);
 
-    @Override
-    public void onQuizzesByDisciplinaClick(int id) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("disciplinaId", id);
+        metodoBuscar.enqueue(new Callback<Disciplina>() {
+            @Override
+            public void onResponse(Call<Disciplina> call, Response<Disciplina> response) {
+                Disciplina disciplina = response.body();
+                tvNomeDisciplina.setText(disciplina.getNome());
+            }
 
-        Quizzes quizzes = new Quizzes();
-        quizzes.setArguments(bundle);
-
-        if (navController != null) {
-            navController.navigate(R.id.action_estudos_to_quizzesRealOficial);
-            Log.e("QuizzesFragment", navController.toString());
-        } else {
-            Log.e("QuizzesFragment", "NavController is null");
-        }
+            @Override
+            public void onFailure(Call<Disciplina> call, Throwable t) {
+                Log.e("pedro", t.getMessage());
+            }
+        });
     }
 }

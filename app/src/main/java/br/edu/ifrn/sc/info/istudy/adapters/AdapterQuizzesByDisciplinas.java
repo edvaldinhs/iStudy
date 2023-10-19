@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
-import br.edu.ifrn.sc.info.istudy.adapters.holders.ConteudosHolder;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.QuizzesByDisciplinaHolder;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
@@ -39,7 +38,7 @@ public class AdapterQuizzesByDisciplinas extends RecyclerView.Adapter<QuizzesByD
     }
 
     public QuizzesByDisciplinaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.card_quiz, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.card_quiz_disciplina, parent, false);
         QuizzesByDisciplinaHolder holder = new QuizzesByDisciplinaHolder(view, quizzesByDisciplinaClickListener, navController);
         view.setOnClickListener(holder);
         return holder;
