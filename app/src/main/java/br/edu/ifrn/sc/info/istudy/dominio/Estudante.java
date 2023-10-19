@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Estudante {
-	
+
 	private String email;
 	private int pontuacao;
 	private String nome;
 	private String senha;
 	private String foto;
-	private Titulo titulo; 
+	private Titulo titulo;
 	private List<Conquista> conquistas;
 	private List<Conteudo> conteudos;
-	
+	private List<Conteudo> conteudosDesbloqueados;
+
 	public Estudante() {
-		
+
 	}
 
 	public Estudante(String email, int pontuacao, String nome, String senha, String foto, Titulo titulo) {
@@ -23,9 +24,12 @@ public class Estudante {
 		this.pontuacao = pontuacao;
 		this.nome = nome;
 		this.senha = senha;
+		this.foto = foto;
 		this.titulo = titulo;
 		conquistas = new ArrayList<>();
 		conteudos = new ArrayList<>();
+		this.conteudosDesbloqueados = new ArrayList<>();
+
 	}
 
 	public String getEmail() {
@@ -91,5 +95,13 @@ public class Estudante {
 	public void setConteudos(List<Conteudo> conteudos) {
 		this.conteudos = conteudos;
 	}
-	
+
+	public void adicionarConteudoDesbloqueado(Conteudo conteudo) {
+		conteudosDesbloqueados.add(conteudo);
+	}
+
+	public List<Conteudo> getConteudosDesbloqueados() {
+		return conteudosDesbloqueados;
+	}
+
 }

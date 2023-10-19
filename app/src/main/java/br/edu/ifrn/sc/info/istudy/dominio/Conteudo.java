@@ -1,7 +1,7 @@
 package br.edu.ifrn.sc.info.istudy.dominio;
 
 public class Conteudo {
-	
+
 	private int id;
 	private String nome;
 	private String resumo;
@@ -9,12 +9,13 @@ public class Conteudo {
 	private String dataFim;
 	private String imagem;
 	private Disciplina disciplina;
-	
+	private boolean bloqueado;
+
 	public Conteudo() {
-		
+
 	}
-	
-	public Conteudo(int id, String nome, String resumo, String dataInicio, String dataFim, String imagem, Disciplina disciplina) {
+
+	public Conteudo(int id, String nome, String resumo, String dataInicio, String dataFim, String imagem, Disciplina disciplina, boolean bloqueado) {
 		this.id = id;
 		this.nome = nome;
 		this.resumo = resumo;
@@ -22,6 +23,7 @@ public class Conteudo {
 		this.dataFim = dataFim;
 		this.imagem = imagem;
 		this.disciplina = disciplina;
+		this.bloqueado = true;
 	}
 
 	public int getId() {
@@ -52,16 +54,16 @@ public class Conteudo {
 		return dataInicio;
 	}
 
-	public void setDataInicio(String data_inicio) {
-		this.dataInicio = data_inicio;
+	public void setDataInicio(String dataInicio) {
+		this.dataInicio = dataInicio;
 	}
 
 	public String getDataFim() {
 		return dataFim;
 	}
 
-	public void setData_fim(String data_fim) {
-		this.dataFim = data_fim;
+	public void setDataFim(String dataFim) {
+		this.dataFim = dataFim;
 	}
 
 	public String getImagem() {
@@ -79,5 +81,26 @@ public class Conteudo {
 	public void setDisciplina(Disciplina disciplina) {
 		this.disciplina = disciplina;
 	}
-	
+
+	public boolean getBloqueado() {
+		return bloqueado;
+	}
+
+	public void setBloqueado(boolean bloqueado) {
+		this.bloqueado = true;
+	}
+
+	public boolean conteudoDesbloquear() {
+		if (!this.bloqueado) {
+			return false;
+		} else {
+			this.bloqueado = false;
+			return true;
+		}
+	}
+
+	public boolean estaDesbloqueado(Estudante estudante) {
+		return !this.bloqueado || estudante.getConteudosDesbloqueados().contains(this);
+	}
+
 }
