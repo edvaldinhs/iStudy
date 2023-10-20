@@ -87,7 +87,7 @@ public class Conteudo {
 	}
 
 	public void setBloqueado(boolean bloqueado) {
-		this.bloqueado = true;
+		this.bloqueado = bloqueado;
 	}
 
 	public boolean conteudoDesbloquear() {

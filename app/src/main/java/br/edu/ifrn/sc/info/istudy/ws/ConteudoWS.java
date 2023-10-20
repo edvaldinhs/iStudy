@@ -20,12 +20,14 @@ public interface ConteudoWS {
     @GET("conteudos/listarTodosDesbloqueados")
     Call< List<Conteudo> > listarTodosDesbloqueados(@Body Estudante estudante);
 
-
     @POST("conteudos/inserir")
     Call< Boolean > inserir(@Body Conteudo conteudo);
 
     @PUT("conteudos/atualizar")
     Call< Boolean > atualizar(@Body Conteudo conteudo);
+
+    @PUT("conteudos/desbloquearConteudo")
+    Call< Boolean > desbloquearConteudo(@Body int id);
 
     @DELETE("conteudos/remover/{id}")
     Call< Boolean > remover(@Path("id") int id);

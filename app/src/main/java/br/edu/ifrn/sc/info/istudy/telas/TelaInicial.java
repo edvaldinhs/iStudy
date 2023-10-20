@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
@@ -35,6 +36,9 @@ public class TelaInicial extends AppCompatActivity {
 
     private EditText etViewBuscar;
 
+    private ArrayList<Conteudo> conteudosLP= new ArrayList<>();
+    private ArrayList<Conteudo> conteudosMat= new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,31 +47,65 @@ public class TelaInicial extends AppCompatActivity {
         botaoCliqueAqui = findViewById(R.id.botaoConfirmar);
         etTelefone = findViewById(R.id.etTelefone);
         etViewBuscar = findViewById(R.id.viewBuscar);
-//        Estudante estudante = new Estudante("rebequinha@gmail.com", 100, "Eduarda", "321", "", new Titulo(2, "Intermediário"));
-        Conquista conquista = new Conquista(2, "seaj.jpg", "teste", "teste", "2023-10-07");
-
 
         botaoCliqueAqui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Disciplina disciplina = new Disciplina();
-//                int id = Integer.parseInt(etViewBuscar.getText().toString());
-//                String email = etTelefone.getText().toString();
-//                disciplina.setId(id);
-//                disciplina.setNome(nome);
-//                atualizarDisciplina(disciplina);
-
-//                inserirEstudante(estudante);
-
-//                buscarEstudante(email);
-
-
+                desbloquearPrimeirosConteudos();
                 Intent intent = new Intent(TelaInicial.this, TelaPrincipal.class);
                 startActivity(intent);
             }
         });
 
     }
+
+    public void desbloquearConteudo(int id) {
+
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<Boolean> metodoDesbloquear = conteudoWS.desbloquearConteudo(id);
+
+        metodoDesbloquear.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+    }
+    public void desbloquearPrimeirosConteudos(){
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<List<Conteudo>> metodoListar = conteudoWS.listarTodos();
+
+        metodoListar.enqueue(new Callback<List<Conteudo>>() {
+            @Override
+            public void onResponse(Call<List<Conteudo>> call, Response<List<Conteudo>> response) {
+                if (response.body() != null) {
+                    for (Conteudo conteudo : response.body()) {
+                        if (conteudo.getDisciplina().getId() == 1) {
+                            conteudosLP.add(conteudo);
+                        }else if(conteudo.getDisciplina().getId() == 2){
+                            conteudosMat.add(conteudo);
+                        }
+
+                    }
+                    desbloquearConteudo(conteudosLP.get(0).getId());
+                    desbloquearConteudo(conteudosMat.get(0).getId());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Conteudo>> call, Throwable t) {
+            }
+        });
+    }
+
+
 
     public void inserirDisciplina(Disciplina disciplina){
         RetrofitConfig config = new RetrofitConfig();
@@ -255,7 +293,6 @@ public class TelaInicial extends AppCompatActivity {
     }
 
     public void buscarConteudo(int id) {
-
         RetrofitConfig config = new RetrofitConfig();
         ConteudoWS conteudoWS = config.getConteudoWS();
         Call<Conteudo> metodoBuscar = conteudoWS.buscar(id);
@@ -263,8 +300,6 @@ public class TelaInicial extends AppCompatActivity {
         metodoBuscar.enqueue(new Callback<Conteudo>() {
             @Override
             public void onResponse(Call<Conteudo> call, Response<Conteudo> response) {
-                Conteudo conteudo = response.body();
-                etTelefone.setText(conteudo.getNome());
             }
 
             @Override
@@ -273,6 +308,7 @@ public class TelaInicial extends AppCompatActivity {
             }
         });
     }
+
     public void atualizarConteudo(Conteudo conteudo) {
 
         RetrofitConfig config = new RetrofitConfig();
