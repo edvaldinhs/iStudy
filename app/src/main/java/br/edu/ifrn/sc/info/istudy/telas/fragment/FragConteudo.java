@@ -8,10 +8,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -47,6 +50,10 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
     private String nomeDisciplina;
 
+    private EditText searchConteudo;
+
+    private View pesquisar;
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -81,6 +88,9 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
         getActivity().findViewById(R.id.voltar).setVisibility(View.VISIBLE);
 
+        searchConteudo = view.findViewById(R.id.etProcurarConteudo);
+        String searchResultado = searchConteudo.getText().toString();
+
         navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
 
         rvConteudo = view.findViewById(R.id.recyclerViewConteudo);
@@ -94,8 +104,24 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
         if(extras != null){
             id = extras.getInt("disciplinaId");
             setarNomeDisciplinasPeloID(id);
-            preencherConteudos(id);
+            preencherConteudos(id, searchResultado);
         }
+
+        searchConteudo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String searchResultado = charSequence.toString();
+                preencherConteudos(id, searchResultado);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 
         return view;
     }
@@ -106,10 +132,12 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
         rvConteudo.setAdapter(adapterConteudos);
     }
 
-    private void preencherConteudos(int id){
+    private void preencherConteudos(int id, String pesquisa){
         RetrofitConfig config = new RetrofitConfig();
         ConteudoWS conteudoWS = config.getConteudoWS();
         Call<List<Conteudo>> metodoListar = conteudoWS.listarTodos();
+
+        conteudos.clear();
 
         metodoListar.enqueue(new Callback<List<Conteudo>>() {
             @Override
@@ -117,7 +145,9 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
                 if (response.body() != null) {
                     for (Conteudo conteudo : response.body()) {
                         if (conteudo.getDisciplina().getId() == id) {
-                            conteudos.add(conteudo);
+                            if (pesquisa.isEmpty() || conteudo.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
+                                conteudos.add(conteudo);
+                            }
                         }
                     }
                     listarConteudos();
