@@ -9,10 +9,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -47,6 +50,8 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
 
     private String nomeDisciplina;
 
+    private EditText etProcurarQuiz;
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -79,6 +84,9 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
         View view = inflater.inflate(R.layout.fragment_quizzes, container, false);
         navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
 
+        etProcurarQuiz = view.findViewById(R.id.etProcurarQuizzes);
+        String searchResultado = etProcurarQuiz.getText().toString();
+
         rvQuizzes = view.findViewById(R.id.recyclerViewQuizzes);
 
         rvQuizzes.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -90,8 +98,24 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
         if(extras != null){
             id = extras.getInt("disciplinaId");
             setarNomeDisciplinasPeloID(id);
-            preencherQuizzes(id);
+            preencherQuizzes(id, searchResultado);
         }
+
+        etProcurarQuiz.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String searchResultado = charSequence.toString();
+                preencherQuizzes(id, searchResultado);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
         
         return view;
     }
@@ -100,20 +124,27 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
         AdapterQuiz adapterQuizzes = new AdapterQuiz(getActivity(), quizzes, this);
         rvQuizzes.setAdapter(adapterQuizzes);
     }
-    private void preencherQuizzes(int id) {
+    private void preencherQuizzes(int id, String pesquisa) {
         RetrofitConfig config = new RetrofitConfig();
         AtividadeWS atividadeWS = config.getAtividadeWS();
         Call<List<Atividade>> metodoListar = atividadeWS.listarTodas();
+        
+        quizzes.clear();
+
 
         metodoListar.enqueue(new Callback<List<Atividade>>() {
             @Override
             public void onResponse(Call<List<Atividade>> call, Response<List<Atividade>> response) {
-                for(Atividade atividade : response.body()){
-                    if(atividade.getConteudo().getId() == id){
-                        quizzes.add(atividade);
+                if(response.body() != null){
+                    for(Atividade atividade : response.body()){
+                        if(atividade.getConteudo().getId() == id){
+                            if (pesquisa.isEmpty() || atividade.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
+                                quizzes.add(atividade);
+                            }
+                        }
                     }
+                    listarQuizzes();
                 }
-                listarQuizzes();
             }
 
             @Override

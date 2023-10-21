@@ -50,9 +50,7 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
     private String nomeDisciplina;
 
-    private EditText searchConteudo;
-
-    private View pesquisar;
+    private EditText etProcurarConteudo;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -88,8 +86,8 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
         getActivity().findViewById(R.id.voltar).setVisibility(View.VISIBLE);
 
-        searchConteudo = view.findViewById(R.id.etProcurarConteudo);
-        String searchResultado = searchConteudo.getText().toString();
+        etProcurarConteudo = view.findViewById(R.id.etProcurarConteudo);
+        String searchResultado = etProcurarConteudo.getText().toString();
 
         navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
 
@@ -107,7 +105,7 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
             preencherConteudos(id, searchResultado);
         }
 
-        searchConteudo.addTextChangedListener(new TextWatcher() {
+        etProcurarConteudo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -151,7 +149,6 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
                         }
                     }
                     listarConteudos();
-                } else {
                 }
             }
 
