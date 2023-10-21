@@ -1,10 +1,13 @@
 package br.edu.ifrn.sc.info.istudy.telas;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.transition.TransitionManager;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,8 +15,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.LoginBottomSheetDialog;
 import br.edu.ifrn.sc.info.istudy.dominio.Conquista;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
@@ -31,10 +37,9 @@ import retrofit2.Response;
 
 public class TelaInicial extends AppCompatActivity {
 
-    private Button botaoCliqueAqui;
-    private EditText etTelefone;
+    View vCirculo;
 
-    private EditText etViewBuscar;
+    ConstraintLayout constraintLayout;
 
     private ArrayList<Conteudo> conteudosLP= new ArrayList<>();
     private ArrayList<Conteudo> conteudosMat= new ArrayList<>();
@@ -42,22 +47,46 @@ public class TelaInicial extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_tela_inicial);
 
-        botaoCliqueAqui = findViewById(R.id.botaoConfirmar);
-        etTelefone = findViewById(R.id.etTelefone);
-        etViewBuscar = findViewById(R.id.viewBuscar);
+        vCirculo = findViewById(R.id.iStudyLogo);
+        constraintLayout = findViewById(R.id.clTelaInicial);
 
-        botaoCliqueAqui.setOnClickListener(new View.OnClickListener() {
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
             @Override
-            public void onClick(View view) {
-                desbloquearPrimeirosConteudos();
-                Intent intent = new Intent(TelaInicial.this, TelaPrincipal.class);
-                startActivity(intent);
+            public void run() {
+                mostrarBottomDialog();
+                subirLogoAnimation();
+
+                timer.cancel();
             }
-        });
+        }, 1000); // Delay em millisegundos (1 segundos)
+
+        desbloquearPrimeirosConteudos();
 
     }
+
+    public void subirLogoAnimation(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                vCirculo = findViewById(R.id.iStudyLogo);
+                constraintLayout = findViewById(R.id.clTelaInicial);
+
+                ConstraintSet constraintSet = new ConstraintSet();
+                constraintSet.clone(constraintLayout);
+
+                constraintSet.setVerticalBias(vCirculo.getId(), 0.18f);
+
+                TransitionManager.beginDelayedTransition(constraintLayout);
+                constraintSet.applyTo(constraintLayout);
+            }
+        });
+    }
+
 
     public void desbloquearConteudo(int id) {
 
@@ -105,7 +134,10 @@ public class TelaInicial extends AppCompatActivity {
         });
     }
 
-
+    private void mostrarBottomDialog(){
+        LoginBottomSheetDialog bottomSheetDialog = new LoginBottomSheetDialog();
+        bottomSheetDialog.show(getSupportFragmentManager(), bottomSheetDialog.getTag());
+    }
 
     public void inserirDisciplina(Disciplina disciplina){
         RetrofitConfig config = new RetrofitConfig();
@@ -153,7 +185,6 @@ public class TelaInicial extends AppCompatActivity {
             @Override
             public void onResponse(Call<Disciplina> call, Response<Disciplina> response) {
                 Disciplina disciplina = response.body();
-                etTelefone.setText(disciplina.getNome());
             }
 
             @Override
@@ -227,7 +258,6 @@ public class TelaInicial extends AppCompatActivity {
             @Override
             public void onResponse(Call<Estudante> call, Response<Estudante> response) {
                 Estudante estudante = response.body();
-                etTelefone.setText(estudante.getNome());
             }
 
             @Override
@@ -374,7 +404,6 @@ public class TelaInicial extends AppCompatActivity {
             @Override
             public void onResponse(Call<Titulo> call, Response<Titulo> response) {
                 Titulo titulo = response.body();
-                etTelefone.setText(titulo.getDescricao());
             }
 
             @Override
@@ -448,7 +477,6 @@ public class TelaInicial extends AppCompatActivity {
             @Override
             public void onResponse(Call<Conquista> call, Response<Conquista> response) {
                 Conquista conquista = response.body();
-                etTelefone.setText(conquista.getNome());
             }
 
             @Override
