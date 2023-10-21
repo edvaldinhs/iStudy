@@ -157,9 +157,10 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
         if (navController != null) {
             navController.navigate(R.id.action_conteudo_to_conteudoDescricao, cartinha);
-            Log.e("HomeFragment", navController.toString());
+            conteudos.clear();
+            Log.e("ConteudoFragment", navController.toString());
         } else {
-            Log.e("HomeFragment", "NavController is null");
+            Log.e("ConteudoFragment", "NavController is null");
         }
     }
 }
