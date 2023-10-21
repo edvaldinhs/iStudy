@@ -1,8 +1,8 @@
 package br.edu.ifrn.sc.info.istudy.telas.fragment;
 
-import android.location.GnssAntennaInfo;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.speech.tts.TextToSpeech;
@@ -10,12 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Locale;
 
 import br.edu.ifrn.sc.info.istudy.R;
 public class ConteudoDescricao extends Fragment {
+
+    ConstraintLayout clTitulo;
+
+    ConstraintLayout clTts;
+
+    LinearLayout clDescricao;
 
     ImageView botaoTts;
 
@@ -54,9 +61,11 @@ public class ConteudoDescricao extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conteudo_descricao, container, false);
 
-        botaoTts = view.findViewById(R.id.botaoTts);
+        clTts = view.findViewById(R.id.clTts);
+        clDescricao = view.findViewById(R.id.descricao);
 
-        tvDescricao = view.findViewById(R.id.descricao);
+        botaoTts = view.findViewById(R.id.botaoTts);
+        tvDescricao = view.findViewById(R.id.tvResumo);
 
         tts = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
             @Override
