@@ -53,7 +53,11 @@
         android:id="@+id/quiz"
         android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Quizzes"
         android:label="fragment_quiz"
-        tools:layout="@layout/fragment_quizzes" />
+        tools:layout="@layout/fragment_quizzes" >
+        <action
+            android:id="@+id/action_quiz_to_questoesNiveis"
+            app:destination="@id/questoesNiveis" />
+    </fragment>
     <fragment
         android:id="@+id/conteudoDescricaoImagem"
         android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.ConteudoDescricaoImagem"
@@ -63,4 +67,9 @@
         android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.ConteudoDescricao"
         android:label="fragment_conteudo_descricao_imagem"
         tools:layout="@layout/fragment_conteudo_descricao_imagem" />
+    <fragment
+        android:id="@+id/questoesNiveis"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.QuestoesNiveis"
+        android:label="fragment_questoes_niveis"
+        tools:layout="@layout/fragment_questoes_niveis" />
 </navigation>

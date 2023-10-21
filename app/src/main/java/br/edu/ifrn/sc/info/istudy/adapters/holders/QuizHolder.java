@@ -8,6 +8,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConteudoClickListener;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 
 public class QuizHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -15,10 +17,13 @@ public class QuizHolder extends RecyclerView.ViewHolder implements View.OnClickL
     private ConstraintLayout clCardQuiz;
     private TextView tvNomeQuiz;
 
-    public QuizHolder(@NonNull View itemView) {
+    private OnQuizClickListener onQuizClickListener;
+
+    public QuizHolder(@NonNull View itemView, OnQuizClickListener listener) {
         super(itemView);
         clCardQuiz = itemView.findViewById(R.id.card_quiz);
         tvNomeQuiz = itemView.findViewById(R.id.tvNomeQuiz);
+        onQuizClickListener = listener;
         clCardQuiz.setOnClickListener(this);
     }
 
@@ -34,10 +39,10 @@ public class QuizHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     private void mudarDeCor(){
 
-        if(atividade.getConteudo().getDisciplina().getId() == 1){
+        if(atividade.getConteudo().getId() == 1){
             clCardQuiz.setBackgroundResource(R.drawable.istudy_aprenda_port);
 
-        }else if (atividade.getConteudo().getDisciplina().getId() == 2){
+        }else if (atividade.getConteudo().getId() == 2){
             clCardQuiz.setBackgroundResource(R.drawable.istudy_aprenda_mat);
         }else {
             clCardQuiz.setBackgroundResource(R.drawable.istudy_aprenda_port);
@@ -50,7 +55,7 @@ public class QuizHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
         if (viewId == R.id.card_quiz) {
             try {
-
+                onQuizClickListener.onQuizClick(atividade.getId());
             } catch (NullPointerException nullPointerException) {
 
             }

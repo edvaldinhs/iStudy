@@ -20,6 +20,7 @@ import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterQuiz;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
@@ -29,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Quizzes extends Fragment {
+public class Quizzes extends Fragment implements OnQuizClickListener {
 
     private RecyclerView rvQuizzes;
 
@@ -96,7 +97,7 @@ public class Quizzes extends Fragment {
     }
     
     private void listarQuizzes(){
-        AdapterQuiz adapterQuizzes = new AdapterQuiz(getActivity(), quizzes, navController);
+        AdapterQuiz adapterQuizzes = new AdapterQuiz(getActivity(), quizzes, this);
         rvQuizzes.setAdapter(adapterQuizzes);
     }
     private void preencherQuizzes(int id) {
@@ -108,7 +109,7 @@ public class Quizzes extends Fragment {
             @Override
             public void onResponse(Call<List<Atividade>> call, Response<List<Atividade>> response) {
                 for(Atividade atividade : response.body()){
-                    if(atividade.getConteudo().getDisciplina().getId() == id){
+                    if(atividade.getConteudo().getId() == id){
                         quizzes.add(atividade);
                     }
                 }
@@ -138,5 +139,20 @@ public class Quizzes extends Fragment {
                 Log.e("pedro", t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onQuizClick(int id) {
+        Bundle cartinha = new Bundle();
+
+        cartinha.putInt("quizId", id);
+
+        if (navController != null) {
+            navController.navigate(R.id.action_quiz_to_questoesNiveis, cartinha);
+            quizzes.clear();
+            Log.e("QuizzesFragment", navController.toString());
+        } else {
+            Log.e("QuizzesFragment", "NavController is null");
+        }
     }
 }

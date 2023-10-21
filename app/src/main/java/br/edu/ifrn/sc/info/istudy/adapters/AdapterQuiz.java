@@ -13,6 +13,7 @@ import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.QuizHolder;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 
 public class AdapterQuiz extends RecyclerView.Adapter<QuizHolder> {
@@ -21,17 +22,17 @@ public class AdapterQuiz extends RecyclerView.Adapter<QuizHolder> {
 
     List<Atividade> atividades;
 
-    NavController navController;
+    OnQuizClickListener onQuizClickListener;
 
-    public AdapterQuiz(Context context, List<Atividade> atividades, NavController navController){
+    public AdapterQuiz(Context context, List<Atividade> atividades, OnQuizClickListener listener){
         mContext = context;
         this.atividades = atividades;
-        this.navController = navController;
+        onQuizClickListener = listener;
     }
 
     public QuizHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.card_quiz, parent, false);
-        QuizHolder holder = new QuizHolder(view);
+        QuizHolder holder = new QuizHolder(view, onQuizClickListener);
         view.setOnClickListener(holder);
         return holder;
     }
