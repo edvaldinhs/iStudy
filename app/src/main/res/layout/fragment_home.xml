@@ -14,6 +14,7 @@
             android:id="@+id/recyclerview_Disciplinas"
             android:layout_width="match_parent"
             android:layout_height="370dp"
+            android:descendantFocusability="afterDescendants"
             app:layout_constraintBottom_toTopOf="@id/minhas_atividades_block"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
