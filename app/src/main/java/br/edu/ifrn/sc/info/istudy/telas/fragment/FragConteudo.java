@@ -52,6 +52,8 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
     private EditText etProcurarConteudo;
 
+    private AdapterConteudos adapterConteudos;
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -126,7 +128,7 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
     //Método pra listar os cards de Conteudos
     private void listarConteudos(){
-        AdapterConteudos adapterConteudos = new AdapterConteudos(getActivity(), conteudos, navController,this);
+        adapterConteudos = new AdapterConteudos(getActivity(), conteudos, navController,this);
         rvConteudo.setAdapter(adapterConteudos);
     }
 
@@ -141,6 +143,9 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
             @Override
             public void onResponse(Call<List<Conteudo>> call, Response<List<Conteudo>> response) {
                 if (response.body() != null) {
+                    if(adapterConteudos != null){
+                        adapterConteudos.clearData();
+                    }
                     for (Conteudo conteudo : response.body()) {
                         if (conteudo.getDisciplina().getId() == id) {
                             if (pesquisa.isEmpty() || conteudo.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {

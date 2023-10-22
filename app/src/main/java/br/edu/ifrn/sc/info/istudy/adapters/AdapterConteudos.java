@@ -47,6 +47,11 @@ public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {
         holder.bind(tempConteudo);
     }
 
+    public void clearData() {
+        conteudos.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return conteudos.size();

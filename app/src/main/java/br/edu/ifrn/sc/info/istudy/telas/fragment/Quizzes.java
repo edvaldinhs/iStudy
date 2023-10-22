@@ -52,6 +52,8 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
 
     private EditText etProcurarQuiz;
 
+    AdapterQuiz adapterQuizzes;
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -121,7 +123,7 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
     }
     
     private void listarQuizzes(){
-        AdapterQuiz adapterQuizzes = new AdapterQuiz(getActivity(), quizzes, this);
+        adapterQuizzes = new AdapterQuiz(getActivity(), quizzes, this);
         rvQuizzes.setAdapter(adapterQuizzes);
     }
     private void preencherQuizzes(int id, String pesquisa) {
@@ -131,11 +133,13 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
         
         quizzes.clear();
 
-
         metodoListar.enqueue(new Callback<List<Atividade>>() {
             @Override
             public void onResponse(Call<List<Atividade>> call, Response<List<Atividade>> response) {
                 if(response.body() != null){
+                    if(adapterQuizzes != null){
+                        adapterQuizzes.clearData();
+                    }
                     for(Atividade atividade : response.body()){
                         if(atividade.getConteudo().getId() == id){
                             if (pesquisa.isEmpty() || atividade.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {

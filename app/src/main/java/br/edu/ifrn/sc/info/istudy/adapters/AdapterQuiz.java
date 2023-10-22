@@ -43,6 +43,11 @@ public class AdapterQuiz extends RecyclerView.Adapter<QuizHolder> {
         holder.bind(tempAtividade);
     }
 
+    public void clearData() {
+        atividades.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return atividades.size();
