@@ -1,0 +1,12 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:viewportWidth="212"
+    android:viewportHeight="61"
+    android:width="212dp"
+    android:height="61dp">
+    <path
+        android:pathData="M35 11H177A20 20 0 0 1 197 31V41A20 20 0 0 1 177 61H35A20 20 0 0 1 15 41V31A20 20 0 0 1 35 11Z"
+        android:fillColor="@color/istudy_roxo_40" />
+    <path
+        android:pathData="M20 0H192A20 20 0 0 1 212 20V30A20 20 0 0 1 192 50H20A20 20 0 0 1 0 30V20A20 20 0 0 1 20 0Z"
+        android:fillColor="@color/istudy_roxo" />
+</vector>
