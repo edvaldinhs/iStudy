@@ -11,24 +11,34 @@
             android:id="@+id/card_quiz"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/istudy_aprenda_port"
+            android:background="@drawable/card_quiz_conteudo_bloqueado"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tvNomeQuiz"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="Quiz"
-                android:textColor="@color/aristofany_white"
-                android:textSize="18sp"
-                android:fontFamily="@font/lexend_semiboldttf"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <ImageView
+                android:id="@+id/ivIcone"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.318" />
+                app:layout_constraintBottom_toTopOf="@id/tvNomeQuiz"/>
+
+            <TextView
+                android:id="@+id/tvNomeQuiz"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexend_mediumttf"
+                android:text="Quiz"
+                android:textAlignment="center"
+                android:textColor="@color/aristofany_white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivIcone"
+                app:layout_constraintVertical_bias="0.785" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

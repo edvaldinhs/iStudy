@@ -14,19 +14,19 @@ import java.util.List;
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.QuizHolder;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizClickListener;
-import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
+import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 
 public class AdapterQuiz extends RecyclerView.Adapter<QuizHolder> {
 
     private Context mContext;
 
-    List<Atividade> atividades;
+    List<Conteudo> quizzes;
 
     OnQuizClickListener onQuizClickListener;
 
-    public AdapterQuiz(Context context, List<Atividade> atividades, OnQuizClickListener listener){
+    public AdapterQuiz(Context context, List<Conteudo> quizzes, OnQuizClickListener listener){
         mContext = context;
-        this.atividades = atividades;
+        this.quizzes = quizzes;
         onQuizClickListener = listener;
     }
 
@@ -39,18 +39,18 @@ public class AdapterQuiz extends RecyclerView.Adapter<QuizHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull QuizHolder holder, int position) {
-        Atividade tempAtividade = atividades.get(position);
-        holder.bind(tempAtividade);
+        Conteudo tempConteudo = quizzes.get(position);
+        holder.bind(tempConteudo);
     }
 
     public void clearData() {
-        atividades.clear();
+        quizzes.clear();
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return atividades.size();
+        return quizzes.size();
     }
 
 }

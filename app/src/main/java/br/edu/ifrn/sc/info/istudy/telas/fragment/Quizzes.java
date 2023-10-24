@@ -24,10 +24,10 @@ import java.util.List;
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterQuiz;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizClickListener;
-import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
+import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
-import br.edu.ifrn.sc.info.istudy.ws.AtividadeWS;
+import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
 import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,7 +38,7 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
     private RecyclerView rvQuizzes;
 
     //Armazena as quizzes
-    private List<Atividade> quizzes = new ArrayList<>();
+    private List<Conteudo> quizzes = new ArrayList<>();
 
     private NavController navController;
 
@@ -126,24 +126,24 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
         adapterQuizzes = new AdapterQuiz(getActivity(), quizzes, this);
         rvQuizzes.setAdapter(adapterQuizzes);
     }
-    private void preencherQuizzes(int id, String pesquisa) {
+    private void preencherQuizzes(int id, String pesquisa){
         RetrofitConfig config = new RetrofitConfig();
-        AtividadeWS atividadeWS = config.getAtividadeWS();
-        Call<List<Atividade>> metodoListar = atividadeWS.listarTodas();
-        
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<List<Conteudo>> metodoListar = conteudoWS.listarTodos();
+
         quizzes.clear();
 
-        metodoListar.enqueue(new Callback<List<Atividade>>() {
+        metodoListar.enqueue(new Callback<List<Conteudo>>() {
             @Override
-            public void onResponse(Call<List<Atividade>> call, Response<List<Atividade>> response) {
-                if(response.body() != null){
+            public void onResponse(Call<List<Conteudo>> call, Response<List<Conteudo>> response) {
+                if (response.body() != null) {
                     if(adapterQuizzes != null){
                         adapterQuizzes.clearData();
                     }
-                    for(Atividade atividade : response.body()){
-                        if(atividade.getConteudo().getId() == id){
-                            if (pesquisa.isEmpty() || atividade.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
-                                quizzes.add(atividade);
+                    for (Conteudo conteudo : response.body()) {
+                        if (conteudo.getDisciplina().getId() == id) {
+                            if (pesquisa.isEmpty() || conteudo.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
+                                quizzes.add(conteudo);
                             }
                         }
                     }
@@ -152,8 +152,7 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
             }
 
             @Override
-            public void onFailure(Call<List<Atividade>> call, Throwable t) {
-
+            public void onFailure(Call<List<Conteudo>> call, Throwable t) {
             }
         });
     }

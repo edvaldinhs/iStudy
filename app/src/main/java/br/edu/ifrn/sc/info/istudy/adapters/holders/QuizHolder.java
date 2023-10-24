@@ -1,6 +1,7 @@
 package br.edu.ifrn.sc.info.istudy.adapters.holders;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConteudoClickListener;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizClickListener;
-import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
+import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 
 public class QuizHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-    private Atividade atividade;
+    private Conteudo quiz;
     private ConstraintLayout clCardQuiz;
     private TextView tvNomeQuiz;
+
+    ImageView icone;
 
     private OnQuizClickListener onQuizClickListener;
 
@@ -23,29 +26,43 @@ public class QuizHolder extends RecyclerView.ViewHolder implements View.OnClickL
         super(itemView);
         clCardQuiz = itemView.findViewById(R.id.card_quiz);
         tvNomeQuiz = itemView.findViewById(R.id.tvNomeQuiz);
+        icone = itemView.findViewById(R.id.ivIcone);
         onQuizClickListener = listener;
         clCardQuiz.setOnClickListener(this);
     }
 
-    public void bind(Atividade atividade) {
-        this.atividade = atividade;
+    public void bind(Conteudo quiz) {
+        this.quiz = quiz;
 
         mudarDeCor();
 
-        if(!atividade.getNome().isEmpty()){
-            tvNomeQuiz.setText(atividade.getNome());
+        if(!quiz.getNome().isEmpty()){
+            tvNomeQuiz.setText(quiz.getNome());
         }
     }
 
     private void mudarDeCor(){
-
-        if(atividade.getConteudo().getId() == 1){
-            clCardQuiz.setBackgroundResource(R.drawable.istudy_aprenda_port);
-
-        }else if (atividade.getConteudo().getId() == 2){
-            clCardQuiz.setBackgroundResource(R.drawable.istudy_aprenda_mat);
+        if(quiz.getDisciplina().getId() == 1 && quiz.getBloqueado() == false){
+            clCardQuiz.setBackgroundResource(R.drawable.card_quiz_conteudo_port);
+        }else if (quiz.getDisciplina().getId() == 2 && quiz.getBloqueado() == false){
+            clCardQuiz.setBackgroundResource(R.drawable.card_quiz_conteudo_mat);
+            mudarIcone();
         }else {
-            clCardQuiz.setBackgroundResource(R.drawable.istudy_aprenda_port);
+            clCardQuiz.setBackgroundResource(R.drawable.card_quiz_conteudo_bloqueado);
+            mudarIcone();
+        }
+    }
+
+    //Método só para a print, se eu esquecer de tirar isso, removam pls.
+    private void mudarIcone(){
+        if(quiz.getId() == 7){
+            icone.setBackgroundResource(R.drawable.ic_cube);
+        }else if (quiz.getId() == 8){
+            icone.setBackgroundResource(R.drawable.ic_calculator);
+        }else if (quiz.getId() == 9) {
+            icone.setBackgroundResource(R.drawable.ic_percent);
+        }else {
+            icone.setBackgroundResource(R.drawable.ic_desktop);
         }
     }
 
@@ -55,7 +72,7 @@ public class QuizHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
         if (viewId == R.id.card_quiz) {
             try {
-                onQuizClickListener.onQuizClick(atividade.getId());
+                onQuizClickListener.onQuizClick(quiz.getId());
             } catch (NullPointerException nullPointerException) {
 
             }
