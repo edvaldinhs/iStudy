@@ -10,6 +10,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -19,10 +21,21 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.adapters.AdapterConquistas;
+import br.edu.ifrn.sc.info.istudy.adapters.AdapterQuiz;
+import br.edu.ifrn.sc.info.istudy.dominio.Conquista;
+import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 
 public class Perfil extends Fragment {
 
+    private RecyclerView rvConquista;
+
+    private AdapterConquistas adapterConquistas;
+    private List<Conquista> conquistas = new ArrayList<>();
     private int progressoAtual = 0;
     private ProgressBar progresso;
 
@@ -81,6 +94,11 @@ public class Perfil extends Fragment {
         progresso.setProgress(progressoAtual);
         progresso.setMax(100);
 
+        rvConquista = view.findViewById(R.id.rvConquistas);
+
+        rvConquista.setLayoutManager(new GridLayoutManager(getActivity(), 3
+        ));
+
         editarFoto = view.findViewById(R.id.cvEditarFoto);
         fotoAluno = view.findViewById(R.id.ivFotoAluno);
 
@@ -93,6 +111,11 @@ public class Perfil extends Fragment {
 
             }
         });
+
+        conquistas.add(new Conquista(1,"","primeiro","","2023-10-10"));
+        conquistas.add(new Conquista(2,"","segundo","","2023-10-10"));
+        conquistas.add(new Conquista(3,"","terceiro","","2023-10-10"));
+        listarConquistas();
 
         return view;
     }
@@ -108,5 +131,9 @@ public class Perfil extends Fragment {
                         }
                     }
                 });
+    }
+    private void listarConquistas(){
+        adapterConquistas = new AdapterConquistas(getActivity(), conquistas);
+        rvConquista.setAdapter(adapterConquistas);
     }
 }

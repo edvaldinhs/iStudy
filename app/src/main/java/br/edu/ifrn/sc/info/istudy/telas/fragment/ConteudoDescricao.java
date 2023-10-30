@@ -109,8 +109,12 @@ public class ConteudoDescricao extends Fragment {
         botaoTts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String texto = tvDescricao.getText().toString();
-                int falar = tts.speak(texto, tts.QUEUE_FLUSH, null);
+                if(!tts.isSpeaking()){
+                    String texto = tvDescricao.getText().toString();
+                    int falar = tts.speak(texto, tts.QUEUE_FLUSH, null);
+                }else{
+                    tts.stop();
+                }
             }
         });
 
