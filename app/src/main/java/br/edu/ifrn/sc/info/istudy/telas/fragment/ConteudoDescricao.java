@@ -4,12 +4,15 @@ import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +35,7 @@ public class ConteudoDescricao extends Fragment {
 
     private ConstraintLayout clTts;
 
+    private TextView viewResumo;
     private TextView tvTituloConteudo;
 
     private LinearLayout clDescricao;
@@ -42,7 +46,11 @@ public class ConteudoDescricao extends Fragment {
 
     private TextToSpeech tts;
 
+    private Button btnFinalizarConteudo;
+
     private Bundle extras;
+
+    private NavController navController;
 
     private int id;
 
@@ -77,6 +85,9 @@ public class ConteudoDescricao extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conteudo_descricao, container, false);
 
+        navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
+
+        viewResumo = view.findViewById(R.id.viewResumo);
         clTts = view.findViewById(R.id.clTts);
         clDescricao = view.findViewById(R.id.descricao);
         tvTituloConteudo = view.findViewById(R.id.tvTitulo_conteudos);
@@ -84,18 +95,14 @@ public class ConteudoDescricao extends Fragment {
         botaoTts = view.findViewById(R.id.botaoTts);
         tvDescricao = view.findViewById(R.id.tvResumo);
 
+        btnFinalizarConteudo = view.findViewById(R.id.btnFinalizarConteudo);
+
         extras = getArguments();
 
         if(extras != null){
             id = extras.getInt("conteudoId");
             setarNomeConteudosPeloID(id);
         }
-
-        String texto1 = "\t\t\tA variação linguística corresponde às diferentes maneiras de expressão de uma língua. Ela existe porque as línguas possuem a característica de serem sensíveis a fatores como: grau de formalidade, região geográfica, período histórico, sexo e classe social.\n\n" +
-                "\t\t\tCom relação ao grau de formalidade, a língua pode ser formal ou informal. A linguagem formal é aquela que usa corretamente as regras gramaticais; a linguagem informal ou coloquial é aquela do cotidiano. \n\n" +
-                "\t\t\tAlém disso, ainda existe a variação das expressões de acordo com o sentido denotativo ou conotativo: denotativo se refere ao sentido literal de uma palavra, e o conotativo, ao sentido figurado.\n\n";
-
-        tvDescricao.setText(texto1);
 
         tts = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -118,7 +125,27 @@ public class ConteudoDescricao extends Fragment {
             }
         });
 
+        btnFinalizarConteudo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finalizarConteudo();
+            }
+        });
+
         return view;
+    }
+
+    public void finalizarConteudo(){
+        Bundle cartinha = new Bundle();
+
+        cartinha.putInt("conteudoId", id);
+
+        if (navController != null) {
+            navController.navigate(R.id.action_conteudoDescricao_to_atividades, cartinha);
+            Log.d("ConteudoDescricaoFrag", navController.toString());
+        } else {
+            Log.e("ConteudoDescricaoFrag", "NavController is null");
+        }
     }
 
     public void setarNomeConteudosPeloID(int id) {
@@ -130,7 +157,16 @@ public class ConteudoDescricao extends Fragment {
             @Override
             public void onResponse(Call<Conteudo> call, Response<Conteudo> response) {
                 Conteudo conteudo = response.body();
+                if(conteudo.getDisciplina().getId() == 1){
+                   viewResumo.setBackgroundResource(R.drawable.borda_redonda_port);
+                   btnFinalizarConteudo.setBackgroundColor(getResources().getColor(R.color.istudy_roxo));
+                }else if(conteudo.getDisciplina().getId() == 2) {
+                    viewResumo.setBackgroundResource(R.drawable.borda_redonda_mat);
+                    btnFinalizarConteudo.setBackgroundColor(getResources().getColor(R.color.istudy_verde));
+                }
+
                 tvTituloConteudo.setText(conteudo.getNome());
+                tvDescricao.setText(conteudo.getResumo());
             }
 
             @Override

@@ -60,7 +60,7 @@
                 android:id="@+id/btnRegistrar"
                 android:layout_width="150dp"
                 android:layout_height="45dp"
-                android:background="@drawable/borda_redonda_resumo"
+                android:background="@drawable/borda_redonda_port"
                 android:fontFamily="@font/inter_regularttf"
                 android:text="Registrar"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".telas.fragment.Atividades"
+    >
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/titulo_atividades"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@id/clReferencia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:context=".telas.fragment.Atividades">
+
+        <TextView
+            android:id="@+id/tvTitulo_atividades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend_semiboldttf"
+            android:text="Hora de praticar"
+            android:textColor="@color/aristofany_black"
+            android:textSize="25sp"
+
+            app:layout_constraintBottom_toTopOf="@+id/tvSubTitulo_atividades"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSubTitulo_atividades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_regularttf"
+            android:text="Hora de praticar"
+            android:textColor="@color/aristofany_black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitulo_atividades" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardsQuiz"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/cardsQuizRight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clReferencia"
+        tools:context=".telas.fragment.Atividades">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardQuizFacil"
+            android:layout_width="151dp"
+            android:layout_height="160dp"
+            android:background="@drawable/card_dificuldade_mat"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/cardQuizDificil">
+
+            <TextView
+                android:id="@+id/tvNívelFacil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regularttf"
+                android:text="NÍVEL FÁCIL"
+                android:textColor="@color/aristofany_white"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.59" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardQuizDificil"
+            android:layout_width="151dp"
+            android:layout_height="160dp"
+            android:background="@drawable/card_dificuldade_bloqueado"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardQuizFacil"
+            tools:context=".telas.fragment.Atividades">
+
+            <TextView
+                android:id="@+id/tvNívelDificil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regularttf"
+                android:text="NÍVEL DIFÍCIL"
+                android:textColor="@color/aristofany_white"
+                android:textSize="12sp"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.59" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardsQuizRight"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingRight="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/cardsQuiz"
+        app:layout_constraintTop_toBottomOf="@+id/clReferencia"
+        tools:context=".telas.fragment.Atividades">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardQuizMedio"
+            android:layout_width="151dp"
+            android:layout_height="160dp"
+            android:background="@drawable/card_dificuldade_bloqueado"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvNívelMedio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regularttf"
+                android:text="NÍVEL MÉDIO"
+                android:textColor="@color/aristofany_white"
+                android:textSize="12sp"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.59" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clReferencia"
+        android:layout_width="270dp"
+        android:layout_height="65dp"
+        android:background="@drawable/bg_atividade_mat"
+        app:layout_constraintBottom_toTopOf="@+id/cardsQuiz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titulo_atividades"
+        app:layout_constraintVertical_bias="0.0"
+
+        tools:context=".telas.fragment.Atividades">
+
+        <TextView
+            android:id="@+id/tvConteudo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend_semiboldttf"
+            android:gravity="center"
+            android:text="Conteudo"
+            android:textColor="@color/aristofany_white"
+            android:textSize="20sp"
+            app:cornerRadius="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvDisciplina"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDisciplina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_regularttf"
+            android:gravity="center"
+            android:text="Disciplina"
+            android:layout_marginBottom="12dp"
+            android:textColor="@color/aristofany_white"
+            android:textSize="14sp"
+            app:cornerRadius="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvConteudo" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/descricao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clReferencia"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -60,7 +60,7 @@
                     android:id="@+id/viewResumo"
                     android:layout_width="168dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/borda_redonda_resumo"
+                    android:background="@drawable/borda_redonda_port"
                     android:fontFamily="@font/lexend_semiboldttf"
                     android:gravity="center"
                     android:text="Resumo"

@@ -12,134 +12,134 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".telas.fragment.ConteudoDescricao">
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/titulo_conteudos"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:layout_constraintBottom_toTopOf="@id/clTts"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
+            android:layout_height="match_parent"
             tools:context=".telas.fragment.ConteudoDescricao">
 
-            <TextView
-                android:id="@+id/tvTitulo_conteudos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/lexend_semiboldttf"
-                android:text="Nome do conteúdo"
-                android:textColor="@color/aristofany_black"
-                android:textSize="25sp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/titulo_conteudos"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintBottom_toTopOf="@id/clTts"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:context=".telas.fragment.ConteudoDescricao">
 
-                app:layout_constraintBottom_toBottomOf="parent"
+                <TextView
+                    android:id="@+id/tvTitulo_conteudos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lexend_semiboldttf"
+                    android:text="Nome do conteúdo"
+                    android:textColor="@color/aristofany_black"
+                    android:textSize="25sp"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clTts"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                app:layout_constraintBottom_toTopOf="@+id/descricao"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/titulo_conteudos"
+                app:layout_constraintVertical_bias="0.0"
+                tools:context=".telas.fragment.ConteudoDescricao">
+
+                <TextView
+                    android:id="@+id/viewResumo"
+                    android:layout_width="168dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/borda_redonda_port"
+                    android:fontFamily="@font/lexend_semiboldttf"
+                    android:gravity="center"
+                    android:text="Resumo"
+                    android:textAllCaps="false"
+                    android:textColor="@color/aristofany_white"
+                    android:textSize="16sp"
+                    app:cornerRadius="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.349"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/botaoTts"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/voltar"
+                    android:padding="7dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.303"
+                    app:layout_constraintStart_toEndOf="@+id/viewResumo"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5"
+                    app:srcCompat="@drawable/ic_volume"
+                    tools:srcCompat="@drawable/ic_volume" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/descricao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clTts"
+                app:layout_constraintBottom_toTopOf="@+id/btnFinalizarConteudo">
+
+                <TextView
+                    android:id="@+id/tvResumo"
+                    android:layout_width="380dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lexend_regularttf"
+                    android:justificationMode="inter_word"
+                    android:lineSpacingExtra="4dp"
+                    android:text="Texto do conteúdo e possíveis imagens aqui"
+                    android:textColor="@color/aristofany_black"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnFinalizarConteudo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/istudy_roxo"
+                android:fontFamily="@font/lexend_semiboldttf"
+                android:text="Finalizar conteúdo"
+                android:textAllCaps="false"
+                android:textColor="@color/aristofany_white"
+                android:textSize="13sp"
+                android:layout_marginTop="3dp"
+                app:cornerRadius="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/descricao"
+                app:layout_constraintBottom_toTopOf="@id/marginForBtn"
+                />
+
+            <View
+                android:id="@+id/marginForBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnFinalizarConteudo"></View>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clTts"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:layout_constraintBottom_toTopOf="@+id/descricao"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titulo_conteudos"
-            app:layout_constraintVertical_bias="0.0"
-        tools:context=".telas.fragment.ConteudoDescricao">
-
-        <TextView
-            android:id="@+id/viewResumo"
-            android:layout_width="168dp"
-            android:layout_height="40dp"
-            android:background="@drawable/borda_redonda_resumo"
-            android:fontFamily="@font/lexend_semiboldttf"
-            android:gravity="center"
-            android:text="Resumo"
-            android:textAllCaps="false"
-            android:textColor="@color/aristofany_white"
-            android:textSize="16sp"
-            app:cornerRadius="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.349"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/botaoTts"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/voltar"
-            android:padding="7dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.303"
-            app:layout_constraintStart_toEndOf="@+id/viewResumo"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
-            app:srcCompat="@drawable/ic_volume"
-            tools:srcCompat="@drawable/ic_volume" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/descricao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clTts"
-            app:layout_constraintBottom_toTopOf="@+id/button3">
-
-            <TextView
-                android:id="@+id/tvResumo"
-                android:layout_width="380dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/lexend_regularttf"
-                android:justificationMode="inter_word"
-                android:lineSpacingExtra="4dp"
-                android:text="Texto do conteúdo e possíveis imagens aqui"
-                android:textColor="@color/aristofany_black"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/istudy_roxo"
-            android:fontFamily="@font/lexend_semiboldttf"
-            android:text="Finalizar conteúdo"
-            android:textAllCaps="false"
-            android:textColor="@color/aristofany_white"
-            android:textSize="13sp"
-            android:layout_marginTop="3dp"
-            app:cornerRadius="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/descricao"
-            app:layout_constraintBottom_toTopOf="@id/marginForBtn"
-            />
-
-        <View
-            android:id="@+id/marginForBtn"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button3"></View>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </ScrollView>

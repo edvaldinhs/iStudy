@@ -182,7 +182,7 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
         cartinha.putInt("quizId", id);
 
         if (navController != null) {
-            navController.navigate(R.id.action_quiz_to_questoesNiveis, cartinha);
+            navController.navigate(R.id.action_quiz_to_atividades, cartinha);
             quizzes.clear();
             Log.e("QuizzesFragment", navController.toString());
         } else {
