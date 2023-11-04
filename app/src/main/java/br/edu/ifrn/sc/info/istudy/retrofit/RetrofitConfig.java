@@ -1,10 +1,12 @@
 package br.edu.ifrn.sc.info.istudy.retrofit;
 
+import br.edu.ifrn.sc.info.istudy.ws.AlternativaWS;
 import br.edu.ifrn.sc.info.istudy.ws.AtividadeWS;
 import br.edu.ifrn.sc.info.istudy.ws.ConquistaWS;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
 import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
 import br.edu.ifrn.sc.info.istudy.ws.EstudanteWS;
+import br.edu.ifrn.sc.info.istudy.ws.QuestaoWS;
 import br.edu.ifrn.sc.info.istudy.ws.TituloWS;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -15,7 +17,7 @@ public class RetrofitConfig {
 
     public RetrofitConfig() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.161.1.80:8080/iStudyServer/webapi/")
+                .baseUrl("http://192.168.3.83:8080/iStudyServer/webapi/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }
@@ -38,4 +40,11 @@ public class RetrofitConfig {
     public AtividadeWS getAtividadeWS() {
         return retrofit.create(AtividadeWS.class);
     }
+    public QuestaoWS getQuestaoWS() {
+        return retrofit.create(QuestaoWS.class);
+    }
+    public AlternativaWS getAlternativaWS() {
+        return retrofit.create(AlternativaWS.class);
+    }
+
 }

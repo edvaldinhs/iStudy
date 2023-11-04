@@ -88,5 +88,9 @@
         android:id="@+id/multiplaEscolha"
         android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Quiz.MultiplaEscolha"
         android:label="fragment_multipla_escolha"
-        tools:layout="@layout/fragment_multipla_escolha" />
+        tools:layout="@layout/fragment_multipla_escolha" >
+        <action
+            android:id="@+id/action_multiplaEscolha_to_conteudo"
+            app:destination="@id/conteudo" />
+    </fragment>
 </navigation>

@@ -28,4 +28,7 @@ public interface AtividadeWS {
     @GET("atividades/buscar/{id}")
     Call< Atividade > buscar(@Path("id") int id);
 
+    @GET("atividades/buscarPeloConteudo/{id}")
+    Call< List<Atividade> > buscarPeloConteudo(@Path("id") int id);
+
 }

@@ -172,7 +172,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/numQuestao">
 
                 <TextView
-                    android:id="@+id/tvResumo"
+                    android:id="@+id/tvTextoQuestao"
                     android:layout_width="380dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lexend_semiboldttf"
@@ -224,7 +224,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tvTextoResposta"
+                        android:id="@+id/tvTextoRespostaA"
                         android:layout_width="330dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lexend_regularttf"
