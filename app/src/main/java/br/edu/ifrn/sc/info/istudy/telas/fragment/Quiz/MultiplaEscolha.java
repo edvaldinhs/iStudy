@@ -2,18 +2,22 @@ package br.edu.ifrn.sc.info.istudy.telas.fragment.Quiz;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,16 +26,20 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.dominio.Alternativa;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
+import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.dominio.Questao;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.telas.TelaInicial;
 import br.edu.ifrn.sc.info.istudy.ws.AlternativaWS;
 import br.edu.ifrn.sc.info.istudy.ws.AtividadeWS;
+import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
 import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
 import br.edu.ifrn.sc.info.istudy.ws.QuestaoWS;
 import retrofit2.Call;
@@ -45,18 +53,26 @@ public class MultiplaEscolha extends Fragment {
 
     private List<Alternativa> alternativas = new ArrayList<>();
 
-    NavController navController;
+    private Conteudo conteudo;
+
+    private NavController navController;
 
     private TextView tvTextoQuestao;
 
-    int questaoAtual;
+    private int questaoAtual;
 
-    int conteudoId;
-    int dificuldadeId;
+    private int conteudoId;
+    private int dificuldadeId;
 
     private Bundle extras;
 
-    boolean respostaEscolhida;
+    private boolean respostaEscolhida;
+
+    private ImageView acerto;
+    private ImageView acerto_mat;
+    private ImageView erro;
+    private AnimatedVectorDrawableCompat avd;
+    private AnimatedVectorDrawable avd2;
 
     private View botaoClicado;
 
@@ -69,6 +85,14 @@ public class MultiplaEscolha extends Fragment {
     private TextView tvRespostaB;
     private TextView tvRespostaC;
     private TextView tvRespostaD;
+
+    private TextView tvNivel;
+
+    private TextView nQuestao1;
+    private TextView nQuestao2;
+    private TextView nQuestao3;
+    private TextView nQuestao4;
+    private TextView nQuestao5;
 
     private Button btnFinalizarConteudo;
 
@@ -105,6 +129,14 @@ public class MultiplaEscolha extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_multipla_escolha, container, false);
 
+        tvNivel = view.findViewById(R.id.tvNivel);
+
+        nQuestao1 = view.findViewById(R.id.nQuestao1);
+        nQuestao2 = view.findViewById(R.id.nQuestao2);
+        nQuestao3 = view.findViewById(R.id.nQuestao3);
+        nQuestao4 = view.findViewById(R.id.nQuestao4);
+        nQuestao5 = view.findViewById(R.id.nQuestao5);
+
         navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
 
         questaoAtual = 0;
@@ -114,7 +146,14 @@ public class MultiplaEscolha extends Fragment {
         if(extras != null){
             conteudoId = extras.getInt("conteudoId");
             dificuldadeId = extras.getInt("dificuldadeId");
+            personalizarTela(conteudoId);
         }
+
+        acerto = view.findViewById(R.id.acerto_port);
+        acerto_mat = view.findViewById(R.id.acerto_mat);
+        erro = view.findViewById(R.id.erro);
+        acerto.setVisibility(View.INVISIBLE);
+        erro.setVisibility(View.INVISIBLE);
 
         tvTextoQuestao = view.findViewById(R.id.tvTextoQuestao);
 
@@ -139,7 +178,7 @@ public class MultiplaEscolha extends Fragment {
             public void onClick(View v) {
                 if(botaoClicado != null){
                     respostaSelecionada(botaoClicado);
-                    proximaQuestao();
+                    verificarAcerto();
                     botaoClicado = null;
                 }else {
                     Toast.makeText(getActivity(), "Selecione uma Resposta", Toast.LENGTH_SHORT).show();
@@ -150,8 +189,85 @@ public class MultiplaEscolha extends Fragment {
         return view;
     }
 
+    private void verificarAcerto(){
+        Drawable drawable = acerto.getDrawable();
+        if(respostaEscolhida){
+            if(conteudo!=null){
+                if(conteudo.getDisciplina().getId() == 1){
+                    drawable = acerto_mat.getDrawable();
+                }else if(conteudo.getDisciplina().getId() == 2){
+                    drawable = acerto.getDrawable();
+                }
+            }else{
+                drawable = acerto.getDrawable();
+            }
+            if(drawable instanceof AnimatedVectorDrawableCompat){
+                avd = (AnimatedVectorDrawableCompat) drawable;
+                acerto.setVisibility(View.VISIBLE);
+                avd.start();
+            } else if (drawable instanceof AnimatedVectorDrawable) {
+                avd2 = (AnimatedVectorDrawable) drawable;
+                acerto.setVisibility(View.VISIBLE);
+                avd2.start();
+            }
+            Log.d("verificarQuestao", "Acertou!");
+        }else{
+            drawable = erro.getDrawable();
+            if(drawable instanceof AnimatedVectorDrawableCompat){
+                avd = (AnimatedVectorDrawableCompat) drawable;
+                erro.setVisibility(View.VISIBLE);
+                avd.start();
+            } else if (drawable instanceof AnimatedVectorDrawable) {
+                avd2 = (AnimatedVectorDrawable) drawable;
+                erro.setVisibility(View.VISIBLE);
+                avd2.start();
+            }
+            Log.d("verificarQuestao", "Errou feio, errou rude.");
+        }
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                acerto.setVisibility(View.INVISIBLE);
+                erro.setVisibility(View.INVISIBLE);
+                timer.cancel();
+
+                proximaQuestao();
+            }
+        }, 1300); // Delay em millisegundos (2 segundos)
+    }
+
     private void iniciarQuiz() {
+        atualizarNumQuestao();
             gerarQuestoes();
+    }
+
+
+    public void atualizarNumQuestao(){
+        nQuestao1.setBackgroundResource(R.drawable.quadrado_cinza);
+        nQuestao2.setBackgroundResource(R.drawable.quadrado_cinza);
+        nQuestao3.setBackgroundResource(R.drawable.quadrado_cinza);
+        nQuestao4.setBackgroundResource(R.drawable.quadrado_cinza);
+        nQuestao5.setBackgroundResource(R.drawable.quadrado_cinza);
+        switch (questaoAtual + 1){
+            case 1:
+                nQuestao1.setBackgroundResource(R.drawable.quadrado_azul);
+                break;
+            case 2:
+                nQuestao2.setBackgroundResource(R.drawable.quadrado_azul);
+                break;
+            case 3:
+                nQuestao3.setBackgroundResource(R.drawable.quadrado_azul);
+                break;
+            case 4:
+                nQuestao4.setBackgroundResource(R.drawable.quadrado_azul);
+                break;
+            case 5:
+                nQuestao5.setBackgroundResource(R.drawable.quadrado_azul);
+                break;
+            default:
+                break;
+        }
     }
 
     private void gerarQuestoes() {
@@ -182,32 +298,34 @@ public class MultiplaEscolha extends Fragment {
     }
 
     public void respostaSelecionada(View view){
-
-        view.setBackgroundColor(Color.parseColor("#17243e"));
-
         escolhaA.setEnabled(false);
         escolhaB.setEnabled(false);
         escolhaC.setEnabled(false);
         escolhaD.setEnabled(false);
-
     }
 
-    public void proximaQuestao(){
-        resetarBotoes();
-        questaoAtual++;
+    public void proximaQuestao() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                resetarBotoes();
+                questaoAtual++;
+                if (questaoAtual > questoes.size() - 1) {
+                    Bundle cartinha = new Bundle();
 
-        if (questaoAtual > questoes.size() - 1){
+                    cartinha.putInt("conteudoId", conteudoId);
 
-            if (navController != null) {
-                navController.navigate(R.id.action_multiplaEscolha_to_conteudo);
-                Log.d("QuizME", navController.toString());
-            } else {
-                Log.e("QuizME", "NavController is null");
+                    if (navController != null) {
+                        navController.navigate(R.id.action_multiplaEscolha_to_atividades, cartinha);
+                        Log.d("QuizME", navController.toString());
+                    } else {
+                        Log.e("QuizME", "NavController is null");
+                    }
+                } else {
+                    iniciarQuiz();
+                }
             }
-        } else {
-            iniciarQuiz();
-        }
-
+        });
     }
 
     private void alternativaClickListener(){
@@ -215,7 +333,7 @@ public class MultiplaEscolha extends Fragment {
         escolhaA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                respostaEscolhida = alternativas.get(0).isRespostaCerta();
+                respostaEscolhida = alternativas.get(0).isRespostaCerta();
                 mudarCorOnClick(v);
                 botaoClicado = v;
             }
@@ -223,7 +341,7 @@ public class MultiplaEscolha extends Fragment {
         escolhaB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                respostaEscolhida = alternativas.get(1).isRespostaCerta();
+                respostaEscolhida = alternativas.get(1).isRespostaCerta();
                 mudarCorOnClick(v);
                 botaoClicado = v;
             }
@@ -231,7 +349,7 @@ public class MultiplaEscolha extends Fragment {
         escolhaC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                respostaEscolhida = alternativas.get(2).isRespostaCerta();
+                respostaEscolhida = alternativas.get(2).isRespostaCerta();
                 mudarCorOnClick(v);
                 botaoClicado = v;
             }
@@ -239,7 +357,7 @@ public class MultiplaEscolha extends Fragment {
         escolhaD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                respostaEscolhida = alternativas.get(3).isRespostaCerta();
+                respostaEscolhida = alternativas.get(3).isRespostaCerta();
                 mudarCorOnClick(v);
                 botaoClicado = v;
             }
@@ -261,7 +379,11 @@ public class MultiplaEscolha extends Fragment {
         escolhaD.setBackgroundResource(R.drawable.borda);
         escolhaD.setPadding(pL, pT, pR, pB);
 
-        view.setBackgroundResource(R.drawable.borda_port);
+        if(conteudo.getDisciplina().getId() == 1){
+            view.setBackgroundResource(R.drawable.borda_port);
+        }else if(conteudo.getDisciplina().getId() == 2){
+            view.setBackgroundResource(R.drawable.borda_mat);
+        }
         view.setPadding(pL, pT, pR, pB);
     }
 
@@ -331,6 +453,30 @@ public class MultiplaEscolha extends Fragment {
             }
         });
     }
+    public void personalizarTela(int id) {
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<Conteudo> metodoBuscar = conteudoWS.buscar(id);
 
+        metodoBuscar.enqueue(new Callback<Conteudo>() {
+            @Override
+            public void onResponse(Call<Conteudo> call, Response<Conteudo> response) {
+                Conteudo tempConteudo = response.body();
+                conteudo = tempConteudo;
+                if(tempConteudo.getDisciplina().getId() == 1){
+                    tvNivel.setBackgroundResource(R.drawable.borda_redonda_port);
+                    btnFinalizarConteudo.setBackgroundColor(getResources().getColor(R.color.istudy_roxo));
+                }else if (tempConteudo.getDisciplina().getId() == 2){
+                    tvNivel.setBackgroundResource(R.drawable.borda_redonda_mat);
+                    btnFinalizarConteudo.setBackgroundColor(getResources().getColor(R.color.istudy_verde));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Conteudo> call, Throwable t) {
+
+            }
+        });
+    }
 
 }

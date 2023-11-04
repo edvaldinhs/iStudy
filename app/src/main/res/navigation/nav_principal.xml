@@ -92,5 +92,8 @@
         <action
             android:id="@+id/action_multiplaEscolha_to_conteudo"
             app:destination="@id/conteudo" />
+        <action
+            android:id="@+id/action_multiplaEscolha_to_atividades"
+            app:destination="@id/atividades" />
     </fragment>
 </navigation>
