@@ -55,6 +55,8 @@ public class MultiplaEscolha extends Fragment {
 
     private Conteudo conteudo;
 
+    private int numAcertos;
+
     private NavController navController;
 
     private TextView tvTextoQuestao;
@@ -179,6 +181,7 @@ public class MultiplaEscolha extends Fragment {
                 if(botaoClicado != null){
                     respostaSelecionada(botaoClicado);
                     verificarAcerto();
+
                     botaoClicado = null;
                 }else {
                     Toast.makeText(getActivity(), "Selecione uma Resposta", Toast.LENGTH_SHORT).show();
@@ -192,6 +195,9 @@ public class MultiplaEscolha extends Fragment {
     private void verificarAcerto(){
         Drawable drawable = acerto.getDrawable();
         if(respostaEscolhida){
+
+            numAcertos++;
+
             if(conteudo!=null){
                 if(conteudo.getDisciplina().getId() == 1){
                     drawable = acerto_mat.getDrawable();
@@ -278,14 +284,24 @@ public class MultiplaEscolha extends Fragment {
         metodoBuscar.enqueue(new Callback<List<Atividade>>() {
             @Override
             public void onResponse(Call<List<Atividade>> call, Response<List<Atividade>> response) {
-                int atvId = -1;
-                for (Atividade atividade : response.body()){
-                    if(atividade.getDificuldade().getId() == dificuldadeId){
-                        atvId = atividade.getId();
+
+                try {
+
+                    int atvId = -1;
+                    for (Atividade atividade : response.body()){
+                        if(atividade.getDificuldade().getId() == dificuldadeId){
+                            atvId = atividade.getId();
+                        }
                     }
-                }
-                if(atvId != -1){
-                    preencherQuestoes(atvId);
+                    if(atvId != -1){
+                        preencherQuestoes(atvId);
+                    }
+
+
+                }catch (NullPointerException nullPointerException){
+
+                    Log.e("QuizMe", nullPointerException.getMessage());
+
                 }
             }
 
@@ -311,6 +327,10 @@ public class MultiplaEscolha extends Fragment {
                 resetarBotoes();
                 questaoAtual++;
                 if (questaoAtual > questoes.size() - 1) {
+                    if (numAcertos >= 3) {
+                        desbloquearQuiz("edvaldo@escolar.com", conteudoId);
+                    }
+
                     Bundle cartinha = new Bundle();
 
                     cartinha.putInt("conteudoId", conteudoId);
@@ -324,6 +344,24 @@ public class MultiplaEscolha extends Fragment {
                 } else {
                     iniciarQuiz();
                 }
+            }
+        });
+    }
+
+    private void desbloquearQuiz(String email, int conteudoId){
+        RetrofitConfig config = new RetrofitConfig();
+        AtividadeWS atividadeWS = config.getAtividadeWS();
+        Call<Boolean> metodoDesbloquearQuiz = atividadeWS.desbloquearQuiz(email, conteudoId);
+
+        metodoDesbloquearQuiz.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Log.d("deu erro", "deu bom");
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
             }
         });
     }
@@ -441,10 +479,19 @@ public class MultiplaEscolha extends Fragment {
             public void onResponse(Call<List<Alternativa>> call, Response<List<Alternativa>> response) {
                 alternativas = response.body();
 
-                tvRespostaA.setText(alternativas.get(0).getTexto());
-                tvRespostaB.setText(alternativas.get(1).getTexto());
-                tvRespostaC.setText(alternativas.get(2).getTexto());
-                tvRespostaD.setText(alternativas.get(3).getTexto());
+                try {
+
+                    tvRespostaA.setText(response.body().get(0).getTexto());
+                    tvRespostaB.setText(response.body().get(1).getTexto());
+                    tvRespostaC.setText(response.body().get(2).getTexto());
+                    tvRespostaD.setText(response.body().get(3).getTexto());
+
+                }catch (IndexOutOfBoundsException indexOutOfBoundsException){
+
+                    Log.e("QuizMe", indexOutOfBoundsException.getMessage());
+
+                }
+
             }
 
             @Override

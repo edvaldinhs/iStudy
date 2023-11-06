@@ -22,6 +22,9 @@ public interface AtividadeWS {
     @PUT("atividades/atualizar")
     Call< Boolean > atualizar(@Body Atividade atividade);
 
+    @PUT("atividades/desbloquearQuiz/{email}-{conteudoId}")
+    Call< Boolean > desbloquearQuiz(@Path("email") String email, @Path("conteudoId") int conteudoId);
+
     @DELETE("atividades/remover/{id}")
     Call< Boolean > remover(@Path("id") int id);
 
