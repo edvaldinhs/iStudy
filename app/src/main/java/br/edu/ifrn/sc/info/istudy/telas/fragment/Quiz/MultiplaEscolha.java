@@ -328,7 +328,7 @@ public class MultiplaEscolha extends Fragment {
                 questaoAtual++;
                 if (questaoAtual > questoes.size() - 1) {
                     if (numAcertos >= 3) {
-                        desbloquearQuiz("edvaldo@escolar.com", conteudoId);
+                        verificadorDeDesbloqueio("estudante@gmail.com", conteudoId, dificuldadeId);
                     }
 
                     Bundle cartinha = new Bundle();
@@ -344,6 +344,28 @@ public class MultiplaEscolha extends Fragment {
                 } else {
                     iniciarQuiz();
                 }
+            }
+        });
+    }
+
+    public void verificadorDeDesbloqueio(String email, int conteudoId, int dificuldadeId){
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call< Integer > metodoBuscarProgressoConteudo = conteudoWS.buscarProgressoConteudo(email, conteudoId);
+
+        metodoBuscarProgressoConteudo.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.body() >= 3){
+
+                }else if(response.body() <= dificuldadeId){
+                    desbloquearQuiz("estudante@gmail.com", conteudoId);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.e("QuizME", t.getMessage());
             }
         });
     }
@@ -456,9 +478,13 @@ public class MultiplaEscolha extends Fragment {
             @Override
             public void onResponse(Call<List<Questao>> call, Response<List<Questao>> response) {
                 questoes = response.body();
-                String textoDaQuestao = questoes.get(questaoAtual).getEnunciado();
-                tvTextoQuestao.setText(textoDaQuestao);
-                preencherAlternativas(questoes.get(questaoAtual).getId());
+                try {
+                    String textoDaQuestao = response.body().get(questaoAtual).getEnunciado();
+                    tvTextoQuestao.setText(textoDaQuestao);
+                    preencherAlternativas(response.body().get(questaoAtual).getId());
+                }catch(IndexOutOfBoundsException indexOutOfBoundsException){
+                    Log.e("QuizME", indexOutOfBoundsException.getMessage());
+                }
             }
 
             @Override
@@ -480,7 +506,6 @@ public class MultiplaEscolha extends Fragment {
                 alternativas = response.body();
 
                 try {
-
                     tvRespostaA.setText(response.body().get(0).getTexto());
                     tvRespostaB.setText(response.body().get(1).getTexto());
                     tvRespostaC.setText(response.body().get(2).getTexto());

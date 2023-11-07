@@ -1,5 +1,6 @@
 package br.edu.ifrn.sc.info.istudy.adapters.holders;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +14,11 @@ import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConteudoClickListener
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
+import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
+import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
@@ -23,17 +29,21 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
 
     private OnConteudoClickListener conteudoClickListener;
 
-    public ConteudosHolder(@NonNull View itemView, OnConteudoClickListener listener) {
+    private String emailUsuario;
+
+    public ConteudosHolder(@NonNull View itemView, OnConteudoClickListener listener, String emailUsuario) {
         super(itemView);
         clCardConteudo = itemView.findViewById(R.id.card_conteudo);
         tvNomeConteudo = itemView.findViewById(R.id.tvNomeConteudo);
         clCardConteudo.setOnClickListener(this);
+        this.emailUsuario = emailUsuario;
 
         conteudoClickListener = listener;
     }
 
     public void bind(Conteudo conteudo) {
         this.conteudo = conteudo;
+
 
         mudarDeCor();
 
@@ -43,10 +53,10 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
     }
 
     private void mudarDeCor(){
+        Log.d("mudarDeCor", "Bloqueado: " + conteudo.getBloqueado());
 
         if(conteudo.getDisciplina().getId() == 1 && conteudo.getBloqueado() == false){
             clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_port);
-
         }else if (conteudo.getDisciplina().getId() == 2 && conteudo.getBloqueado() == false){
             clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_mat);
         }else {
@@ -60,6 +70,7 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
 
         if (viewId == R.id.card_conteudo) {
             try {
+                Log.d("onClick", "Bloqueado: " + conteudo.getBloqueado());
                 if (conteudo.getBloqueado() == false) {
                     conteudoClickListener.onConteudoClick(conteudo.getId());
                 }

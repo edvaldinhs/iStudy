@@ -1,6 +1,7 @@
 package br.edu.ifrn.sc.info.istudy.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,11 @@ import br.edu.ifrn.sc.info.istudy.adapters.holders.ConteudosHolder;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConteudoClickListener;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
+import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
+import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {
 
@@ -27,16 +33,19 @@ public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {
 
     OnConteudoClickListener onConteudoClickListener;
 
-    public AdapterConteudos(Context context, List<Conteudo> conteudos, NavController navController, OnConteudoClickListener listener){
+    private String emailUsuario;
+
+    public AdapterConteudos(Context context, List<Conteudo> conteudos, NavController navController, OnConteudoClickListener listener, String emailUsuario){
         mContext = context;
         this.conteudos = conteudos;
         this.navController = navController;
         onConteudoClickListener = listener;
+        this.emailUsuario = emailUsuario;
     }
 
     public ConteudosHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.card_conteudo, parent, false);
-        ConteudosHolder holder = new ConteudosHolder(view, onConteudoClickListener);
+        ConteudosHolder holder = new ConteudosHolder(view, onConteudoClickListener, emailUsuario);
         view.setOnClickListener(holder);
         return holder;
     }
@@ -51,6 +60,7 @@ public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {
         conteudos.clear();
         notifyDataSetChanged();
     }
+
 
     @Override
     public int getItemCount() {

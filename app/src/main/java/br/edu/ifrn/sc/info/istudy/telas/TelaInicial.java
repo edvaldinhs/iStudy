@@ -91,21 +91,22 @@ public class TelaInicial extends AppCompatActivity {
 
     public void desbloquearConteudo(int id) {
 
-        RetrofitConfig config = new RetrofitConfig();
-        ConteudoWS conteudoWS = config.getConteudoWS();
-        Call<Boolean> metodoDesbloquear = conteudoWS.desbloquearConteudo(id);
-
-        metodoDesbloquear.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-
-            }
-        });
+//        RetrofitConfig config = new RetrofitConfig();
+//        ConteudoWS conteudoWS = config.getConteudoWS();
+//        Call<Boolean> metodoDesbloquear = conteudoWS.desbloquearConteudo(id);
+//
+//        metodoDesbloquear.enqueue(new Callback<Boolean>() {
+//            @Override
+//            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Boolean> call, Throwable t) {
+//
+//            }
+//        });
+        //Esse código está erradinho!!
     }
     public void desbloquearPrimeirosConteudos(){
         RetrofitConfig config = new RetrofitConfig();
@@ -125,8 +126,8 @@ public class TelaInicial extends AppCompatActivity {
 
                     }
                     try {
-                        desbloquearConteudo(conteudosLP.get(0).getId());
-                        desbloquearConteudo(conteudosMat.get(0).getId());
+//                        desbloquearConteudo(conteudosLP.get(0).getId());
+//                        desbloquearConteudo(conteudosMat.get(0).getId());
                     }catch (IndexOutOfBoundsException indexOutOfBoundsException){
                         Log.e("TelaInicial", indexOutOfBoundsException.getMessage());
                     }

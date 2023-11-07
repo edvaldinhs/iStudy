@@ -35,4 +35,7 @@ public interface ConteudoWS {
     @GET("conteudos/buscar/{id}")
     Call< Conteudo > buscar(@Path("id") int id);
 
+    @GET("conteudos/buscar/{email}-{conteudoId}")
+    Call< Integer > buscarProgressoConteudo(@Path("email") String email ,@Path("conteudoId") int conteudoId);
+
 }

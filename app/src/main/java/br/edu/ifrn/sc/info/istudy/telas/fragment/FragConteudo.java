@@ -128,7 +128,7 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
     //Método pra listar os cards de Conteudos
     private void listarConteudos(){
-        adapterConteudos = new AdapterConteudos(getActivity(), conteudos, navController,this);
+        adapterConteudos = new AdapterConteudos(getActivity(), conteudos, navController,this, "estudante@gmail.com");
         rvConteudo.setAdapter(adapterConteudos);
     }
 
@@ -149,7 +149,8 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
                     for (Conteudo conteudo : response.body()) {
                         if (conteudo.getDisciplina().getId() == id) {
                             if (pesquisa.isEmpty() || conteudo.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
-                                conteudos.add(conteudo);
+                                conteudos.add(verificarDesbloquear("estudante@gmail.com",conteudo));
+                                Log.d("tste", verificarDesbloquear("estudante@gmail.com",conteudo).getBloqueado()+"");
                             }
                         }
                     }
@@ -162,6 +163,33 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
             }
         });
     }
+
+    private Conteudo verificarDesbloquear(String email, Conteudo conteudo){
+        Conteudo resultConteudo = conteudo;
+
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call< Integer > metodoBuscarProgressoConteudo = conteudoWS.buscarProgressoConteudo(email, conteudo.getId());
+
+        metodoBuscarProgressoConteudo.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.body() != null){
+                    if(response.body() >= 1){
+                        resultConteudo.conteudoDesbloquear();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.e("ConteudosHolder", t.getMessage());
+            }
+        });
+        return resultConteudo;
+    }
+
     public void setarNomeDisciplinasPeloID(int id) {
         RetrofitConfig config = new RetrofitConfig();
         DisciplinaWS disciplinaWS = config.getDisciplinaWS();

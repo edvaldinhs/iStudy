@@ -12,7 +12,7 @@ public class Conteudo {
 	private boolean bloqueado;
 
 	public Conteudo() {
-
+		this.bloqueado = true;
 	}
 
 	public Conteudo(int id, String nome, String resumo, String dataInicio, String dataFim, String imagem, Disciplina disciplina, boolean bloqueado) {
