@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
+import br.edu.ifrn.sc.info.istudy.dominio.RequestConteudo;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -37,5 +38,8 @@ public interface ConteudoWS {
 
     @GET("conteudos/buscar/{email}-{conteudoId}")
     Call< Integer > buscarProgressoConteudo(@Path("email") String email ,@Path("conteudoId") int conteudoId);
+
+    @POST("conteudos/finalizar")
+    Call< Boolean > finalizar(@Body RequestConteudo request);
 
 }

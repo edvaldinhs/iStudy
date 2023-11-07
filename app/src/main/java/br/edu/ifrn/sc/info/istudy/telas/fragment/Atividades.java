@@ -105,15 +105,19 @@ public class Atividades extends Fragment {
             @Override
             public void onResponse(Call<Conteudo> call, Response<Conteudo> response) {
                 Conteudo conteudo = response.body();
-                if(conteudo.getDisciplina().getId() == 1){
-                    clReferencia.setBackgroundResource(R.drawable.bg_atividade_port);
-                }else if (conteudo.getDisciplina().getId() == 2){
-                    clReferencia.setBackgroundResource(R.drawable.bg_atividade_mat);
-                }
-                verificarBloqueado(conteudo.getDisciplina().getId());
+                try {
+                    if(conteudo.getDisciplina().getId() == 1){
+                        clReferencia.setBackgroundResource(R.drawable.bg_atividade_port);
+                    }else if (conteudo.getDisciplina().getId() == 2){
+                        clReferencia.setBackgroundResource(R.drawable.bg_atividade_mat);
+                    }
+                    verificarBloqueado(conteudo.getDisciplina().getId());
 
-                tvConteudo.setText(conteudo.getNome());
-                tvDisciplina.setText(conteudo.getDisciplina().getNome());
+                    tvConteudo.setText(conteudo.getNome());
+                    tvDisciplina.setText(conteudo.getDisciplina().getNome());
+                }catch (NullPointerException nullPointerException){
+                    Log.e("Atividades", nullPointerException.getMessage());
+                }
             }
 
             @Override

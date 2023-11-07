@@ -22,6 +22,7 @@ import java.util.Locale;
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
+import br.edu.ifrn.sc.info.istudy.dominio.RequestConteudo;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
 import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
@@ -139,6 +140,11 @@ public class ConteudoDescricao extends Fragment {
         Bundle cartinha = new Bundle();
 
         cartinha.putInt("conteudoId", id);
+        try {
+            finalizarConteudoWS("estudante@gmail.com", id);
+        }catch (IllegalArgumentException illegalArgumentException){
+            Log.e("ConteudoDescricao", illegalArgumentException.getMessage());
+        }
 
         if (navController != null) {
             navController.navigate(R.id.action_conteudoDescricao_to_atividades, cartinha);
@@ -146,6 +152,26 @@ public class ConteudoDescricao extends Fragment {
         } else {
             Log.e("ConteudoDescricaoFrag", "NavController is null");
         }
+    }
+
+    public void finalizarConteudoWS(String email, int conteudoId) {
+        RequestConteudo requestConteudo = new RequestConteudo(email, conteudoId);
+
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<Boolean> finalizar = conteudoWS.finalizar(requestConteudo);
+
+        finalizar.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
     }
 
     public void setarNomeConteudosPeloID(int id) {

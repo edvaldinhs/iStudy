@@ -35,6 +35,7 @@ import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.dominio.Questao;
+import br.edu.ifrn.sc.info.istudy.dominio.RequestConteudo;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.telas.TelaInicial;
 import br.edu.ifrn.sc.info.istudy.ws.AlternativaWS;
@@ -286,7 +287,6 @@ public class MultiplaEscolha extends Fragment {
             public void onResponse(Call<List<Atividade>> call, Response<List<Atividade>> response) {
 
                 try {
-
                     int atvId = -1;
                     for (Atividade atividade : response.body()){
                         if(atividade.getDificuldade().getId() == dificuldadeId){
@@ -296,8 +296,6 @@ public class MultiplaEscolha extends Fragment {
                     if(atvId != -1){
                         preencherQuestoes(atvId);
                     }
-
-
                 }catch (NullPointerException nullPointerException){
 
                     Log.e("QuizMe", nullPointerException.getMessage());
@@ -357,7 +355,12 @@ public class MultiplaEscolha extends Fragment {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.body() >= 3){
-
+                    if(!(conteudoId >= 20)){
+                        finalizarConteudoWS("estudante@gmail.com", (conteudoId + 1));
+                        Log.d("QuizMe", "Porra meu");
+                    }else {
+                        Log.d("QuizMe", "caralho");
+                    }
                 }else if(response.body() <= dificuldadeId){
                     desbloquearQuiz("estudante@gmail.com", conteudoId);
                 }
@@ -390,6 +393,7 @@ public class MultiplaEscolha extends Fragment {
 
     private void alternativaClickListener(){
 
+        try {
         escolhaA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -422,6 +426,10 @@ public class MultiplaEscolha extends Fragment {
                 botaoClicado = v;
             }
         });
+
+        }catch(IndexOutOfBoundsException indexOutOfBoundsException){
+            Log.e("QuizME", indexOutOfBoundsException.getMessage());
+        }
     }
 
     public void mudarCorOnClick(View view){
@@ -547,6 +555,25 @@ public class MultiplaEscolha extends Fragment {
             @Override
             public void onFailure(Call<Conteudo> call, Throwable t) {
 
+            }
+        });
+    }
+    public void finalizarConteudoWS(String email, int conteudoId) {
+        RequestConteudo requestConteudo = new RequestConteudo(email, conteudoId);
+
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<Boolean> finalizar = conteudoWS.finalizar(requestConteudo);
+
+        finalizar.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Log.e("QuizME", response.body()+"");
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.e("QuizME", t.getMessage());
             }
         });
     }

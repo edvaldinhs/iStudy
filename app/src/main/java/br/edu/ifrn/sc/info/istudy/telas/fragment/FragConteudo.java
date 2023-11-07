@@ -147,12 +147,17 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
                         adapterConteudos.clearData();
                     }
                     for (Conteudo conteudo : response.body()) {
-                        if (conteudo.getDisciplina().getId() == id) {
-                            if (pesquisa.isEmpty() || conteudo.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
-                                conteudos.add(verificarDesbloquear("estudante@gmail.com",conteudo));
-                                Log.d("tste", verificarDesbloquear("estudante@gmail.com",conteudo).getBloqueado()+"");
-                            }
-                        }
+                       try {
+                           if (conteudo.getDisciplina().getId() == id) {
+                               if (pesquisa.isEmpty() || conteudo.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
+                                   conteudos.add(verificarDesbloquear("estudante@gmail.com",conteudo));
+                                   Log.d("tste", verificarDesbloquear("estudante@gmail.com",conteudo).getBloqueado()+"");
+                               }
+                           }
+                       }catch ( NullPointerException nullPointerException){
+                           Log.e("FragConteudo", nullPointerException.getMessage());
+
+                       }
                     }
                     listarConteudos();
                 }
