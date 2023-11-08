@@ -1,7 +1,5 @@
 package br.edu.ifrn.sc.info.istudy.telas.fragment.Quiz;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,10 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,15 +29,12 @@ import br.edu.ifrn.sc.info.istudy.SheetDialog.CarregandoDialog;
 import br.edu.ifrn.sc.info.istudy.dominio.Alternativa;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
-import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.dominio.Questao;
 import br.edu.ifrn.sc.info.istudy.dominio.RequestConteudo;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
-import br.edu.ifrn.sc.info.istudy.telas.TelaInicial;
 import br.edu.ifrn.sc.info.istudy.ws.AlternativaWS;
 import br.edu.ifrn.sc.info.istudy.ws.AtividadeWS;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
-import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
 import br.edu.ifrn.sc.info.istudy.ws.QuestaoWS;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +46,8 @@ public class MultiplaEscolha extends Fragment {
     private List<Questao> questoes = new ArrayList<>();
 
     private List<Alternativa> alternativas = new ArrayList<>();
+
+    private int quantidadeAlternativa = -1;
 
     private CarregandoDialog carregandoDialog;
 
@@ -70,6 +64,7 @@ public class MultiplaEscolha extends Fragment {
     private int conteudoId;
     private int dificuldadeId;
 
+    private ConstraintLayout escolhas;
     private Bundle extras;
 
     private boolean respostaEscolhida;
@@ -87,6 +82,9 @@ public class MultiplaEscolha extends Fragment {
     private ConstraintLayout escolhaC;
     private ConstraintLayout escolhaD;
 
+    private TextView icRespostaA;
+    private TextView icRespostaB;
+
     private TextView tvRespostaA;
     private TextView tvRespostaB;
     private TextView tvRespostaC;
@@ -101,6 +99,13 @@ public class MultiplaEscolha extends Fragment {
     private TextView nQuestao5;
 
     private Button btnFinalizarConteudo;
+
+    private int originalWidth;
+    private int originalHeight;
+    private int larguraOriginal;
+    private int alturaOriginal;
+    private int larguraFinal;
+    private int alturaFinal;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -145,6 +150,8 @@ public class MultiplaEscolha extends Fragment {
         nQuestao4 = view.findViewById(R.id.nQuestao4);
         nQuestao5 = view.findViewById(R.id.nQuestao5);
 
+        escolhas = view.findViewById(R.id.escolhas);
+
         navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
 
         questaoAtual = 0;
@@ -172,6 +179,8 @@ public class MultiplaEscolha extends Fragment {
         escolhaC = view.findViewById(R.id.clRespostaC);
         escolhaD = view.findViewById(R.id.clRespostaD);
 
+        icRespostaA = view.findViewById(R.id.tvRespostaA);
+        icRespostaB = view.findViewById(R.id.tvRespostaB);
         tvRespostaA = view.findViewById(R.id.tvTextoRespostaA);
         tvRespostaB = view.findViewById(R.id.tvTextoRespostaB);
         tvRespostaC = view.findViewById(R.id.tvTextoRespostaC);
@@ -447,10 +456,84 @@ public class MultiplaEscolha extends Fragment {
     }
 
     public void mudarCorOnClick(View view){
+        int pL = escolhaC.getPaddingLeft();
+        int pT = escolhaC.getPaddingTop();
+        int pR = escolhaC.getPaddingRight();
+        int pB = escolhaC.getPaddingBottom();
+
+        if(quantidadeAlternativa != 0){
+            if(quantidadeAlternativa <= 2){
+                escolhas.setPadding(0, 0, 0, 0);
+
+                if(conteudo!=null){
+                    if(conteudo.getDisciplina().getId() == 1){
+                        escolhaA.setBackgroundResource(R.drawable.btn_verdadeiro_port);
+                    }else if(conteudo.getDisciplina().getId() == 2){
+                        escolhaA.setBackgroundResource(R.drawable.btn_verdadeiro_mat);
+                    }
+                }else{
+                    escolhaA.setBackgroundResource(R.drawable.btn_verdadeiro_mat);
+                }
+
+                escolhaA.setPadding(pL, (int)Math.round(pT*1.18), pR, (int)Math.round(pB*1.18));
+                escolhaB.setBackgroundResource(R.drawable.btn_falso);
+                escolhaB.setPadding(pL, (int)Math.round(pT*1.18), pR, (int)Math.round(pB*1.18));
+                escolhaC.setBackgroundResource(R.drawable.borda);
+                escolhaC.setPadding(pL, pT, pR, pB);
+                escolhaD.setBackgroundResource(R.drawable.borda);
+                escolhaD.setPadding(pL, pT, pR, pB);
+
+                if(conteudo.getDisciplina().getId() == 1){
+                    if(view == escolhaA){
+                        view.setBackgroundResource(R.drawable.btn_verdadeiro_click_port);
+                    }else if(view == escolhaB){
+                        view.setBackgroundResource(R.drawable.btn_falso_click_port);
+                    }else{
+                        view.setBackgroundResource(R.drawable.borda_port);
+                    }
+                }else if(conteudo.getDisciplina().getId() == 2){
+                    if(view == escolhaA){
+                        view.setBackgroundResource(R.drawable.btn_verdadeiro_click_mat);
+                    }else if(view == escolhaB){
+                        view.setBackgroundResource(R.drawable.btn_falso_click_mat);
+                    }else{
+                        view.setBackgroundResource(R.drawable.borda_mat);
+                    }
+                }
+                view.setPadding(pL, (int)Math.round(pT*1.18), pR, (int)Math.round(pB*1.18));
+            }else{
+                escolhaA.setBackgroundResource(R.drawable.borda);
+                escolhaA.setPadding(pL, pT, pR, pB);
+                escolhaB.setBackgroundResource(R.drawable.borda);
+                escolhaB.setPadding(pL, pT, pR, pB);
+                escolhaC.setBackgroundResource(R.drawable.borda);
+                escolhaC.setPadding(pL, pT, pR, pB);
+                escolhaD.setBackgroundResource(R.drawable.borda);
+                escolhaD.setPadding(pL, pT, pR, pB);
+
+                if(conteudo.getDisciplina().getId() == 1){
+                    view.setBackgroundResource(R.drawable.borda_port);
+                }else if(conteudo.getDisciplina().getId() == 2){
+                    view.setBackgroundResource(R.drawable.borda_mat);
+                }
+                view.setPadding(pL, pT, pR, pB);
+            }
+        }
+    }
+
+    public void resetarBotoes(){
+
         int pL = escolhaA.getPaddingLeft();
         int pT = escolhaA.getPaddingTop();
         int pR = escolhaA.getPaddingRight();
         int pB = escolhaA.getPaddingBottom();
+
+        int mL = escolhas.getPaddingLeft();
+        int mT = escolhas.getPaddingTop();
+        int mR = escolhas.getPaddingRight();
+        int mB = escolhas.getPaddingBottom();
+
+        escolhas.setPadding(mL, mT, mR, mB);
 
         escolhaA.setBackgroundResource(R.drawable.borda);
         escolhaA.setPadding(pL, pT, pR, pB);
@@ -461,25 +544,33 @@ public class MultiplaEscolha extends Fragment {
         escolhaD.setBackgroundResource(R.drawable.borda);
         escolhaD.setPadding(pL, pT, pR, pB);
 
-        if(conteudo.getDisciplina().getId() == 1){
-            view.setBackgroundResource(R.drawable.borda_port);
-        }else if(conteudo.getDisciplina().getId() == 2){
-            view.setBackgroundResource(R.drawable.borda_mat);
-        }
-        view.setPadding(pL, pT, pR, pB);
+        escolhaA.setEnabled(true);
+        escolhaB.setEnabled(true);
+        escolhaC.setEnabled(true);
+        escolhaD.setEnabled(true);
     }
 
-    public void resetarBotoes(){
-
+    public void resetarBotoesVF(){
         int pL = escolhaA.getPaddingLeft();
         int pT = escolhaA.getPaddingTop();
         int pR = escolhaA.getPaddingRight();
         int pB = escolhaA.getPaddingBottom();
 
-        escolhaA.setBackgroundResource(R.drawable.borda);
-        escolhaA.setPadding(pL, pT, pR, pB);
-        escolhaB.setBackgroundResource(R.drawable.borda);
-        escolhaB.setPadding(pL, pT, pR, pB);
+        escolhas.setPadding(0, 0, 0, 0);
+
+        if(conteudo!=null){
+            if(conteudo.getDisciplina().getId() == 1){
+                escolhaA.setBackgroundResource(R.drawable.btn_verdadeiro_port);
+            }else if(conteudo.getDisciplina().getId() == 2){
+                escolhaA.setBackgroundResource(R.drawable.btn_verdadeiro_mat);
+            }
+        }else{
+            escolhaA.setBackgroundResource(R.drawable.btn_verdadeiro_mat);
+        }
+
+        escolhaA.setPadding(pL, (int)Math.round(pT*1.18), pR, (int)Math.round(pB*1.18));
+        escolhaB.setBackgroundResource(R.drawable.btn_falso);
+        escolhaB.setPadding(pL, (int)Math.round(pT*1.18), pR, (int)Math.round(pB*1.18));
         escolhaC.setBackgroundResource(R.drawable.borda);
         escolhaC.setPadding(pL, pT, pR, pB);
         escolhaD.setBackgroundResource(R.drawable.borda);
@@ -527,11 +618,19 @@ public class MultiplaEscolha extends Fragment {
             public void onResponse(Call<List<Alternativa>> call, Response<List<Alternativa>> response) {
                 alternativas = response.body();
 
+                quantidadeAlternativa = response.body().size();
+                int quantidadeAlternativaTemp = response.body().size();
+
                 try {
                     tvRespostaA.setText(response.body().get(0).getTexto());
                     tvRespostaB.setText(response.body().get(1).getTexto());
-                    tvRespostaC.setText(response.body().get(2).getTexto());
-                    tvRespostaD.setText(response.body().get(3).getTexto());
+                    if(quantidadeAlternativaTemp <=2){
+                        deixarInv();
+                    }else{
+                        deixarVis();
+                        tvRespostaC.setText(response.body().get(2).getTexto());
+                        tvRespostaD.setText(response.body().get(3).getTexto());
+                    }
 
                     carregandoDialog.removerDialog();
                 }catch (IndexOutOfBoundsException indexOutOfBoundsException){
@@ -545,6 +644,28 @@ public class MultiplaEscolha extends Fragment {
             @Override
             public void onFailure(Call<List<Alternativa>> call, Throwable t) {
                 Log.e("QuizME", t.getMessage());
+            }
+            public void deixarInv(){
+                escolhaC.setVisibility(View.GONE);
+                escolhaD.setVisibility(View.GONE);
+                tvRespostaA.setVisibility(View.GONE);
+                tvRespostaB.setVisibility(View.GONE);
+                tvRespostaC.setVisibility(View.GONE);
+                tvRespostaD.setVisibility(View.GONE);
+                icRespostaA.setVisibility(View.GONE);
+                icRespostaB.setVisibility(View.GONE);
+                resetarBotoesVF();
+            }
+            public void deixarVis(){
+                escolhaC.setVisibility(View.VISIBLE);
+                escolhaD.setVisibility(View.VISIBLE);
+                tvRespostaA.setVisibility(View.VISIBLE);
+                tvRespostaB.setVisibility(View.VISIBLE);
+                tvRespostaC.setVisibility(View.VISIBLE);
+                tvRespostaD.setVisibility(View.VISIBLE);
+                icRespostaA.setVisibility(View.VISIBLE);
+                icRespostaB.setVisibility(View.VISIBLE);
+                resetarBotoes();
             }
         });
     }
