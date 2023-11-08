@@ -30,6 +30,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.CarregandoDialog;
 import br.edu.ifrn.sc.info.istudy.dominio.Alternativa;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
@@ -53,6 +54,8 @@ public class MultiplaEscolha extends Fragment {
     private List<Questao> questoes = new ArrayList<>();
 
     private List<Alternativa> alternativas = new ArrayList<>();
+
+    private CarregandoDialog carregandoDialog;
 
     private Conteudo conteudo;
 
@@ -132,6 +135,8 @@ public class MultiplaEscolha extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_multipla_escolha, container, false);
 
+        carregandoDialog = new CarregandoDialog(requireActivity());
+
         tvNivel = view.findViewById(R.id.tvNivel);
 
         nQuestao1 = view.findViewById(R.id.nQuestao1);
@@ -145,6 +150,8 @@ public class MultiplaEscolha extends Fragment {
         questaoAtual = 0;
 
         extras = getArguments();
+
+        carregandoDialog.iniciarCarregandoDialog();
 
         if(extras != null){
             conteudoId = extras.getInt("conteudoId");
@@ -195,42 +202,44 @@ public class MultiplaEscolha extends Fragment {
 
     private void verificarAcerto(){
         Drawable drawable = acerto.getDrawable();
-        if(respostaEscolhida){
+        if(respostaEscolhida) {
 
             numAcertos++;
 
-            if(conteudo!=null){
-                if(conteudo.getDisciplina().getId() == 1){
-                    drawable = acerto_mat.getDrawable();
-                }else if(conteudo.getDisciplina().getId() == 2){
-                    drawable = acerto.getDrawable();
-                }
-            }else{
-                drawable = acerto.getDrawable();
-            }
-            if(drawable instanceof AnimatedVectorDrawableCompat){
-                avd = (AnimatedVectorDrawableCompat) drawable;
-                acerto.setVisibility(View.VISIBLE);
-                avd.start();
-            } else if (drawable instanceof AnimatedVectorDrawable) {
-                avd2 = (AnimatedVectorDrawable) drawable;
-                acerto.setVisibility(View.VISIBLE);
-                avd2.start();
-            }
-            Log.d("verificarQuestao", "Acertou!");
-        }else{
-            drawable = erro.getDrawable();
-            if(drawable instanceof AnimatedVectorDrawableCompat){
-                avd = (AnimatedVectorDrawableCompat) drawable;
-                erro.setVisibility(View.VISIBLE);
-                avd.start();
-            } else if (drawable instanceof AnimatedVectorDrawable) {
-                avd2 = (AnimatedVectorDrawable) drawable;
-                erro.setVisibility(View.VISIBLE);
-                avd2.start();
-            }
-            Log.d("verificarQuestao", "Errou feio, errou rude.");
+//            if(conteudo!=null){
+//                if(conteudo.getDisciplina().getId() == 1){
+//                    drawable = acerto_mat.getDrawable();
+//                }else if(conteudo.getDisciplina().getId() == 2){
+//                    drawable = acerto.getDrawable();
+//                }
+//            }else{
+//                drawable = acerto.getDrawable();
+//            }
+//            if(drawable instanceof AnimatedVectorDrawableCompat){
+//                avd = (AnimatedVectorDrawableCompat) drawable;
+//                acerto.setVisibility(View.VISIBLE);
+//                avd.start();
+//            } else if (drawable instanceof AnimatedVectorDrawable) {
+//                avd2 = (AnimatedVectorDrawable) drawable;
+//                acerto.setVisibility(View.VISIBLE);
+//                avd2.start();
+//            }
+//            Log.d("verificarQuestao", "Acertou!");
+//        }else{
+//            drawable = erro.getDrawable();
+//            if(drawable instanceof AnimatedVectorDrawableCompat){
+//                avd = (AnimatedVectorDrawableCompat) drawable;
+//                erro.setVisibility(View.VISIBLE);
+//                avd.start();
+//            } else if (drawable instanceof AnimatedVectorDrawable) {
+//                avd2 = (AnimatedVectorDrawable) drawable;
+//                erro.setVisibility(View.VISIBLE);
+//                avd2.start();
+//            }
+//            Log.d("verificarQuestao", "Errou feio, errou rude.");
         }
+        carregandoDialog.iniciarCarregandoDialog();
+
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -238,15 +247,19 @@ public class MultiplaEscolha extends Fragment {
                 acerto.setVisibility(View.INVISIBLE);
                 erro.setVisibility(View.INVISIBLE);
                 timer.cancel();
+                carregandoDialog.removerDialog();
 
                 proximaQuestao();
             }
-        }, 1300); // Delay em millisegundos (2 segundos)
+        }, 500); // Delay em millisegundos (2 segundos)
     }
 
     private void iniciarQuiz() {
         atualizarNumQuestao();
-            gerarQuestoes();
+        carregandoDialog.removerDialog();
+        carregandoDialog.iniciarCarregandoDialog();
+        gerarQuestoes();
+
     }
 
 
@@ -319,31 +332,37 @@ public class MultiplaEscolha extends Fragment {
     }
 
     public void proximaQuestao() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                resetarBotoes();
-                questaoAtual++;
-                if (questaoAtual > questoes.size() - 1) {
-                    if (numAcertos >= 3) {
-                        verificadorDeDesbloqueio("estudante@gmail.com", conteudoId, dificuldadeId);
-                    }
 
-                    Bundle cartinha = new Bundle();
+        try {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    resetarBotoes();
+                    questaoAtual++;
+                    if (questaoAtual > questoes.size() - 1) {
+                        if (numAcertos >= 3) {
+                            verificadorDeDesbloqueio("estudante@gmail.com", conteudoId, dificuldadeId);
+                        }
 
-                    cartinha.putInt("conteudoId", conteudoId);
+                        Bundle cartinha = new Bundle();
 
-                    if (navController != null) {
-                        navController.navigate(R.id.action_multiplaEscolha_to_atividades, cartinha);
-                        Log.d("QuizME", navController.toString());
+                        cartinha.putInt("conteudoId", conteudoId);
+
+                        if (navController != null) {
+                            navController.navigate(R.id.action_multiplaEscolha_to_atividades, cartinha);
+                            Log.d("QuizME", navController.toString());
+                        } else {
+                            Log.e("QuizME", "NavController is null");
+                        }
                     } else {
-                        Log.e("QuizME", "NavController is null");
+                        iniciarQuiz();
                     }
-                } else {
-                    iniciarQuiz();
                 }
-            }
-        });
+            });
+        }catch(NullPointerException nullPointerException){
+            Log.e("QuizME", nullPointerException.getMessage());
+        }
+
     }
 
     public void verificadorDeDesbloqueio(String email, int conteudoId, int dificuldadeId){
@@ -392,41 +411,36 @@ public class MultiplaEscolha extends Fragment {
     }
 
     private void alternativaClickListener(){
-
-        try {
         escolhaA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                respostaEscolhida = alternativas.get(0).isRespostaCerta();
-                mudarCorOnClick(v);
-                botaoClicado = v;
+                selecionarBotao(v, 0);
             }
         });
         escolhaB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                respostaEscolhida = alternativas.get(1).isRespostaCerta();
-                mudarCorOnClick(v);
-                botaoClicado = v;
+                selecionarBotao(v, 1);
             }
         });
         escolhaC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                respostaEscolhida = alternativas.get(2).isRespostaCerta();
-                mudarCorOnClick(v);
-                botaoClicado = v;
+                selecionarBotao(v, 2);
             }
         });
         escolhaD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                respostaEscolhida = alternativas.get(3).isRespostaCerta();
-                mudarCorOnClick(v);
-                botaoClicado = v;
+                selecionarBotao(v, 3);
             }
         });
-
+    }
+    public void selecionarBotao(View v, int index){
+        try{
+            respostaEscolhida = alternativas.get(index).isRespostaCerta();
+            mudarCorOnClick(v);
+            botaoClicado = v;
         }catch(IndexOutOfBoundsException indexOutOfBoundsException){
             Log.e("QuizME", indexOutOfBoundsException.getMessage());
         }
@@ -519,6 +533,7 @@ public class MultiplaEscolha extends Fragment {
                     tvRespostaC.setText(response.body().get(2).getTexto());
                     tvRespostaD.setText(response.body().get(3).getTexto());
 
+                    carregandoDialog.removerDialog();
                 }catch (IndexOutOfBoundsException indexOutOfBoundsException){
 
                     Log.e("QuizMe", indexOutOfBoundsException.getMessage());
@@ -543,12 +558,16 @@ public class MultiplaEscolha extends Fragment {
             public void onResponse(Call<Conteudo> call, Response<Conteudo> response) {
                 Conteudo tempConteudo = response.body();
                 conteudo = tempConteudo;
-                if(tempConteudo.getDisciplina().getId() == 1){
-                    tvNivel.setBackgroundResource(R.drawable.borda_redonda_port);
-                    btnFinalizarConteudo.setBackgroundColor(getResources().getColor(R.color.istudy_roxo));
-                }else if (tempConteudo.getDisciplina().getId() == 2){
-                    tvNivel.setBackgroundResource(R.drawable.borda_redonda_mat);
-                    btnFinalizarConteudo.setBackgroundColor(getResources().getColor(R.color.istudy_verde));
+                try {
+                    if(tempConteudo.getDisciplina().getId() == 1){
+                        tvNivel.setBackgroundResource(R.drawable.borda_redonda_port);
+                        btnFinalizarConteudo.setBackgroundColor(getResources().getColor(R.color.istudy_roxo));
+                    }else if (tempConteudo.getDisciplina().getId() == 2){
+                        tvNivel.setBackgroundResource(R.drawable.borda_redonda_mat);
+                        btnFinalizarConteudo.setBackgroundColor(getResources().getColor(R.color.istudy_verde));
+                    }
+                }catch(NullPointerException nullPointerException){
+                    Log.e("QuizME", nullPointerException.getMessage());
                 }
             }
 
