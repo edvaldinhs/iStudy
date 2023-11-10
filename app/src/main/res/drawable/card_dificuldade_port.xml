@@ -5,13 +5,17 @@
     android:height="112dp">
     <path
         android:pathData="M25 9H82A10 10 0 0 1 92 19V84A10 10 0 0 1 82 94H25A10 10 0 0 1 15 84V19A10 10 0 0 1 25 9Z"
-        android:fillColor="@color/istudy_roxo_40"/>
+        android:fillColor="@color/istudy_roxo_40"
+        android:fillAlpha="0.4" />
     <path
         android:pathData="M14 0H92A10 10 0 0 1 102 10V75A10 10 0 0 1 92 85H14A10 10 0 0 1 4 75V10A10 10 0 0 1 14 0Z"
         android:fillColor="@color/istudy_roxo" />
     <path
         android:pathData="M21.5 58H84.5A7.5 7.5 0 0 1 92 65.5V65.5A7.5 7.5 0 0 1 84.5 73H21.5A7.5 7.5 0 0 1 14 65.5V65.5A7.5 7.5 0 0 1 21.5 58Z"
-        android:fillColor="#B56CCC" />
+        android:fillColor="#8700FF" />
+    <path
+        android:pathData="M50.7719 15.7426L45.9228 24.7589L35.0736 26.2094C33.128 26.4682 32.3482 28.6678 33.7592 29.9276L41.6084 36.9418L39.7519 46.8503C39.4177 48.6413 41.4747 49.9828 43.1975 49.1452L52.9032 44.4668L62.6088 49.1452C64.3316 49.976 66.3886 48.6413 66.0544 46.8503L64.198 36.9418L72.0472 29.9276C73.4581 28.6678 72.6784 26.4682 70.7328 26.2094L59.8835 24.7589L55.0344 15.7426C54.1656 14.1354 51.6482 14.115 50.7719 15.7426Z"
+        android:fillColor="#F5F5F5" />
     <path
         android:pathData="M106 108A53 4 0 0 1 0 108A53 4 0 0 1 106 108Z"
         android:fillColor="#242523"
