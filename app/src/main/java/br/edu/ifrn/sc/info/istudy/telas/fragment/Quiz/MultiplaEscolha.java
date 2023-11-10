@@ -1,5 +1,6 @@
 package br.edu.ifrn.sc.info.istudy.telas.fragment.Quiz;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.AcertoOuErroDialog;
 import br.edu.ifrn.sc.info.istudy.SheetDialog.CarregandoDialog;
 import br.edu.ifrn.sc.info.istudy.dominio.Alternativa;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
@@ -50,6 +52,7 @@ public class MultiplaEscolha extends Fragment {
     private int quantidadeAlternativa = -1;
 
     private CarregandoDialog carregandoDialog;
+    private AcertoOuErroDialog acertoOuErroDialog;
 
     private Conteudo conteudo;
 
@@ -68,12 +71,6 @@ public class MultiplaEscolha extends Fragment {
     private Bundle extras;
 
     private boolean respostaEscolhida;
-
-    private ImageView acerto;
-    private ImageView acerto_mat;
-    private ImageView erro;
-    private AnimatedVectorDrawableCompat avd;
-    private AnimatedVectorDrawable avd2;
 
     private View botaoClicado;
 
@@ -141,6 +138,7 @@ public class MultiplaEscolha extends Fragment {
         View view = inflater.inflate(R.layout.fragment_multipla_escolha, container, false);
 
         carregandoDialog = new CarregandoDialog(requireActivity());
+        acertoOuErroDialog = new AcertoOuErroDialog(requireActivity(), view);
 
         tvNivel = view.findViewById(R.id.tvNivel);
 
@@ -166,11 +164,6 @@ public class MultiplaEscolha extends Fragment {
             personalizarTela(conteudoId);
         }
 
-        acerto = view.findViewById(R.id.acerto_port);
-        acerto_mat = view.findViewById(R.id.acerto_mat);
-        erro = view.findViewById(R.id.erro);
-        acerto.setVisibility(View.INVISIBLE);
-        erro.setVisibility(View.INVISIBLE);
 
         tvTextoQuestao = view.findViewById(R.id.tvTextoQuestao);
 
@@ -210,57 +203,20 @@ public class MultiplaEscolha extends Fragment {
     }
 
     private void verificarAcerto(){
-        Drawable drawable = acerto.getDrawable();
-        if(respostaEscolhida) {
-
-            numAcertos++;
-
-//            if(conteudo!=null){
-//                if(conteudo.getDisciplina().getId() == 1){
-//                    drawable = acerto_mat.getDrawable();
-//                }else if(conteudo.getDisciplina().getId() == 2){
-//                    drawable = acerto.getDrawable();
-//                }
-//            }else{
-//                drawable = acerto.getDrawable();
-//            }
-//            if(drawable instanceof AnimatedVectorDrawableCompat){
-//                avd = (AnimatedVectorDrawableCompat) drawable;
-//                acerto.setVisibility(View.VISIBLE);
-//                avd.start();
-//            } else if (drawable instanceof AnimatedVectorDrawable) {
-//                avd2 = (AnimatedVectorDrawable) drawable;
-//                acerto.setVisibility(View.VISIBLE);
-//                avd2.start();
-//            }
-//            Log.d("verificarQuestao", "Acertou!");
-//        }else{
-//            drawable = erro.getDrawable();
-//            if(drawable instanceof AnimatedVectorDrawableCompat){
-//                avd = (AnimatedVectorDrawableCompat) drawable;
-//                erro.setVisibility(View.VISIBLE);
-//                avd.start();
-//            } else if (drawable instanceof AnimatedVectorDrawable) {
-//                avd2 = (AnimatedVectorDrawable) drawable;
-//                erro.setVisibility(View.VISIBLE);
-//                avd2.start();
-//            }
-//            Log.d("verificarQuestao", "Errou feio, errou rude.");
-        }
         carregandoDialog.iniciarCarregandoDialog();
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        if(respostaEscolhida) {
+            numAcertos++;
+            acertoOuErroDialog.iniciarAcertoDialog();
+        }else{
+            acertoOuErroDialog.iniciarErroDialog();
+        }
+        carregandoDialog.removerDialog();
+        acertoOuErroDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void run() {
-                acerto.setVisibility(View.INVISIBLE);
-                erro.setVisibility(View.INVISIBLE);
-                timer.cancel();
-                carregandoDialog.removerDialog();
-
+            public void onDismiss(DialogInterface dialog) {
                 proximaQuestao();
             }
-        }, 500); // Delay em millisegundos (2 segundos)
+        });
     }
 
     private void iniciarQuiz() {
@@ -268,9 +224,7 @@ public class MultiplaEscolha extends Fragment {
         carregandoDialog.removerDialog();
         carregandoDialog.iniciarCarregandoDialog();
         gerarQuestoes();
-
     }
-
 
     public void atualizarNumQuestao(){
         nQuestao1.setBackgroundResource(R.drawable.quadrado_cinza);

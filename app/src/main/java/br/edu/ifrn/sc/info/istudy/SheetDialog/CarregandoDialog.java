@@ -19,7 +19,7 @@ public class CarregandoDialog {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.TransparentAlertDialog);
 
         LayoutInflater inflater = activity.getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.carregando_dialog, null));
+        builder.setView(inflater.inflate(R.layout.dialog_carregando, null));
         builder.setCancelable(false);
 
         dialog = builder.create();
