@@ -549,6 +549,9 @@ public class MultiplaEscolha extends Fragment {
                     preencherAlternativas(response.body().get(questaoAtual).getId());
                 }catch(IndexOutOfBoundsException indexOutOfBoundsException){
                     Log.e("QuizME", indexOutOfBoundsException.getMessage());
+                    Toast.makeText(getActivity(), "Não foi Possível carregar esta atividade :(", Toast.LENGTH_LONG).show();
+                    carregandoDialog.removerDialog();
+                    getActivity().onBackPressed();
                 }
             }
 
@@ -557,7 +560,6 @@ public class MultiplaEscolha extends Fragment {
                 Log.e("QuizME", t.getMessage());
             }
         });
-
     }
 
     public void preencherAlternativas(int id){
