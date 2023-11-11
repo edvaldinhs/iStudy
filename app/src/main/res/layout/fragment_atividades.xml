@@ -65,7 +65,7 @@
             android:id="@+id/cardQuizFacil"
             android:layout_width="151dp"
             android:layout_height="160dp"
-            android:background="@drawable/card_dificuldade_mat"
+            android:background="@drawable/card_dificuldade_bloqueado"
             android:layout_marginBottom="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

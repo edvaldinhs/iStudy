@@ -40,6 +40,8 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
     //Armazena as conteudos
     private List<Conteudo> conteudos = new ArrayList<>();
 
+    private String email;
+
     private NavController navController;
 
     private Bundle extras;
@@ -103,6 +105,7 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
         if(extras != null){
             id = extras.getInt("disciplinaId");
+            email = "estudante@gmail.com";
             setarNomeDisciplinasPeloID(id);
             preencherConteudos(id, searchResultado);
         }
@@ -128,7 +131,7 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
     //Método pra listar os cards de Conteudos
     private void listarConteudos(){
-        adapterConteudos = new AdapterConteudos(getActivity(), conteudos, navController,this, "estudante@gmail.com");
+        adapterConteudos = new AdapterConteudos(getActivity(), conteudos, navController,this, email);
         rvConteudo.setAdapter(adapterConteudos);
     }
 
@@ -150,8 +153,8 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
                        try {
                            if (conteudo.getDisciplina().getId() == id) {
                                if (pesquisa.isEmpty() || conteudo.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
-                                   conteudos.add(verificarDesbloquear("estudante@gmail.com",conteudo));
-                                   Log.d("tste", verificarDesbloquear("estudante@gmail.com",conteudo).getBloqueado()+"");
+                                   conteudos.add(verificarDesbloquear(email,conteudo));
+                                   Log.d("tste", verificarDesbloquear(email,conteudo).getBloqueado()+"");
                                }
                            }
                        }catch ( NullPointerException nullPointerException){
@@ -218,7 +221,14 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
     public void onConteudoClick(int id) {
         Bundle cartinha = new Bundle();
 
+        extras = getArguments();
+
+        if(extras != null){
+            email = "estudante@gmail.com";
+        }
+
         cartinha.putInt("conteudoId", id);
+        cartinha.putString("email", email);
 
         if (navController != null) {
             navController.navigate(R.id.action_conteudo_to_conteudoDescricao, cartinha);

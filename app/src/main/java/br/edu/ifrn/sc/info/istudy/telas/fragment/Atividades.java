@@ -15,9 +15,14 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
+import br.edu.ifrn.sc.info.istudy.ws.AtividadeWS;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,10 +34,16 @@ public class Atividades extends Fragment {
 
     private int id;
 
+    private String email;
+
     private ConstraintLayout clReferencia;
+
+    private List<Atividade> atividades = new ArrayList<>();
 
     private TextView tvConteudo;
     private TextView tvDisciplina;
+
+    Conteudo conteudo;
 
     private ConstraintLayout cardQuizFacil;
     private ConstraintLayout cardQuizMedio;
@@ -88,10 +99,10 @@ public class Atividades extends Fragment {
 
         if(extras != null){
             id = extras.getInt("conteudoId");
+            email = extras.getString("email");
+            Log.d("PGCT", "email: "+ email);
             personalizarTela(id);
         }
-
-        iniciarQuizListener();
 
         return view;
     }
@@ -111,7 +122,7 @@ public class Atividades extends Fragment {
                     }else if (conteudo.getDisciplina().getId() == 2){
                         clReferencia.setBackgroundResource(R.drawable.bg_atividade_mat);
                     }
-                    verificarBloqueado(conteudo.getDisciplina().getId());
+                    bloqueioAtividade(email, id, conteudo.getDisciplina().getId());
 
                     tvConteudo.setText(conteudo.getNome());
                     tvDisciplina.setText(conteudo.getDisciplina().getNome());
@@ -127,39 +138,74 @@ public class Atividades extends Fragment {
         });
     }
 
-    public void verificarBloqueado(int disciplinaId){
-        if(disciplinaId == 1){
-            cardQuizFacil.setBackgroundResource(R.drawable.card_dificuldade_port);
-        }else if (disciplinaId == 2){
-            cardQuizFacil.setBackgroundResource(R.drawable.card_dificuldade_mat);
-        }
+    public void bloqueioAtividade(String email, int id, int disciplinaId){
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<Integer> metodoBuscar = conteudoWS.buscarProgressoConteudo(email, id);
+
+        metodoBuscar.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Log.d("PGCT", response.body()+"");
+                iniciarQuizListener(response.body(), disciplinaId);
+
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.d("PGCT", t.getMessage());
+            }
+        });
     }
 
-    public void iniciarQuizListener(){
-        cardQuizFacil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarQuiz(1);
+    public void iniciarQuizListener(int progressoConteudo, int disciplinaId){
+        Log.d("PGCT", progressoConteudo+"");
+        if(progressoConteudo >=1){
+            cardQuizFacil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    iniciarQuiz(1);
+                }
+            });
+            if(disciplinaId == 1){
+                cardQuizFacil.setBackgroundResource(R.drawable.card_dificuldade_port);
+            }else if (disciplinaId == 2){
+                cardQuizFacil.setBackgroundResource(R.drawable.card_dificuldade_mat);
             }
-        });
-        cardQuizMedio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarQuiz(2);
+        }
+        if(progressoConteudo >=2){
+            cardQuizMedio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    iniciarQuiz(2);
+                }
+            });
+            if(disciplinaId == 1){
+                cardQuizMedio.setBackgroundResource(R.drawable.card_dificuldade_port);
+            }else if (disciplinaId == 2){
+                cardQuizMedio.setBackgroundResource(R.drawable.card_dificuldade_mat);
             }
-        });
-        cardQuizDificil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarQuiz(3);
+        }
+        if(progressoConteudo >=3){
+            cardQuizDificil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    iniciarQuiz(3);
+                }
+            });
+            if(disciplinaId == 1){
+                cardQuizDificil.setBackgroundResource(R.drawable.card_dificuldade_port);
+            }else if (disciplinaId == 2){
+                cardQuizDificil.setBackgroundResource(R.drawable.card_dificuldade_mat);
             }
-        });
+        }
     }
     public void iniciarQuiz(int dificuldadeId){
         Bundle cartinha = new Bundle();
 
         cartinha.putInt("conteudoId", id);
         cartinha.putInt("dificuldadeId", dificuldadeId);
+        cartinha.putString("email", email);
 
         if (navController != null) {
             navController.navigate(R.id.action_atividades_to_multiplaEscolha, cartinha);

@@ -36,6 +36,8 @@ public class ConteudoDescricao extends Fragment {
 
     private ConstraintLayout clTts;
 
+    private String email;
+
     private TextView viewResumo;
     private TextView tvTituloConteudo;
 
@@ -102,6 +104,7 @@ public class ConteudoDescricao extends Fragment {
 
         if(extras != null){
             id = extras.getInt("conteudoId");
+            email = extras.getString("email");
             setarNomeConteudosPeloID(id);
         }
 
@@ -140,8 +143,10 @@ public class ConteudoDescricao extends Fragment {
         Bundle cartinha = new Bundle();
 
         cartinha.putInt("conteudoId", id);
+        cartinha.putString("email", email);
+
         try {
-            finalizarConteudoWS("estudante@gmail.com", id);
+            finalizarConteudoWS(email, id);
         }catch (IllegalArgumentException illegalArgumentException){
             Log.e("ConteudoDescricao", illegalArgumentException.getMessage());
         }

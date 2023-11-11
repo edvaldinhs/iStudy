@@ -66,6 +66,7 @@ public class MultiplaEscolha extends Fragment {
 
     private int conteudoId;
     private int dificuldadeId;
+    private String email;
 
     private ConstraintLayout escolhas;
     private Bundle extras;
@@ -96,13 +97,6 @@ public class MultiplaEscolha extends Fragment {
     private TextView nQuestao5;
 
     private Button btnFinalizarConteudo;
-
-    private int originalWidth;
-    private int originalHeight;
-    private int larguraOriginal;
-    private int alturaOriginal;
-    private int larguraFinal;
-    private int alturaFinal;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -161,7 +155,10 @@ public class MultiplaEscolha extends Fragment {
         if(extras != null){
             conteudoId = extras.getInt("conteudoId");
             dificuldadeId = extras.getInt("dificuldadeId");
+            dificuldadeId = extras.getInt("dificuldadeId");
+            email = extras.getString("email");
             personalizarTela(conteudoId);
+            mudarNivel(dificuldadeId);
         }
 
 
@@ -200,6 +197,16 @@ public class MultiplaEscolha extends Fragment {
         });
 
         return view;
+    }
+
+    private void mudarNivel(int dificuldadeId){
+        if(dificuldadeId == 1){
+            tvNivel.setText("NÍVEL FÁCIL");
+        }else if(dificuldadeId == 2){
+            tvNivel.setText("NÍVEL MÉDIO");
+        }else if(dificuldadeId == 3){
+            tvNivel.setText("NÍVEL DIFÍCIL");
+        }
     }
 
     private void verificarAcerto(){
@@ -304,19 +311,10 @@ public class MultiplaEscolha extends Fragment {
                     questaoAtual++;
                     if (questaoAtual > questoes.size() - 1) {
                         if (numAcertos >= 3) {
-                            verificadorDeDesbloqueio("estudante@gmail.com", conteudoId, dificuldadeId);
+                            verificadorDeDesbloqueio(email, conteudoId, dificuldadeId);
                         }
 
-                        Bundle cartinha = new Bundle();
-
-                        cartinha.putInt("conteudoId", conteudoId);
-
-                        if (navController != null) {
-                            navController.navigate(R.id.action_multiplaEscolha_to_atividades, cartinha);
-                            Log.d("QuizME", navController.toString());
-                        } else {
-                            Log.e("QuizME", "NavController is null");
-                        }
+                        getActivity().onBackPressed();
                     } else {
                         iniciarQuiz();
                     }
@@ -338,13 +336,13 @@ public class MultiplaEscolha extends Fragment {
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.body() >= 3){
                     if(!(conteudoId >= 20)){
-                        finalizarConteudoWS("estudante@gmail.com", (conteudoId + 1));
+                        finalizarConteudoWS(email, (conteudoId + 1));
                         Log.d("QuizMe", "Porra meu");
                     }else {
                         Log.d("QuizMe", "caralho");
                     }
                 }else if(response.body() <= dificuldadeId){
-                    desbloquearQuiz("estudante@gmail.com", conteudoId);
+                    desbloquearQuiz(email, conteudoId);
                 }
             }
 
