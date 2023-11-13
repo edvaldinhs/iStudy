@@ -57,12 +57,12 @@ public class EscolherFotoDialog implements OnIconeClickListener {
         dialog.dismiss();
     }
     private void preencherIcones(){
-        icones.add(new Icone("begging", activity.getResources().getDrawable(R.drawable.begging)));
-        icones.add(new Icone("begging", activity.getResources().getDrawable(R.drawable.begging)));
-        icones.add(new Icone("begging", activity.getResources().getDrawable(R.drawable.begging)));
-        icones.add(new Icone("begging", activity.getResources().getDrawable(R.drawable.begging)));
-        icones.add(new Icone("begging", activity.getResources().getDrawable(R.drawable.begging)));
-        icones.add(new Icone("begging", activity.getResources().getDrawable(R.drawable.begging)));
+//        icones.add(new Icone("begging", activity.getResources().getDrawable(R.drawable.begging)));
+//        icones.add(new Icone("begging", activity.getResources().getDrawable(R.drawable.begging)));
+//        icones.add(new Icone("begging", activity.getResources().getDrawable(R.drawable.begging)));
+//        icones.add(new Icone("begging", activity.getResources().getDrawable(R.drawable.begging)));
+//        icones.add(new Icone("begging", activity.getResources().getDrawable(R.drawable.begging)));
+//        icones.add(new Icone("begging", activity.getResources().getDrawable(R.drawable.begging)));
         listarConquistas();
     }
 

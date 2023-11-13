@@ -31,12 +31,14 @@ import br.edu.ifrn.sc.info.istudy.SheetDialog.CarregandoDialog;
 import br.edu.ifrn.sc.info.istudy.dominio.Alternativa;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
+import br.edu.ifrn.sc.info.istudy.dominio.EstudanteAtividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Questao;
 import br.edu.ifrn.sc.info.istudy.dominio.RequestConteudo;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.ws.AlternativaWS;
 import br.edu.ifrn.sc.info.istudy.ws.AtividadeWS;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
+import br.edu.ifrn.sc.info.istudy.ws.EstudanteWS;
 import br.edu.ifrn.sc.info.istudy.ws.QuestaoWS;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,6 +59,10 @@ public class MultiplaEscolha extends Fragment {
     private Conteudo conteudo;
 
     private int numAcertos;
+
+    private int numErros;
+
+    private EstudanteAtividade estudanteAtividade;
 
     private NavController navController;
 
@@ -216,6 +222,7 @@ public class MultiplaEscolha extends Fragment {
             acertoOuErroDialog.iniciarAcertoDialog();
         }else{
             acertoOuErroDialog.iniciarErroDialog();
+            numErros++;
         }
         carregandoDialog.removerDialog();
         acertoOuErroDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -312,6 +319,7 @@ public class MultiplaEscolha extends Fragment {
                     if (questaoAtual > questoes.size() - 1) {
                         if (numAcertos >= 3) {
                             verificadorDeDesbloqueio(email, conteudoId, dificuldadeId);
+                            buscarAtividade(conteudoId, dificuldadeId);
                         }
 
                         getActivity().onBackPressed();
@@ -326,6 +334,31 @@ public class MultiplaEscolha extends Fragment {
 
     }
 
+    public void buscarAtividade(int conteudoId, int dificuldadeId) {
+        RetrofitConfig config = new RetrofitConfig();
+        AtividadeWS atividadeWS = config.getAtividadeWS();
+        Call< List<Atividade> > buscarPeloConteudo = atividadeWS.buscarPeloConteudo(conteudoId);
+
+        buscarPeloConteudo.enqueue(new Callback<List<Atividade>>() {
+            @Override
+            public void onResponse(Call<List<Atividade>> call, Response<List<Atividade>> response) {
+                for(Atividade atividade : response.body()) {
+                    if (dificuldadeId == atividade.getDificuldade().getId()) {
+                        estudanteAtividade = new EstudanteAtividade(email, atividade.getId(), numAcertos, numErros, questoes.get(0).getPontuacao()*numAcertos);
+                        registrarProgresso(estudanteAtividade);
+                        Log.d("QuizME", "buscouAtividade");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Atividade>> call, Throwable t) {
+                Log.e("QuizME", t.getMessage());
+            }
+        });
+
+    }
+
     public void verificadorDeDesbloqueio(String email, int conteudoId, int dificuldadeId){
         RetrofitConfig config = new RetrofitConfig();
         ConteudoWS conteudoWS = config.getConteudoWS();
@@ -337,9 +370,9 @@ public class MultiplaEscolha extends Fragment {
                 if(response.body() >= 3){
                     if(!(conteudoId >= 20)){
                         finalizarConteudoWS(email, (conteudoId + 1));
-                        Log.d("QuizMe", "Porra meu");
+                        Log.d("QuizMe", "Finalizou!!");
                     }else {
-                        Log.d("QuizMe", "caralho");
+                        Log.d("QuizMe", "Não Finalizou!!");
                     }
                 }else if(response.body() <= dificuldadeId){
                     desbloquearQuiz(email, conteudoId);
@@ -663,6 +696,24 @@ public class MultiplaEscolha extends Fragment {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 Log.e("QuizME", response.body()+"");
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.e("QuizME", t.getMessage());
+            }
+        });
+    }
+
+    public void registrarProgresso(EstudanteAtividade estudanteAtividade) {
+        RetrofitConfig config = new RetrofitConfig();
+        EstudanteWS estudanteWS = config.getEstudanteWS();
+        Call< Boolean > registrarProgresso = estudanteWS.registrarProgresso(estudanteAtividade);
+
+        registrarProgresso.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Log.d("QuizME", "registrouProgresso? "+response.body());
             }
 
             @Override

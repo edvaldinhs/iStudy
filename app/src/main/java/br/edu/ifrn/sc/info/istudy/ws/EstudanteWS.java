@@ -3,6 +3,7 @@ package br.edu.ifrn.sc.info.istudy.ws;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
+import br.edu.ifrn.sc.info.istudy.dominio.EstudanteAtividade;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -21,6 +22,9 @@ public interface EstudanteWS {
 
     @PUT("estudantes/atualizar")
     Call< Boolean > atualizar(@Body Estudante estudante);
+
+    @POST("estudantes/registrarProgresso")
+    Call< Boolean > registrarProgresso(@Body EstudanteAtividade estudanteAtividade);
 
     @DELETE("estudantes/remover/{email}")
     Call< Boolean > remover(@Path("email") String email);
