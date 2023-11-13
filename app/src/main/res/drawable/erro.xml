@@ -5,16 +5,6 @@
     android:height="568dp">
     <group>
         <clip-path
-            android:pathData="M0 0.179688L589 0.179688L589 425.820312L0 425.820312ZM0 0.179688" />
-        <path
-            android:pathData="M0 0.179688L589 0.179688L589 425.820312L0 425.820312ZM0 0.179688"
-            android:fillColor="#FFFFFF" />
-        <path
-            android:pathData="M0 0.179688L589 0.179688L589 425.820312L0 425.820312ZM0 0.179688"
-            android:fillColor="#FFFFFF" />
-    </group>
-    <group>
-        <clip-path
             android:pathData="M0 8L589 8L589 425.820312L0 425.820312ZM0 8" />
         <group
             android:translateY="8">
