@@ -80,7 +80,7 @@ public class Perfil extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
-        preencherLauncherDeResultado();
+//        preencherLauncherDeResultado();
 
         //Deixa o botão voltar visível
         getActivity().findViewById(R.id.voltar).setVisibility(View.VISIBLE);
@@ -105,9 +105,11 @@ public class Perfil extends Fragment {
         editarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent procurarFoto = new Intent(Intent.ACTION_PICK);
-                procurarFoto.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                resultadoDaProcura.launch(procurarFoto);
+//                Intent procurarFoto = new Intent(Intent.ACTION_PICK);
+//                procurarFoto.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                resultadoDaProcura.launch(procurarFoto);
+
+
 
             }
         });
