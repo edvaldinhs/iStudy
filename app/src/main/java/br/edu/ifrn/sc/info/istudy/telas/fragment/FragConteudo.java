@@ -105,7 +105,7 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
         if(extras != null){
             id = extras.getInt("disciplinaId");
-            email = "estudante@gmail.com";
+            email = extras.getString("email");
             setarNomeDisciplinasPeloID(id);
             preencherConteudos(id, searchResultado);
         }
@@ -224,7 +224,7 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
         extras = getArguments();
 
         if(extras != null){
-            email = "estudante@gmail.com";
+            email = extras.getString("email");
         }
 
         cartinha.putInt("conteudoId", id);

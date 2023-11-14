@@ -48,7 +48,7 @@ public class AdapterIcone extends RecyclerView.Adapter<IconeHolder> {
     @Override
     public void onBindViewHolder(@NonNull IconeHolder holder, int position) {
         Icone tempIcone = icones.get(position);
-        holder.bind(tempIcone);
+        holder.bind(tempIcone, position);
 
 //        if(position == 0){
 //            holder.adicionarMargin(true);

@@ -16,6 +16,7 @@ public class IconeHolder extends RecyclerView.ViewHolder implements View.OnClick
     private Icone icone;
     private ConstraintLayout clCardIcone;
     private OnIconeClickListener onIconeClickListener;
+    int position;
 
     public IconeHolder(@NonNull View itemView, OnIconeClickListener onIconeClickListener) {
         super(itemView);
@@ -24,8 +25,9 @@ public class IconeHolder extends RecyclerView.ViewHolder implements View.OnClick
         clCardIcone.setOnClickListener(this);
     }
 
-    public void bind(Icone icone) {
+    public void bind(Icone icone, int position) {
         this.icone = icone;
+        this.position = position;
         mudarDeIcone();
     }
 
@@ -35,16 +37,7 @@ public class IconeHolder extends RecyclerView.ViewHolder implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        int viewId = view.getId();
-
-        if (viewId == R.id.card_nivel) {
-            try {
-
-
-            } catch (NullPointerException nullPointerException) {
-
-            }
-        }
+        onIconeClickListener.onIconeClick(position);
     }
 
 }

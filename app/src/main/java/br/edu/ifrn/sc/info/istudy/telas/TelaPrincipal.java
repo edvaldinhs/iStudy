@@ -1,7 +1,11 @@
 package br.edu.ifrn.sc.info.istudy.telas;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -12,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.ViewModel.SharedViewModel;
 import br.edu.ifrn.sc.info.istudy.databinding.ActivityTelaInicialBinding;
 import br.edu.ifrn.sc.info.istudy.databinding.ActivityTelaPrincipalBinding;
 
@@ -26,12 +31,17 @@ public class TelaPrincipal extends AppCompatActivity {
     private NavController navController;
 
     private Bundle bundle = new Bundle();
+
+    private SharedViewModel sharedViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         binding = ActivityTelaPrincipalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bundle.putString("email", "estudante@gmail.com");
 
         initNavigation();
 
@@ -62,7 +72,9 @@ public class TelaPrincipal extends AppCompatActivity {
                 = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout);
         navController = navHostFragment.getNavController();
         navController.setGraph(R.navigation.nav_principal, bundle);
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        // Pass the bundle to all destinations
+        sharedViewModel.setSharedBundle(bundle);
         NavigationUI.setupWithNavController(binding.bottomNavView, navController);
     }
-
 }

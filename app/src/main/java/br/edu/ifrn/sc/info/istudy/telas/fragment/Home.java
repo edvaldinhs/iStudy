@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.ViewModel.SharedViewModel;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterDisciplinas;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
@@ -44,7 +46,13 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
 
     private String nomeDisciplina;
 
+    private String email;
+
+    private Bundle extras;
+
     private AdapterDisciplinas adapterDisciplinas;
+
+    private SharedViewModel sharedViewModel;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -83,6 +91,8 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
 
         navController = Navigation.findNavController(requireActivity(), R.id.frame_layout);
 
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
         //Deixa o botão voltar invisível na home
         getActivity().findViewById(R.id.voltar).setVisibility(View.INVISIBLE);
 
@@ -91,6 +101,12 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
 
         //Usa uma classe chamada LinearLayoutManager pra organizar os cards de disciplina
         rvDisciplina.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        extras = getArguments();
+
+        if(extras != null){
+            email = extras.getString("email");
+        }
 
         inserirIma();
 
@@ -179,7 +195,10 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
 
     @Override
     public void onDisciplinaClick(int id) {
+
         Bundle cartinha = new Bundle();
+
+        cartinha.putString("email", email);
 
         cartinha.putInt("disciplinaId", id);
 
