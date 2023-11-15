@@ -120,8 +120,8 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
                 view,
                 "backgroundColor",
                 new ArgbEvaluator(),
-                getResources().getColor(R.color.white), // Start color
-                getResources().getColor(R.color.aristofany_white)    // End color
+                getResources().getColor(R.color.aristofany_white),
+                getResources().getColor(R.color.white)
         );
 
         // Set the duration of the animation (in milliseconds)
