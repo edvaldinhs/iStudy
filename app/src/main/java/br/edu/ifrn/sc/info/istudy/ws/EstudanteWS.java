@@ -22,6 +22,12 @@ public interface EstudanteWS {
     @POST("estudantes/inserir")
     Call< Boolean > inserir(@Body Estudante estudante);
 
+    @POST("estudantes/cadastrarEstudante")
+    @FormUrlEncoded
+    Call< Boolean > cadastrarEstudante(@Field("nome") String nome,
+                                       @Field("email") String email,
+                                       @Field("senha") String senha);
+
     @PUT("estudantes/atualizar")
     Call< Boolean > atualizar(@Body Estudante estudante);
 
