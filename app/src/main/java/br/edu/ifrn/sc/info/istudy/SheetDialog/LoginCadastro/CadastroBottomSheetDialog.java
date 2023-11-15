@@ -2,6 +2,7 @@ package br.edu.ifrn.sc.info.istudy.SheetDialog.LoginCadastro;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -72,6 +74,8 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
 
         btnCadastro = view.findViewById(R.id.btnCadastrar);
 
+
+
         btnCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +99,22 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
         return view;
     }
     public void mudarBackgroundColor(View view){
+
+        ObjectAnimator colorAnimator = ObjectAnimator.ofObject(
+                view,
+                "backgroundColor",
+                new ArgbEvaluator(),
+                getResources().getColor(R.color.white), // Start color
+                getResources().getColor(R.color.aristofany_white)    // End color
+        );
+
+        // Set the duration of the animation (in milliseconds)
+        colorAnimator.setDuration(500); // 3000 milliseconds = 3 seconds
+
+        // Start the animation
+        colorAnimator.start();
+    }
+    public void retornarBackgroundColor(View view){
 
         ObjectAnimator colorAnimator = ObjectAnimator.ofObject(
                 view,
@@ -187,5 +207,18 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
 
             }
         });
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        if (getActivity() != null) {
+            View activityView = getActivity().findViewById(android.R.id.content);
+            if (activityView != null) {
+                ConstraintLayout background = activityView.findViewById(R.id.clTelaInicial);
+                retornarBackgroundColor(background);
+            }
+        }
     }
 }
