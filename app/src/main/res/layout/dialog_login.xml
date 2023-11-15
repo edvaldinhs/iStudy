@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_round_remove_24"
+        android:layout_gravity="center|top"
+        android:scaleType="centerCrop"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="518dp">
+
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend_semiboldttf"
+            android:text="Login"
+            android:textAlignment="center"
+            android:textColor="@color/istudy_roxo"
+            android:textSize="34sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toTopOf="btnNome"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextTextEmailAddress"
+            android:layout_width="285dp"
+            android:layout_height="47dp"
+            android:background="@drawable/borda_redonda_cadastro"
+            android:backgroundTint="#F5F5F5"
+            android:drawableLeft="@drawable/carta"
+            android:drawablePadding="30dp"
+            android:ems="10"
+            android:fontFamily="@font/inter_regularttf"
+            android:hint="E-mail"
+            android:inputType="textEmailAddress"
+            android:textColor="#242523"
+            android:textColorHint="@color/istudy_cinza"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="130dp" />
+
+        <EditText
+            android:id="@+id/editTextTextPassword"
+            android:layout_width="285dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="72dp"
+            android:background="@drawable/borda_redonda_cadastro"
+            android:backgroundTint="#F5F5F5"
+            android:drawableLeft="@drawable/cadeado"
+            android:drawablePadding="30dp"
+            android:ems="10"
+            android:fontFamily="@font/inter_regularttf"
+            android:hint="Senha"
+            android:inputType="textPassword"
+            android:textColor="#242523"
+            android:textColorHint="@color/istudy_cinza"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/botoes"
+            android:layout_width="413dp"
+            android:layout_height="160dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/btnEntrar"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/botao_matematica"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:drawableTint="@color/aristofany_white"
+                android:fontFamily="@font/inter_regularttf"
+                android:text="Entrar"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:backgroundTint="@color/istudy_roxo"
+                app:iconPadding="0.1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvNaoTemConta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="108dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/inter_regularttf"
+                android:text="Não tem uma conta?"
+                android:textColor="#242523"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnEntrar" />
+
+            <TextView
+                android:id="@+id/tvCadastrar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="108dp"
+                android:fontFamily="@font/inter_regularttf"
+                android:text="Cadastre-se"
+                android:textColor="@color/istudy_roxo"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnEntrar" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
