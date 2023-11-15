@@ -1,33 +1,27 @@
 package br.edu.ifrn.sc.info.istudy.telas.fragment.Quiz;
 
 import android.content.DialogInterface;
-import android.graphics.drawable.AnimatedVectorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import br.edu.ifrn.sc.info.istudy.R;
-import br.edu.ifrn.sc.info.istudy.SheetDialog.AcertoOuErroDialog;
-import br.edu.ifrn.sc.info.istudy.SheetDialog.CarregandoDialog;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.AcertoOuErroDialog;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.CarregandoDialog;
 import br.edu.ifrn.sc.info.istudy.dominio.Alternativa;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;

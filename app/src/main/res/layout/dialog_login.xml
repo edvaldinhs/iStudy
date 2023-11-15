@@ -16,7 +16,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="518dp">
+        android:layout_height="591dp">
 
         <TextView
             android:id="@+id/tvTitulo"
@@ -28,12 +28,12 @@
             android:textColor="@color/istudy_roxo"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toTopOf="btnNome"
+            app:layout_constraintBottom_toTopOf="@+id/etEmailAddress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress"
+            android:id="@+id/etEmailAddress"
             android:layout_width="285dp"
             android:layout_height="47dp"
             android:background="@drawable/borda_redonda_cadastro"
@@ -47,15 +47,19 @@
             android:textColor="#242523"
             android:textColorHint="@color/istudy_cinza"
             android:textSize="14dp"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="4"
+            app:layout_constraintBottom_toTopOf="@+id/etPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitulo"
             tools:layout_editor_absoluteY="130dp" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/etPassword"
             android:layout_width="285dp"
             android:layout_height="47dp"
-            android:layout_marginTop="72dp"
             android:background="@drawable/borda_redonda_cadastro"
             android:backgroundTint="#F5F5F5"
             android:drawableLeft="@drawable/cadeado"
@@ -67,21 +71,26 @@
             android:textColor="#242523"
             android:textColorHint="@color/istudy_cinza"
             android:textSize="14dp"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+            app:layout_constraintTop_toBottomOf="@+id/etEmailAddress"
+            app:layout_constraintBottom_toTopOf="@+id/botoes"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/botoes"
-            android:layout_width="413dp"
+            android:layout_width="match_parent"
             android:layout_height="160dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/espaco"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPassword">
 
             <Button
-                android:id="@+id/btnEntrar"
+                android:id="@+id/btnConfirmarLogin"
                 android:layout_width="150dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="32dp"
@@ -110,7 +119,7 @@
                 android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnEntrar" />
+                app:layout_constraintTop_toBottomOf="@+id/btnConfirmarLogin" />
 
             <TextView
                 android:id="@+id/tvCadastrar"
@@ -124,9 +133,22 @@
                 android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnEntrar" />
+                app:layout_constraintTop_toBottomOf="@+id/btnConfirmarLogin" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/espaco"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/botoes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

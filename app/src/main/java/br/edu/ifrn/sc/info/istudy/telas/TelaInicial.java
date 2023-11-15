@@ -5,14 +5,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.transition.TransitionManager;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +20,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.edu.ifrn.sc.info.istudy.R;
-import br.edu.ifrn.sc.info.istudy.SheetDialog.LoginBottomSheetDialog;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.TelaInicialBottomSheetDialog;
 import br.edu.ifrn.sc.info.istudy.dominio.Conquista;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
 import br.edu.ifrn.sc.info.istudy.dominio.Titulo;
+import br.edu.ifrn.sc.info.istudy.gerenciadorDeArquivo.SecureStorageHelper;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.ws.ConquistaWS;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
@@ -38,9 +39,9 @@ import retrofit2.Response;
 
 public class TelaInicial extends AppCompatActivity {
 
-    View vCirculo;
+    private View vCirculo;
 
-    ConstraintLayout constraintLayout;
+    private ConstraintLayout constraintLayout;
 
     private ArrayList<Conteudo> conteudosLP= new ArrayList<>();
     private ArrayList<Conteudo> conteudosMat= new ArrayList<>();
@@ -54,13 +55,14 @@ public class TelaInicial extends AppCompatActivity {
         vCirculo = findViewById(R.id.iStudyLogo);
         constraintLayout = findViewById(R.id.clTelaInicial);
 
-
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                mostrarBottomDialog();
-                subirLogoAnimation();
+                if(!verificarLogado()){
+                    mostrarBottomDialog();
+                    subirLogoAnimation();
+                }
 
                 timer.cancel();
             }
@@ -140,9 +142,35 @@ public class TelaInicial extends AppCompatActivity {
             }
         });
     }
+    public boolean verificarLogado(){
+        boolean resultado = false;
+        String jsonData = SecureStorageHelper.loadData(this, "usuario.json");
+
+        try {
+            try {
+                JSONObject jsonObject = new JSONObject(jsonData.toString());
+                String email = jsonObject.getString("email");
+                String senha = jsonObject.getString("senha");
+                Bundle bundle = new Bundle();
+                bundle.putString("email", email);
+                bundle.putString("senha", senha);
+
+                Intent intent = new Intent(this, TelaPrincipal.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                this.finish();
+                resultado = true;
+            }catch(NullPointerException e){
+                Log.e("TelaInicial", e.getMessage());
+            }
+        } catch (JSONException e) {
+            Log.e("TelaInicial", e.getMessage());
+        }
+        return resultado;
+    }
 
     private void mostrarBottomDialog(){
-        LoginBottomSheetDialog bottomSheetDialog = new LoginBottomSheetDialog();
+        TelaInicialBottomSheetDialog bottomSheetDialog = new TelaInicialBottomSheetDialog();
         bottomSheetDialog.show(getSupportFragmentManager(), bottomSheetDialog.getTag());
     }
 

@@ -9,16 +9,24 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileOutputStream;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.ViewModel.SharedViewModel;
 import br.edu.ifrn.sc.info.istudy.databinding.ActivityTelaInicialBinding;
 import br.edu.ifrn.sc.info.istudy.databinding.ActivityTelaPrincipalBinding;
+import br.edu.ifrn.sc.info.istudy.gerenciadorDeArquivo.SecureStorageHelper;
 
 
 public class TelaPrincipal extends AppCompatActivity {
@@ -31,6 +39,7 @@ public class TelaPrincipal extends AppCompatActivity {
     private NavController navController;
 
     private Bundle bundle = new Bundle();
+    private Bundle extras = new Bundle();
 
     private SharedViewModel sharedViewModel;
 
@@ -41,7 +50,11 @@ public class TelaPrincipal extends AppCompatActivity {
         binding = ActivityTelaPrincipalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        bundle.putString("email", "estudante@gmail.com");
+        extras = getIntent().getExtras();
+
+        if(extras != null){
+            bundle.putString("email", extras.getString("email"));
+        }
 
         initNavigation();
 

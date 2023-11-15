@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,20 +21,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
-import br.edu.ifrn.sc.info.istudy.SheetDialog.EscolherFotoDialog;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.EscolherFotoDialog;
 import br.edu.ifrn.sc.info.istudy.ViewModel.SharedViewModel;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterConquistas;
-import br.edu.ifrn.sc.info.istudy.adapters.AdapterQuiz;
 import br.edu.ifrn.sc.info.istudy.dominio.Conquista;
-import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
 import br.edu.ifrn.sc.info.istudy.dominio.Icone;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
+import br.edu.ifrn.sc.info.istudy.telas.TelaInicial;
 import br.edu.ifrn.sc.info.istudy.ws.EstudanteWS;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -124,6 +125,18 @@ public class Perfil extends Fragment {
         rvConquista.setLayoutManager(new GridLayoutManager(getActivity(), 3
         ));
         tvTitulo = view.findViewById(R.id.tvTitulo);
+        tvTitulo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String filenameToDelete = "usuario.json";
+                boolean deleted = getContext().deleteFile(filenameToDelete);
+                if(deleted){
+                    restartApp();
+                }else{
+                    Toast.makeText(getActivity(), "Não foi possível deslogar :(", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         editarFoto = view.findViewById(R.id.cvEditarFoto);
         fotoAluno = view.findViewById(R.id.ivFotoAluno);
@@ -138,12 +151,24 @@ public class Perfil extends Fragment {
                 EscolherFotoDialog escolherFotoDialog = new EscolherFotoDialog(getActivity(), view, icones, estudante);
                 escolherFotoDialog.iniciarEscolherFotoDialog();
 
+//                String imageUrl = "https://drive.google.com/uc?export=download&id=1IAYE6gt1CLS7-Jg8bA0BeadkNhgMt5gY";
+//                Picasso.get().load(imageUrl).into(fotoAluno);
+
             }
         });
 
         listarConquistas();
 
         return view;
+    }
+    public void restartApp() {
+        Intent intent = new Intent(getActivity(), TelaInicial.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        startActivity(intent);
+        getActivity().finish();
     }
     public void preencherLauncherDeResultado(){
         resultadoDaProcura = registerForActivityResult(
@@ -192,18 +217,22 @@ public class Perfil extends Fragment {
             @Override
             public void onResponse(Call<Estudante> call, Response<Estudante> response) {
                 estudante = response.body();
-                progressoAtual = estudante.getPontuacao();
-                tvPontos.setText(progressoAtual+"/100 pontos");
-                progresso.setProgress(progressoAtual);
-                progresso.setMax(100);
+                try {
+                    progressoAtual = estudante.getPontuacao();
+                    tvPontos.setText(progressoAtual+"/100 pontos");
+                    progresso.setProgress(progressoAtual);
+                    progresso.setMax(100);
 
-                tvTitulo.setText(estudante.getNome());
+                    tvTitulo.setText(estudante.getNome());
 
-                String estudanteFoto = estudante.getFoto();
-                for (Icone icone : icones){
-                    if (estudanteFoto != null && estudanteFoto.equals(icone.getId())){
-                        fotoAluno.setImageDrawable(icone.getIcone());
+                    String estudanteFoto = estudante.getFoto();
+                    for (Icone icone : icones){
+                        if (estudanteFoto != null && estudanteFoto.equals(icone.getId())){
+                            fotoAluno.setImageDrawable(icone.getIcone());
+                        }
                     }
+                }catch(NullPointerException nullPointerException){
+                    Log.e("Perfil", nullPointerException.getMessage());
                 }
 
             }

@@ -1,4 +1,4 @@
-package br.edu.ifrn.sc.info.istudy.SheetDialog;
+package br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous;
 
 import android.app.Activity;
 import android.app.AlertDialog;

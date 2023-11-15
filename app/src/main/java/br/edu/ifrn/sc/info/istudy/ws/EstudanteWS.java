@@ -7,6 +7,8 @@ import br.edu.ifrn.sc.info.istudy.dominio.EstudanteAtividade;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -31,5 +33,12 @@ public interface EstudanteWS {
 
     @GET("estudantes/buscar/{email}")
     Call< Estudante > buscar(@Path("email") String email);
+
+    @POST("estudantes/verificarUsuario")
+    @FormUrlEncoded
+    Call<Boolean> verificarUsuario(
+            @Field("email") String email,
+            @Field("senha") String senha
+    );
 
 }

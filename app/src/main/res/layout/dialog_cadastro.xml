@@ -16,7 +16,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="521dp">
+        android:layout_height="591dp">
 
         <TextView
             android:id="@+id/tvTitulo"
@@ -28,15 +28,14 @@
             android:textColor="@color/istudy_verde"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toTopOf="btnNome"
+            app:layout_constraintBottom_toTopOf="@+id/etNome"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/etNome"
             android:layout_width="285dp"
-            android:layout_height="47dp"
-            android:background="@drawable/borda_redonda_cadastro"
+            android:layout_height="48dp"
             android:backgroundTint="#F5F5F5"
             android:drawableLeft="@drawable/user"
             android:drawablePadding="30dp"
@@ -47,17 +46,18 @@
             android:textColor="#242523"
             android:textColorHint="@color/istudy_cinza"
             android:textSize="14dp"
-            app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress"
+            android:background="@drawable/borda_redonda_cadastro"
+            app:layout_constraintBottom_toTopOf="@+id/etEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitulo"
+            tools:ignore="TextSizeCheck" />
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress"
+            android:id="@+id/etEmailAddress"
             android:layout_width="285dp"
-            android:layout_height="47dp"
-            android:background="@drawable/borda_redonda_cadastro"
+            android:layout_height="48dp"
             android:backgroundTint="#F5F5F5"
             android:drawableLeft="@drawable/carta"
             android:drawablePadding="30dp"
@@ -68,16 +68,17 @@
             android:textColor="#242523"
             android:textColorHint="@color/istudy_cinza"
             android:textSize="14dp"
-            app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
+            android:background="@drawable/borda_redonda_cadastro"
+            app:layout_constraintBottom_toTopOf="@+id/etPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+            app:layout_constraintTop_toBottomOf="@+id/etNome"
+            tools:ignore="TextSizeCheck" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/etPassword"
             android:layout_width="285dp"
-            android:layout_height="47dp"
-            android:background="@drawable/borda_redonda_cadastro"
+            android:layout_height="48dp"
             android:backgroundTint="#F5F5F5"
             android:drawableLeft="@drawable/cadeado"
             android:drawablePadding="30dp"
@@ -88,16 +89,19 @@
             android:textColor="#242523"
             android:textColorHint="@color/istudy_cinza"
             android:textSize="14dp"
+            android:background="@drawable/borda_redonda_cadastro"
             app:layout_constraintBottom_toTopOf="@+id/botoes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+            app:layout_constraintTop_toBottomOf="@+id/etEmailAddress"
+            tools:ignore="TextSizeCheck" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/botoes"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/espaco"
+            app:layout_constraintTop_toBottomOf="@+id/etPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent">
@@ -118,7 +122,20 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/espaco"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/botoes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
