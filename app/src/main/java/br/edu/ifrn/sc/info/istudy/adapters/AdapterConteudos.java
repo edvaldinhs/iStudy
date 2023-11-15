@@ -53,7 +53,7 @@ public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {
     @Override
     public void onBindViewHolder(@NonNull ConteudosHolder holder, int position) {
         Conteudo tempConteudo = conteudos.get(position);
-        holder.bind(tempConteudo);
+        holder.bind(tempConteudo, emailUsuario);
     }
 
     public void clearData() {

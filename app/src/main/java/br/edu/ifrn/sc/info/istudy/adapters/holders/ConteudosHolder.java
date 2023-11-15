@@ -41,27 +41,54 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
         conteudoClickListener = listener;
     }
 
-    public void bind(Conteudo conteudo) {
+    public void bind(Conteudo conteudo, String emailUsuario) {
         this.conteudo = conteudo;
 
-
-        mudarDeCor();
+        mudarDeCor(emailUsuario, conteudo.getId());
 
         if(!conteudo.getNome().isEmpty()){
             tvNomeConteudo.setText(conteudo.getNome());
         }
     }
 
-    private void mudarDeCor(){
+    private void mudarDeCor(String email, int id){
         Log.d("mudarDeCor", "Bloqueado: " + conteudo.getBloqueado());
 
-        if(conteudo.getDisciplina().getId() == 1 && conteudo.getBloqueado() == false){
-            clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_port);
-        }else if (conteudo.getDisciplina().getId() == 2 && conteudo.getBloqueado() == false){
-            clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_mat);
-        }else {
-            clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_bloqueado);
-        }
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<Integer> metodoBuscar = conteudoWS.buscarProgressoConteudo(email, id);
+
+        metodoBuscar.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Log.d("tste", response.body()+"AAA");
+                clCardConteudo.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(response.body() != -1){
+                            if (conteudo.getDisciplina().getId() == 1) {
+                                clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_port);
+                            } else if (conteudo.getDisciplina().getId() == 2) {
+                                clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_mat);
+                            }
+                        } else {
+                            clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_bloqueado);
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.d("tste", t.getMessage());
+                clCardConteudo.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        clCardConteudo.setBackgroundResource(R.drawable.card_conteudo_bloqueado);
+                    }
+                });
+            }
+        });
     }
 
     @Override
