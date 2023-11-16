@@ -66,7 +66,11 @@ public class AdapterDisciplinas extends RecyclerView.Adapter<DisciplinasHolder> 
     @Override
     public int getItemCount() {
         //método pra saber quantos itens existem
-        return disciplinas.size();
+        try {
+            return disciplinas.size();
+        }catch(NullPointerException nullPointerException){
+            return -1;
+        }
     }
 
 }

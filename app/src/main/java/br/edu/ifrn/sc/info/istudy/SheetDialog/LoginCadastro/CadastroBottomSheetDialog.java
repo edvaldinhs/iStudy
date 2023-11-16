@@ -28,11 +28,14 @@ import org.json.JSONObject;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.CarregandoDialog;
 import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
+import br.edu.ifrn.sc.info.istudy.dominio.RequestConteudo;
 import br.edu.ifrn.sc.info.istudy.gerenciadorDeArquivo.SecureStorageHelper;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.telas.TelaInicial;
 import br.edu.ifrn.sc.info.istudy.telas.TelaPrincipal;
+import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
 import br.edu.ifrn.sc.info.istudy.ws.EstudanteWS;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,6 +48,8 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
     private TextView etEmail;
     private TextView etSenha;
 
+    private CarregandoDialog carregandoDialog;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,8 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_cadastro, container, false);
+
+        carregandoDialog = new CarregandoDialog(requireActivity());
 
         if (getActivity() != null) {
             View activityView = getActivity().findViewById(android.R.id.content);
@@ -88,6 +95,7 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
                         if(etSenha.getText() == null || etSenha.getText().toString().isEmpty()){
                             Toast.makeText(getActivity(), "Insira sua Senha antes", Toast.LENGTH_LONG).show();
                         }else{
+                            carregandoDialog.iniciarCarregandoDialog();
                             verificarEmail(etNome.getText().toString(), etEmail.getText().toString(), etSenha.getText().toString());
                         }
                     }
@@ -130,6 +138,40 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
         // Start the animation
         colorAnimator.start();
     }
+    private void desbloquearPrimeirosConteudos(String email){
+        RequestConteudo requestConteudo = new RequestConteudo(email, 1);
+
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call<Boolean> finalizar = conteudoWS.finalizar(requestConteudo);
+
+        finalizar.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Log.e("QuizME", response.body()+"");
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.e("QuizME", t.getMessage());
+            }
+        });
+
+        requestConteudo = new RequestConteudo(email, 11);
+        finalizar = conteudoWS.finalizar(requestConteudo);
+
+        finalizar.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+    }
 
     private void cadastrar(String nome, String email, String senha){
         Estudante estudante = new Estudante();
@@ -164,10 +206,12 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
+                    desbloquearPrimeirosConteudos(email);
 
                     Intent intent = new Intent(getActivity(), TelaPrincipal.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
+                    carregandoDialog.removerDialog();
                     getActivity().finish();
                 }else{
                     Log.d("Cadastro", "Erro na inserção do usuário.");
@@ -176,7 +220,7 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-
+                carregandoDialog.removerDialog();
             }
         });
 
@@ -197,6 +241,7 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
                 }
                 if(emailIgual){
                     Toast.makeText(getActivity(), "Email Já foi utilizado por outro usuário", Toast.LENGTH_LONG).show();
+                    carregandoDialog.removerDialog();
                 }else{
                     cadastrar(nome, email, senha);
                 }
@@ -204,7 +249,7 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
 
             @Override
             public void onFailure(Call<List<Estudante>> call, Throwable t) {
-
+                carregandoDialog.removerDialog();
             }
         });
     }
