@@ -37,6 +37,7 @@ import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
 import br.edu.ifrn.sc.info.istudy.dominio.Icone;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.telas.TelaInicial;
+import br.edu.ifrn.sc.info.istudy.telas.TelaPrincipal;
 import br.edu.ifrn.sc.info.istudy.ws.EstudanteWS;
 import retrofit2.Call;
 import retrofit2.Callback;

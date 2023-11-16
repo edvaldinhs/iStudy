@@ -18,8 +18,21 @@
         app:layout_constraintBottom_toTopOf="@id/frame_layout">
 
         <TextView
+            android:id="@+id/tvPontos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:fontFamily="@font/lexend_semiboldttf"
+            android:text="0"
+            android:textSize="20dp"
+            android:textColor="@color/aristofany_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/foto"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+        <TextView
             android:id="@+id/iStudyLogo"
-            android:layout_width="127dp"
+            android:layout_width="112dp"
             android:layout_height="77dp"
             android:fontFamily="@font/lexend_semiboldttf"
             android:gravity="left|center"
@@ -31,6 +44,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.483" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/foto"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="100dp"
+            app:flow_horizontalBias="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/iStudyLogo"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivFotoAluno"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@color/istudy_roxo_40"
+                android:layout_gravity="center">
+            </de.hdodenhof.circleimageview.CircleImageView>
+
+        </androidx.cardview.widget.CardView>
 
         <ImageView
             android:id="@+id/voltar"

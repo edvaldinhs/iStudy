@@ -22,6 +22,7 @@ import br.edu.ifrn.sc.info.istudy.dominio.Conquista;
 import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
 import br.edu.ifrn.sc.info.istudy.dominio.Icone;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
+import br.edu.ifrn.sc.info.istudy.telas.TelaPrincipal;
 import br.edu.ifrn.sc.info.istudy.ws.EstudanteWS;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,6 +83,11 @@ public class EscolherFotoDialog implements OnIconeClickListener {
 
         inserirFotoEstudante(estudante, selectedIcone.getId());
         fotoAluno.setImageDrawable(selectedIcone.getIcone());
+
+        if (activity instanceof TelaPrincipal) {
+            TelaPrincipal telaPrincipalActivity = (TelaPrincipal) activity;
+            telaPrincipalActivity.preencherDados(estudante.getEmail());
+        }
 
         removerDialog();
     }

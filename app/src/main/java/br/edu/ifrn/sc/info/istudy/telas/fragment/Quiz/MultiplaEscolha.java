@@ -25,10 +25,12 @@ import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.CarregandoDialog;
 import br.edu.ifrn.sc.info.istudy.dominio.Alternativa;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
+import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
 import br.edu.ifrn.sc.info.istudy.dominio.EstudanteAtividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Questao;
 import br.edu.ifrn.sc.info.istudy.dominio.RequestConteudo;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
+import br.edu.ifrn.sc.info.istudy.telas.TelaPrincipal;
 import br.edu.ifrn.sc.info.istudy.ws.AlternativaWS;
 import br.edu.ifrn.sc.info.istudy.ws.AtividadeWS;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
@@ -314,9 +316,9 @@ public class MultiplaEscolha extends Fragment {
                         if (numAcertos >= 3) {
                             verificadorDeDesbloqueio(email, conteudoId, dificuldadeId);
                             buscarAtividade(conteudoId, dificuldadeId);
+                        }else{
+                            getActivity().onBackPressed();
                         }
-
-                        getActivity().onBackPressed();
                     } else {
                         iniciarQuiz();
                     }
@@ -336,18 +338,28 @@ public class MultiplaEscolha extends Fragment {
         buscarPeloConteudo.enqueue(new Callback<List<Atividade>>() {
             @Override
             public void onResponse(Call<List<Atividade>> call, Response<List<Atividade>> response) {
-                for(Atividade atividade : response.body()) {
-                    if (dificuldadeId == atividade.getDificuldade().getId()) {
-                        estudanteAtividade = new EstudanteAtividade(email, atividade.getId(), numAcertos, numErros, questoes.get(0).getPontuacao()*numAcertos);
-                        registrarProgresso(estudanteAtividade);
-                        Log.d("QuizME", "buscouAtividade");
+                try {
+                    for(Atividade atividade : response.body()) {
+                        try {
+                            if (dificuldadeId == atividade.getDificuldade().getId()) {
+                                estudanteAtividade = new EstudanteAtividade(email, atividade.getId(), numAcertos, numErros, questoes.get(0).getPontuacao()*numAcertos);
+                                registrarProgresso(estudanteAtividade);
+                                Log.d("QuizME", "buscouAtividade");
+                            }
+                        }catch (NullPointerException nullPointerException){
+                            Log.e("QuizME", nullPointerException.getMessage());
+                        }
                     }
+                }catch(NullPointerException nullPointerException){
+                    Log.e("QuizME", nullPointerException.getMessage());
                 }
+
             }
 
             @Override
             public void onFailure(Call<List<Atividade>> call, Throwable t) {
                 Log.e("QuizME", t.getMessage());
+                getActivity().onBackPressed();
             }
         });
 
@@ -708,11 +720,38 @@ public class MultiplaEscolha extends Fragment {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 Log.d("QuizME", "registrouProgresso? "+response.body());
+
+                atualizarPontuacao(email);
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
                 Log.e("QuizME", t.getMessage());
+                getActivity().onBackPressed();
+            }
+        });
+    }
+
+    public void atualizarPontuacao(String email){
+        RetrofitConfig config = new RetrofitConfig();
+        EstudanteWS estudanteWS = config.getEstudanteWS();
+        Call< Boolean > atualizar = estudanteWS.atualizarPontuacao(email);
+
+        atualizar.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Log.e("MEAtualizar", response.body()+"");
+                if (getActivity() instanceof TelaPrincipal) {
+                    TelaPrincipal telaPrincipalActivity = (TelaPrincipal) getActivity();
+                    telaPrincipalActivity.preencherDados(email);
+                }
+                getActivity().onBackPressed();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.e("MEAtualizar", t.getMessage());
+                getActivity().onBackPressed();
             }
         });
     }

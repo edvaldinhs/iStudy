@@ -31,6 +31,10 @@ public interface EstudanteWS {
     @PUT("estudantes/atualizar")
     Call< Boolean > atualizar(@Body Estudante estudante);
 
+    @PUT("estudantes/atualizarPontuacao")
+    @FormUrlEncoded
+    Call< Boolean > atualizarPontuacao(@Field("email") String email);
+
     @POST("estudantes/registrarProgresso")
     Call< Boolean > registrarProgresso(@Body EstudanteAtividade estudanteAtividade);
 

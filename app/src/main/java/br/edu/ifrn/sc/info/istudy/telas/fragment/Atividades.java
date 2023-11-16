@@ -1,7 +1,9 @@
 package br.edu.ifrn.sc.info.istudy.telas.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -13,8 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,6 @@ import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
-import br.edu.ifrn.sc.info.istudy.ws.AtividadeWS;
 import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
 import retrofit2.Call;
 import retrofit2.Callback;
