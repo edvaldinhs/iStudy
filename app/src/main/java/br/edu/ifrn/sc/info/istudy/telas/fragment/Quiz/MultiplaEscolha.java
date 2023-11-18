@@ -20,8 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.TelaInicialBottomSheetDialog;
 import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.AcertoOuErroDialog;
 import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.CarregandoDialog;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.QuizConcluidoSheetDialog;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.QuizFalhaSheetDialog;
 import br.edu.ifrn.sc.info.istudy.dominio.Alternativa;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
@@ -100,6 +103,9 @@ public class MultiplaEscolha extends Fragment {
 
     private Button btnFinalizarConteudo;
 
+    private Cronometro cronometro;
+    private View view;
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -131,7 +137,9 @@ public class MultiplaEscolha extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_multipla_escolha, container, false);
+        view = inflater.inflate(R.layout.fragment_multipla_escolha, container, false);
+
+        cronometro = new Cronometro();
 
         carregandoDialog = new CarregandoDialog(requireActivity());
         acertoOuErroDialog = new AcertoOuErroDialog(requireActivity(), view);
@@ -163,7 +171,6 @@ public class MultiplaEscolha extends Fragment {
             mudarNivel(dificuldadeId);
         }
 
-
         tvTextoQuestao = view.findViewById(R.id.tvTextoQuestao);
 
         escolhaA = view.findViewById(R.id.clRespostaA);
@@ -181,8 +188,10 @@ public class MultiplaEscolha extends Fragment {
         btnFinalizarConteudo = view.findViewById(R.id.btnFinalizarConteudo);
 
         iniciarQuiz();
+        cronometro.iniciarTimer(view);
 
         alternativaClickListener();
+
 
         btnFinalizarConteudo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -317,7 +326,11 @@ public class MultiplaEscolha extends Fragment {
                             verificadorDeDesbloqueio(email, conteudoId, dificuldadeId);
                             buscarAtividade(conteudoId, dificuldadeId);
                         }else{
+                            if(view != null){
+                                cronometro.pararTimer(view);
+                            }
                             getActivity().onBackPressed();
+                            mostrarBottomDialogFalha();
                         }
                     } else {
                         iniciarQuiz();
@@ -745,7 +758,11 @@ public class MultiplaEscolha extends Fragment {
                     TelaPrincipal telaPrincipalActivity = (TelaPrincipal) getActivity();
                     telaPrincipalActivity.preencherDados(email);
                 }
+                if(view != null){
+                    cronometro.pararTimer(view);
+                }
                 getActivity().onBackPressed();
+                mostrarBottomDialog();
             }
 
             @Override
@@ -754,6 +771,14 @@ public class MultiplaEscolha extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+    }
+    private void mostrarBottomDialog(){
+        QuizConcluidoSheetDialog bottomSheetDialog = new QuizConcluidoSheetDialog(getActivity(), numAcertos, numErros, questoes.get(0).getPontuacao()*numAcertos, cronometro.getTempo());
+        bottomSheetDialog.iniciarDialog();
+    }
+    private void mostrarBottomDialogFalha(){
+        QuizFalhaSheetDialog bottomSheetDialog = new QuizFalhaSheetDialog(getActivity(), numAcertos, numErros, cronometro.getTempo(), Navigation.findNavController(requireActivity(), R.id.frame_layout), conteudoId, dificuldadeId, email);
+        bottomSheetDialog.iniciarDialog();
     }
 
 }

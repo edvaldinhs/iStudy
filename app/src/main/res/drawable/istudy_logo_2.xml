@@ -3,10 +3,6 @@
     android:viewportHeight="204"
     android:width="172dp"
     android:height="204dp">
-
-    <path
-        android:pathData="M134 116A50 50 0 0 1 34 116A50 50 0 0 1 134 116Z"
-        android:fillColor="#8EDF01" />
     <path
         android:pathData="M83 22.5A22.5 22.5 0 0 1 38 22.5A22.5 22.5 0 0 1 83 22.5Z"
         android:fillColor="#8EDF01" />
@@ -26,10 +22,10 @@
         android:pathData="M121 33A3 3 0 0 1 115 33A3 3 0 0 1 121 33Z"
         android:fillColor="#8EDF01" />
     <path
-        android:pathData="M6 66A3 3 0 0 1 0 66A3 3 0 0 1 6 66Z"
+        android:pathData="M6.00003 66A3 3 0 0 1 0.00003 66A3 3 0 0 1 6.00003 66Z"
         android:fillColor="#8EDF01" />
     <path
-        android:pathData="M6 129A3 3 0 0 1 0 129A3 3 0 0 1 6 129Z"
+        android:pathData="M6.00003 129A3 3 0 0 1 0.00003 129A3 3 0 0 1 6.00003 129Z"
         android:fillColor="#A547F9" />
     <path
         android:pathData="M15 183A3 3 0 0 1 9 183A3 3 0 0 1 15 183Z"
