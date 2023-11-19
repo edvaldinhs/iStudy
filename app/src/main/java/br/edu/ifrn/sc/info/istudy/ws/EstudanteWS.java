@@ -19,6 +19,9 @@ public interface EstudanteWS {
     @GET("estudantes/listarTodos")
     Call<List<Estudante>> listarTodos();
 
+    @GET("estudantes/listarRanking")
+    Call<List<Estudante>> listarRanking();
+
     @POST("estudantes/inserir")
     Call< Boolean > inserir(@Body Estudante estudante);
 
