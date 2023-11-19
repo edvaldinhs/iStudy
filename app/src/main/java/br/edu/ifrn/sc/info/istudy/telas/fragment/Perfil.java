@@ -32,18 +32,21 @@ import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.EscolherFotoDialog;
 import br.edu.ifrn.sc.info.istudy.ViewModel.SharedViewModel;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterConquistas;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConquistaClickListener;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConteudoClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Conquista;
 import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
 import br.edu.ifrn.sc.info.istudy.dominio.Icone;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.telas.TelaInicial;
 import br.edu.ifrn.sc.info.istudy.telas.TelaPrincipal;
+import br.edu.ifrn.sc.info.istudy.ws.ConquistaWS;
 import br.edu.ifrn.sc.info.istudy.ws.EstudanteWS;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Perfil extends Fragment {
+public class Perfil extends Fragment implements OnConquistaClickListener {
 
     private RecyclerView rvConquista;
 
@@ -158,7 +161,7 @@ public class Perfil extends Fragment {
             }
         });
 
-        listarConquistas();
+        preencherConquistas();
 
         return view;
     }
@@ -185,8 +188,27 @@ public class Perfil extends Fragment {
                 });
     }
     private void listarConquistas(){
-        adapterConquistas = new AdapterConquistas(getActivity(), conquistas);
+        adapterConquistas = new AdapterConquistas(getActivity(), conquistas, this, email);
         rvConquista.setAdapter(adapterConquistas);
+    }
+    private void preencherConquistas(){
+        RetrofitConfig config = new RetrofitConfig();
+        ConquistaWS conquistaWS = config.getConquistaWS();
+        Call<List<Conquista>> metodoListar = conquistaWS.listarTodas();
+
+        metodoListar.enqueue(new Callback<List<Conquista>>() {
+            @Override
+            public void onResponse(Call<List<Conquista>> call, Response<List<Conquista>> response) {
+                conquistas = response.body();
+                listarConquistas();
+            }
+
+            @Override
+            public void onFailure(Call<List<Conquista>> call, Throwable t) {
+
+            }
+        });
+
     }
 
     public void preencherIcones(){
@@ -243,5 +265,10 @@ public class Perfil extends Fragment {
                 Log.e("Perfil", t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onConquistaClick(Conquista conquista) {
+
     }
 }

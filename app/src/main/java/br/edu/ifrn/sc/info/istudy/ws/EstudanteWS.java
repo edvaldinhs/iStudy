@@ -54,4 +54,8 @@ public interface EstudanteWS {
             @Field("senha") String senha
     );
 
+    @GET("estudantes/buscarProgressoConquista/{email}-{conquistaId}")
+    Call< Integer > buscarProgressoConquista(@Path("email") String email ,@Path("conquistaId") int conquistaId);
+
+
 }

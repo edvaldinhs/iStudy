@@ -12,22 +12,27 @@ import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.ConquistasHolder;
+import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConquistaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Conquista;
 
 public class AdapterConquistas extends RecyclerView.Adapter<ConquistasHolder> {
 
     private Context mContext;
 
-    List<Conquista> conquistas;
+    private List<Conquista> conquistas;
+    private OnConquistaClickListener conquistaClickListener;
+    private String email;
 
-    public AdapterConquistas(Context context, List<Conquista> conquistas){
+    public AdapterConquistas(Context context, List<Conquista> conquistas, OnConquistaClickListener listener, String email){
         mContext = context;
         this.conquistas = conquistas;
+        conquistaClickListener = listener;
+        this.email = email;
     }
 
     public ConquistasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.card_conquista, parent, false);
-        ConquistasHolder holder = new ConquistasHolder(view);
+        ConquistasHolder holder = new ConquistasHolder(view, conquistaClickListener, email);
         return holder;
     }
 
