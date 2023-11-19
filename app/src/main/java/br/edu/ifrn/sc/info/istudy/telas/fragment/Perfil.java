@@ -188,7 +188,7 @@ public class Perfil extends Fragment implements OnConquistaClickListener {
                 });
     }
     private void listarConquistas(){
-        adapterConquistas = new AdapterConquistas(getActivity(), conquistas, this, email);
+        adapterConquistas = new AdapterConquistas(getActivity(), requireActivity(), conquistas, this, email);
         rvConquista.setAdapter(adapterConquistas);
     }
     private void preencherConquistas(){
