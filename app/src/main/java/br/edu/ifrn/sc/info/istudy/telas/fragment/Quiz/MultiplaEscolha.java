@@ -1,5 +1,7 @@
 package br.edu.ifrn.sc.info.istudy.telas.fragment.Quiz;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -8,13 +10,19 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +74,7 @@ public class MultiplaEscolha extends Fragment {
     private NavController navController;
 
     private TextView tvTextoQuestao;
+    private ImageView ivImagemQuestao;
 
     private int questaoAtual;
 
@@ -172,6 +181,7 @@ public class MultiplaEscolha extends Fragment {
         }
 
         tvTextoQuestao = view.findViewById(R.id.tvTextoQuestao);
+        ivImagemQuestao = view.findViewById(R.id.ivImagemQuestao);
 
         escolhaA = view.findViewById(R.id.clRespostaA);
         escolhaB = view.findViewById(R.id.clRespostaB);
@@ -598,6 +608,53 @@ public class MultiplaEscolha extends Fragment {
                 try {
                     String textoDaQuestao = response.body().get(questaoAtual).getEnunciado();
                     tvTextoQuestao.setText(textoDaQuestao);
+
+                    String imageUrl = response.body().get(questaoAtual).getImagem();
+
+                    Picasso.get()
+                            .load(imageUrl)
+                            .into(ivImagemQuestao, new com.squareup.picasso.Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    int width = ivImagemQuestao.getDrawable().getIntrinsicWidth();
+                                    int height = ivImagemQuestao.getDrawable().getIntrinsicHeight();
+                                    Log.d("Image Dimensions", "Width: " + width + ", Height: " + height);
+                                    int roundedValue = (int) Math.round(height*380/width);
+
+                                    int valorAltura = dpToPx(getContext(), roundedValue);
+
+                                    ViewGroup.LayoutParams params = ivImagemQuestao.getLayoutParams();
+                                    params.height = valorAltura;
+                                    ivImagemQuestao.setLayoutParams(params);
+
+//                                    ivImagemQuestao.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View v) {
+//                                            final Dialog dialog = new Dialog(getActivity());
+//                                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                                            dialog.setContentView(R.layout.dialog_imagem_aumentada);
+//                                            ImageView expandedImageView = dialog.findViewById(R.id.expandedImageView);
+//
+//                                            String imageUrl = response.body().get(questaoAtual).getImagem();
+//
+//                                            Picasso.get()
+//                                                    .load(imageUrl)
+//                                                    .into(expandedImageView);
+//
+//                                            dialog.show();
+//                                        }
+//                                    });
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    Log.e("Picasso", "Error loading image: " + e.getMessage());
+
+                                    ViewGroup.LayoutParams params = ivImagemQuestao.getLayoutParams();
+                                    params.height = 0;
+                                    ivImagemQuestao.setLayoutParams(params);
+                                }
+                            });
                     preencherAlternativas(response.body().get(questaoAtual).getId());
                 }catch(IndexOutOfBoundsException indexOutOfBoundsException){
                     Log.e("QuizME", indexOutOfBoundsException.getMessage());
@@ -607,12 +664,25 @@ public class MultiplaEscolha extends Fragment {
                 }
             }
 
+
             @Override
             public void onFailure(Call<List<Questao>> call, Throwable t) {
                 Log.e("QuizME", t.getMessage());
             }
         });
     }
+
+    public int dpToPx(Context context, int dp) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return px;
+    }
+    public int pxToDp(Context context, int px) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return dp;
+    }
+
 
     public void preencherAlternativas(int id){
         RetrofitConfig config = new RetrofitConfig();
