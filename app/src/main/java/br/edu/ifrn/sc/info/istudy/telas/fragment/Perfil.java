@@ -298,7 +298,7 @@ public class Perfil extends Fragment implements OnConquistaClickListener {
                     if (titulo.getId() == tituloId){
                         tvTituloAtual.setText(titulo.getDescricao());
 
-                        tvPontos.setText(progressoAtual+"/"+(100*tituloId+(100*(tituloId-1)))+"pontos");
+                        tvPontos.setText(progressoAtual+"/"+(100*tituloId+(100*(tituloId-1)))+" pontos");
                         progresso.setProgress(progressoAtual);
                         progresso.setMax(100*tituloId+(100*(tituloId-1)));
 
