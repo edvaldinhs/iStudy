@@ -38,11 +38,13 @@ import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConteudoClickListener
 import br.edu.ifrn.sc.info.istudy.dominio.Conquista;
 import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
 import br.edu.ifrn.sc.info.istudy.dominio.Icone;
+import br.edu.ifrn.sc.info.istudy.dominio.Titulo;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.telas.TelaInicial;
 import br.edu.ifrn.sc.info.istudy.telas.TelaPrincipal;
 import br.edu.ifrn.sc.info.istudy.ws.ConquistaWS;
 import br.edu.ifrn.sc.info.istudy.ws.EstudanteWS;
+import br.edu.ifrn.sc.info.istudy.ws.TituloWS;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,7 +59,11 @@ public class Perfil extends Fragment implements OnConquistaClickListener {
     private int progressoAtual = 0;
     private ProgressBar progresso;
 
+    private View logoff;
     private TextView tvTitulo;
+
+    private TextView tvTituloAtual;
+    private TextView tvTituloProximo;
 
     private Bundle extras;
     private String email;
@@ -129,8 +135,11 @@ public class Perfil extends Fragment implements OnConquistaClickListener {
 
         rvConquista.setLayoutManager(new GridLayoutManager(getActivity(), 3
         ));
+
         tvTitulo = view.findViewById(R.id.tvTitulo);
-        tvTitulo.setOnClickListener(new View.OnClickListener() {
+
+        logoff = view.findViewById(R.id.vLogoff);
+        logoff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String filenameToDelete = "usuario.json";
@@ -142,6 +151,9 @@ public class Perfil extends Fragment implements OnConquistaClickListener {
                 }
             }
         });
+
+        tvTituloAtual = view.findViewById(R.id.tvTituloAtual);
+        tvTituloProximo = view.findViewById(R.id.tvTituloProximo);
 
         editarFoto = view.findViewById(R.id.cvEditarFoto);
         fotoAluno = view.findViewById(R.id.ivFotoAluno);
@@ -243,9 +255,8 @@ public class Perfil extends Fragment implements OnConquistaClickListener {
                 estudante = response.body();
                 try {
                     progressoAtual = estudante.getPontuacao();
-                    tvPontos.setText(progressoAtual+"/100 pontos");
-                    progresso.setProgress(progressoAtual);
-                    progresso.setMax(100);
+
+                    preencherTitulos(estudante.getTitulo().getId(), estudante);
 
                     tvTitulo.setText(estudante.getNome());
 
@@ -267,6 +278,62 @@ public class Perfil extends Fragment implements OnConquistaClickListener {
             }
         });
     }
+
+    private void preencherTitulos(int tituloId, Estudante estudante){
+        RetrofitConfig config = new RetrofitConfig();
+        TituloWS tituloWS = config.getTituloWS();
+        Call<List<Titulo>> metodoListar = tituloWS.listarTodos();
+
+        metodoListar.enqueue(new Callback<List<Titulo>>() {
+            @Override
+            public void onResponse(Call<List<Titulo>> call, Response<List<Titulo>> response) {
+                for (Titulo titulo: response.body()) {
+                    if(titulo.getId() == tituloId+1){
+                        if(estudante.getPontuacao() > 100*tituloId+(100*(tituloId-1))){
+                            estudante.setTitulo(new Titulo(tituloId+1, titulo.getDescricao()));
+                            atualizarTitulo(estudante);
+                        }
+                    }
+
+                    if (titulo.getId() == tituloId){
+                        tvTituloAtual.setText(titulo.getDescricao());
+
+                        tvPontos.setText(progressoAtual+"/"+(100*tituloId+(100*(tituloId-1)))+"pontos");
+                        progresso.setProgress(progressoAtual);
+                        progresso.setMax(100*tituloId+(100*(tituloId-1)));
+
+                        tvTituloAtual.setText(titulo.getDescricao());
+                    }
+                    if(titulo.getId() == tituloId+1){
+                        tvTituloProximo.setText(titulo.getDescricao());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Titulo>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void atualizarTitulo(Estudante estudante){
+            RetrofitConfig config = new RetrofitConfig();
+            EstudanteWS estudanteWS = config.getEstudanteWS();
+            Call<Boolean> metodoAtualizar = estudanteWS.atualizar(estudante);
+
+            metodoAtualizar.enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+
+                }
+            });
+        }
 
     @Override
     public void onConquistaClick(Conquista conquista) {

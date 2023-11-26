@@ -88,6 +88,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.98">
 
+            <View
+                android:id="@+id/vLogoff"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/ic_logout"
+                android:backgroundTint="@color/aristofany_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.350">
+
+            </View>
+
             <TextView
                 android:id="@+id/tvTitulo"
                 android:layout_width="match_parent"
@@ -126,6 +140,7 @@
             android:fontFamily="@font/lexend_semiboldttf"
             android:text="Título"
             android:textColor="@color/aristofany_black"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toTopOf="@+id/pgBarraPontuacao"
             app:layout_constraintLeft_toLeftOf="@+id/pgBarraPontuacao"
             app:layout_constraintTop_toTopOf="parent"></TextView>
@@ -154,6 +169,7 @@
             android:fontFamily="@font/lexend_semiboldttf"
             android:text="Título"
             android:textColor="@color/aristofany_black"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toTopOf="@+id/pgBarraPontuacao"
             app:layout_constraintRight_toRightOf="@+id/pgBarraPontuacao"
             app:layout_constraintTop_toTopOf="parent"></TextView>

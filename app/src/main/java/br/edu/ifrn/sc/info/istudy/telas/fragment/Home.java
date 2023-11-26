@@ -188,7 +188,6 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
                 try {
                     new AvisoDialog(getActivity(), "Não foi possível carregar as disciplinas.").iniciarAvisoDialog();
                 }catch(NullPointerException nullPointerException){
-                    new AvisoDialog(getActivity(), "Não foi possível carregar as disciplinas.").iniciarAvisoDialog();
                     Log.e("ErroPreencher",nullPointerException.getMessage());
                 }
             }
