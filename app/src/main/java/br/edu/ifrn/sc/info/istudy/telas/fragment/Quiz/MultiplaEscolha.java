@@ -547,7 +547,7 @@ public class MultiplaEscolha extends Fragment {
         int mR = escolhas.getPaddingRight();
         int mB = escolhas.getPaddingBottom();
 
-        escolhas.setPadding(mL, mT, mR, mB);
+        escolhas.setPadding(dpToPx(getContext(), 10), mT, dpToPx(getContext(), 10), mB);
 
         escolhaA.setBackgroundResource(R.drawable.borda);
         escolhaA.setPadding(pL, pT, pR, pB);

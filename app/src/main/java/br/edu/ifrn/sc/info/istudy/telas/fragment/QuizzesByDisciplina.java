@@ -3,6 +3,7 @@ package br.edu.ifrn.sc.info.istudy.telas.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.ViewModel.SharedViewModel;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterQuizzesByDisciplinas;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
@@ -30,12 +32,17 @@ import retrofit2.Response;
 public class QuizzesByDisciplina extends Fragment implements OnQuizzesByDisciplinaClickListener {
 
     //Cria o RecyclerView para os cards das disciplinas
-    RecyclerView rvQuizzesByDisciplina;
+    private RecyclerView rvQuizzesByDisciplina;
 
     //Armazena as disciplinas
-    List<Disciplina> disciplinas = new ArrayList<>();
+    private List<Disciplina> disciplinas = new ArrayList<>();
 
-    NavController navController;
+    private String email;
+    private SharedViewModel sharedViewModel;
+
+    private Bundle extras;
+
+    private NavController navController;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -69,6 +76,13 @@ public class QuizzesByDisciplina extends Fragment implements OnQuizzesByDiscipli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quizzes_by_discipliana, container, false);
+
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+        sharedViewModel.getSharedBundle().observe(this, bundle -> {
+            extras = bundle;
+            email = extras.getString("email");
+        });
 
         //Diz quem é e de onde veio o RecyclerView
         rvQuizzesByDisciplina = view.findViewById(R.id.rvQuizzesByDisciplina);
@@ -120,6 +134,7 @@ public class QuizzesByDisciplina extends Fragment implements OnQuizzesByDiscipli
     public void onQuizzesByDisciplinaClick(int id) {
         Bundle bundle = new Bundle();
         bundle.putInt("disciplinaId", id);
+        bundle.putString("email", email);
 
         if (navController != null) {
             navController.navigate(R.id.action_estudos_to_quiz, bundle);

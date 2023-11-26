@@ -43,10 +43,10 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
     private NavController navController;
 
     private Bundle extras;
+    private int id;
+    private String email;
 
     private TextView tvNomeDisciplina;
-
-    private int id;
 
     private String nomeDisciplina;
 
@@ -99,6 +99,7 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
 
         if(extras != null){
             id = extras.getInt("disciplinaId");
+            email = extras.getString("email");
             setarNomeDisciplinasPeloID(id);
             preencherQuizzes(id, searchResultado);
         }
@@ -123,9 +124,10 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
     }
     
     private void listarQuizzes(){
-        adapterQuizzes = new AdapterQuiz(getActivity(), quizzes, this);
+        adapterQuizzes = new AdapterQuiz(getActivity(), quizzes, this, email);
         rvQuizzes.setAdapter(adapterQuizzes);
     }
+
     private void preencherQuizzes(int id, String pesquisa){
         RetrofitConfig config = new RetrofitConfig();
         ConteudoWS conteudoWS = config.getConteudoWS();
@@ -141,10 +143,16 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
                         adapterQuizzes.clearData();
                     }
                     for (Conteudo conteudo : response.body()) {
-                        if (conteudo.getDisciplina().getId() == id) {
-                            if (pesquisa.isEmpty() || conteudo.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
-                                quizzes.add(conteudo);
+                        try {
+                            if (conteudo.getDisciplina().getId() == id) {
+                                if (pesquisa.isEmpty() || conteudo.getNome().toLowerCase().contains(pesquisa.toLowerCase())) {
+                                    quizzes.add(verificarDesbloquear(email,conteudo));
+                                    Log.d("tste", verificarDesbloquear(email,conteudo).getBloqueado()+"");
+                                }
                             }
+                        }catch ( NullPointerException nullPointerException){
+                            Log.e("FragConteudo", nullPointerException.getMessage());
+
                         }
                     }
                     listarQuizzes();
@@ -155,6 +163,32 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
             public void onFailure(Call<List<Conteudo>> call, Throwable t) {
             }
         });
+    }
+
+    private Conteudo verificarDesbloquear(String email, Conteudo conteudo){
+        Conteudo resultConteudo = conteudo;
+
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS conteudoWS = config.getConteudoWS();
+        Call< Integer > metodoBuscarProgressoConteudo = conteudoWS.buscarProgressoConteudo(email, conteudo.getId());
+
+        metodoBuscarProgressoConteudo.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.body() != null){
+                    if(response.body() >= 1){
+                        resultConteudo.conteudoDesbloquear();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.e("ConteudosHolder", t.getMessage());
+            }
+        });
+        return resultConteudo;
     }
     public void setarNomeDisciplinasPeloID(int id) {
         RetrofitConfig config = new RetrofitConfig();
@@ -179,7 +213,8 @@ public class Quizzes extends Fragment implements OnQuizClickListener {
     public void onQuizClick(int id) {
         Bundle cartinha = new Bundle();
 
-        cartinha.putInt("quizId", id);
+        cartinha.putInt("conteudoId", id);
+        cartinha.putString("email", email);
 
         if (navController != null) {
             navController.navigate(R.id.action_quiz_to_atividades, cartinha);

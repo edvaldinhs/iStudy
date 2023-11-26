@@ -165,7 +165,7 @@
 
             <LinearLayout
                 android:id="@+id/descricao"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingHorizontal="10dp"
@@ -177,7 +177,7 @@
 
                 <TextView
                     android:id="@+id/tvTextoQuestao"
-                    android:layout_width="380dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lexend_semiboldttf"
                     android:justificationMode="inter_word"

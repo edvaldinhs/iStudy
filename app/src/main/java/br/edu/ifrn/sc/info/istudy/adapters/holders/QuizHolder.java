@@ -1,5 +1,6 @@
 package br.edu.ifrn.sc.info.istudy.adapters.holders;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +13,11 @@ import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConteudoClickListener;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizClickListener;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
+import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
+import br.edu.ifrn.sc.info.istudy.ws.ConteudoWS;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class QuizHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     private Conteudo quiz;
@@ -31,26 +37,54 @@ public class QuizHolder extends RecyclerView.ViewHolder implements View.OnClickL
         clCardQuiz.setOnClickListener(this);
     }
 
-    public void bind(Conteudo quiz) {
+    public void bind(Conteudo quiz, String emailUsuario) {
         this.quiz = quiz;
 
-        mudarDeCor();
+        mudarDeCor(emailUsuario, quiz.getId());
 
         if(!quiz.getNome().isEmpty()){
             tvNomeQuiz.setText(quiz.getNome());
         }
     }
 
-    private void mudarDeCor(){
-        if(quiz.getDisciplina().getId() == 1 && quiz.getBloqueado() == false){
-            clCardQuiz.setBackgroundResource(R.drawable.card_quiz_conteudo_port);
-        }else if (quiz.getDisciplina().getId() == 2 && quiz.getBloqueado() == false){
-            clCardQuiz.setBackgroundResource(R.drawable.card_quiz_conteudo_mat);
-            mudarIcone();
-        }else {
-            clCardQuiz.setBackgroundResource(R.drawable.card_quiz_conteudo_bloqueado);
-            mudarIcone();
-        }
+    private void mudarDeCor(String email, int id){
+        Log.d("mudarDeCor", "Bloqueado: " + quiz.getBloqueado());
+
+        RetrofitConfig config = new RetrofitConfig();
+        ConteudoWS quizWS = config.getConteudoWS();
+        Call<Integer> metodoBuscar = quizWS.buscarProgressoConteudo(email, id);
+
+        metodoBuscar.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Log.d("tste", response.body()+"AAA");
+                clCardQuiz.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(response.body() != -1){
+                            if (quiz.getDisciplina().getId() == 1) {
+                                clCardQuiz.setBackgroundResource(R.drawable.card_quiz_conteudo_port);
+                            } else if (quiz.getDisciplina().getId() == 2) {
+                                clCardQuiz.setBackgroundResource(R.drawable.card_quiz_conteudo_mat);
+                            }
+                        } else {
+                            clCardQuiz.setBackgroundResource(R.drawable.card_quiz_conteudo_bloqueado);
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.d("tste", t.getMessage());
+                clCardQuiz.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        clCardQuiz.setBackgroundResource(R.drawable.card_quiz_conteudo_bloqueado);
+                    }
+                });
+            }
+        });
     }
 
     //Método só para a print, se eu esquecer de tirar isso, removam pls.

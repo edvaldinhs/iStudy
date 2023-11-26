@@ -20,14 +20,17 @@ public class AdapterQuiz extends RecyclerView.Adapter<QuizHolder> {
 
     private Context mContext;
 
-    List<Conteudo> quizzes;
+    private List<Conteudo> quizzes;
 
-    OnQuizClickListener onQuizClickListener;
+    private OnQuizClickListener onQuizClickListener;
 
-    public AdapterQuiz(Context context, List<Conteudo> quizzes, OnQuizClickListener listener){
+    private String email;
+
+    public AdapterQuiz(Context context, List<Conteudo> quizzes, OnQuizClickListener listener, String email){
         mContext = context;
         this.quizzes = quizzes;
         onQuizClickListener = listener;
+        this.email = email;
     }
 
     public QuizHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,7 +43,7 @@ public class AdapterQuiz extends RecyclerView.Adapter<QuizHolder> {
     @Override
     public void onBindViewHolder(@NonNull QuizHolder holder, int position) {
         Conteudo tempConteudo = quizzes.get(position);
-        holder.bind(tempConteudo);
+        holder.bind(tempConteudo, email);
     }
 
     public void clearData() {
