@@ -131,7 +131,7 @@ public class FragConteudo extends Fragment implements OnConteudoClickListener {
 
     //Método pra listar os cards de Conteudos
     private void listarConteudos(){
-        adapterConteudos = new AdapterConteudos(getActivity(), conteudos, navController,this, email);
+        adapterConteudos = new AdapterConteudos(getActivity(), getActivity(), conteudos, navController,this, email);
         rvConteudo.setAdapter(adapterConteudos);
     }
 

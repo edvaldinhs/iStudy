@@ -1,5 +1,6 @@
 package br.edu.ifrn.sc.info.istudy.adapters.holders;
 
+import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.AvisoDialog;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnConteudoClickListener;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
@@ -22,6 +24,8 @@ import retrofit2.Response;
 
 public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+    private Activity activity;
+
     private Conteudo conteudo;
 
     private ConstraintLayout clCardConteudo;
@@ -31,12 +35,13 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
 
     private String emailUsuario;
 
-    public ConteudosHolder(@NonNull View itemView, OnConteudoClickListener listener, String emailUsuario) {
+    public ConteudosHolder(@NonNull View itemView, Activity activity, OnConteudoClickListener listener, String emailUsuario) {
         super(itemView);
         clCardConteudo = itemView.findViewById(R.id.card_conteudo);
         tvNomeConteudo = itemView.findViewById(R.id.tvNomeConteudo);
         clCardConteudo.setOnClickListener(this);
         this.emailUsuario = emailUsuario;
+        this.activity = activity;
 
         conteudoClickListener = listener;
     }
@@ -100,6 +105,8 @@ public class ConteudosHolder extends RecyclerView.ViewHolder implements View.OnC
                 Log.d("onClick", "Bloqueado: " + conteudo.getBloqueado());
                 if (conteudo.getBloqueado() == false) {
                     conteudoClickListener.onConteudoClick(conteudo.getId());
+                }else{
+                    new AvisoDialog(activity, "Conteúdo Bloqueado!").iniciarAvisoDialog();
                 }
 
             } catch (NullPointerException nullPointerException) {

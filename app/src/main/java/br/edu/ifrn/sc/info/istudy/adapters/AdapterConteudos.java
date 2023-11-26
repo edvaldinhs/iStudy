@@ -1,5 +1,6 @@
 package br.edu.ifrn.sc.info.istudy.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,26 +27,28 @@ import retrofit2.Response;
 public class AdapterConteudos extends RecyclerView.Adapter<ConteudosHolder> {
 
     private Context mContext;
+    private Activity activity;
 
-    List<Conteudo> conteudos;
+    private List<Conteudo> conteudos;
 
-    NavController navController;
+    private NavController navController;
 
-    OnConteudoClickListener onConteudoClickListener;
+    private OnConteudoClickListener onConteudoClickListener;
 
     private String emailUsuario;
 
-    public AdapterConteudos(Context context, List<Conteudo> conteudos, NavController navController, OnConteudoClickListener listener, String emailUsuario){
+    public AdapterConteudos(Context context, Activity activity, List<Conteudo> conteudos, NavController navController, OnConteudoClickListener listener, String emailUsuario){
         mContext = context;
         this.conteudos = conteudos;
         this.navController = navController;
         onConteudoClickListener = listener;
         this.emailUsuario = emailUsuario;
+        this.activity = activity;
     }
 
     public ConteudosHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.card_conteudo, parent, false);
-        ConteudosHolder holder = new ConteudosHolder(view, onConteudoClickListener, emailUsuario);
+        ConteudosHolder holder = new ConteudosHolder(view, activity, onConteudoClickListener, emailUsuario);
         view.setOnClickListener(holder);
         return holder;
     }

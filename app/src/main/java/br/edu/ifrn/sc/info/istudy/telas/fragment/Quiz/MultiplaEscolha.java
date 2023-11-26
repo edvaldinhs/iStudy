@@ -30,6 +30,7 @@ import java.util.List;
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.SheetDialog.TelaInicialBottomSheetDialog;
 import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.AcertoOuErroDialog;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.AvisoDialog;
 import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.CarregandoDialog;
 import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.QuizConcluidoSheetDialog;
 import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.QuizFalhaSheetDialog;
@@ -212,7 +213,7 @@ public class MultiplaEscolha extends Fragment {
 
                     botaoClicado = null;
                 }else {
-                    Toast.makeText(getActivity(), "Selecione uma Resposta", Toast.LENGTH_SHORT).show();
+                    new AvisoDialog(getActivity(), "Selecione uma resposta!").iniciarAvisoDialog();
                 }
             }
         });
@@ -658,7 +659,7 @@ public class MultiplaEscolha extends Fragment {
                     preencherAlternativas(response.body().get(questaoAtual).getId());
                 }catch(IndexOutOfBoundsException indexOutOfBoundsException){
                     Log.e("QuizME", indexOutOfBoundsException.getMessage());
-                    Toast.makeText(getActivity(), "Não foi Possível carregar esta atividade :(", Toast.LENGTH_LONG).show();
+                    new AvisoDialog(getActivity(), "Não foi possível carregar essa atividade :(").iniciarAvisoDialog();
                     carregandoDialog.removerDialog();
                     getActivity().onBackPressed();
                 }

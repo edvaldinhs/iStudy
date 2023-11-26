@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.AvisoDialog;
 import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Conteudo;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
@@ -147,7 +148,6 @@ public class Atividades extends Fragment {
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 Log.d("PGCT", response.body()+"");
                 iniciarQuizListener(response.body(), disciplinaId);
-
             }
 
             @Override
@@ -159,44 +159,67 @@ public class Atividades extends Fragment {
 
     public void iniciarQuizListener(int progressoConteudo, int disciplinaId){
         Log.d("PGCT", progressoConteudo+"");
-        if(progressoConteudo >=1){
+        if (progressoConteudo >= 1) {
             cardQuizFacil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     iniciarQuiz(1);
                 }
             });
-            if(disciplinaId == 1){
+            if (disciplinaId == 1) {
                 cardQuizFacil.setBackgroundResource(R.drawable.card_dificuldade_port);
-            }else if (disciplinaId == 2){
+            } else if (disciplinaId == 2) {
                 cardQuizFacil.setBackgroundResource(R.drawable.card_dificuldade_mat);
             }
+        } else {
+            cardQuizFacil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AvisoDialog(getActivity(), "Bloqueado!").iniciarAvisoDialog();
+                }
+            });
         }
-        if(progressoConteudo >=2){
+
+        if (progressoConteudo >= 2) {
             cardQuizMedio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     iniciarQuiz(2);
                 }
             });
-            if(disciplinaId == 1){
+            if (disciplinaId == 1) {
                 cardQuizMedio.setBackgroundResource(R.drawable.card_dificuldade_port);
-            }else if (disciplinaId == 2){
+            } else if (disciplinaId == 2) {
                 cardQuizMedio.setBackgroundResource(R.drawable.card_dificuldade_mat);
             }
+        } else {
+            cardQuizMedio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AvisoDialog(getActivity(), "Bloqueado!").iniciarAvisoDialog();
+                }
+            });
         }
-        if(progressoConteudo >=3){
+
+        if (progressoConteudo >= 3) {
             cardQuizDificil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     iniciarQuiz(3);
                 }
             });
-            if(disciplinaId == 1){
+            if (disciplinaId == 1) {
                 cardQuizDificil.setBackgroundResource(R.drawable.card_dificuldade_port);
-            }else if (disciplinaId == 2){
+            } else if (disciplinaId == 2) {
                 cardQuizDificil.setBackgroundResource(R.drawable.card_dificuldade_mat);
             }
+        } else {
+            cardQuizDificil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AvisoDialog(getActivity(), "Bloqueado!").iniciarAvisoDialog();
+                }
+            });
         }
     }
     public void iniciarQuiz(int dificuldadeId){

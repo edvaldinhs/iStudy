@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.AvisoDialog;
 import br.edu.ifrn.sc.info.istudy.gerenciadorDeArquivo.SecureStorageHelper;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.telas.TelaInicial;
@@ -72,11 +73,12 @@ public class LoginBottomSheetDialog extends BottomSheetDialogFragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if(etEmail.getText() == null || etEmail.getText().toString().isEmpty()){
-                    Toast.makeText(getActivity(), "Insira seu Email antes", Toast.LENGTH_LONG).show();
+                    new AvisoDialog(getActivity(), "Insira seu Email antes!").iniciarAvisoDialog();
                 }else{
                     if(etSenha.getText() == null || etSenha.getText().toString().isEmpty()){
-                        Toast.makeText(getActivity(), "Insira sua Senha antes", Toast.LENGTH_LONG).show();
+                        new AvisoDialog(getActivity(), "Insira sua Senha antes!").iniciarAvisoDialog();
                     }else{
                         verificarUsuario(etEmail.getText().toString(), etSenha.getText().toString());
                     }

@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.AvisoDialog;
 import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.CarregandoDialog;
 import br.edu.ifrn.sc.info.istudy.dominio.Estudante;
 import br.edu.ifrn.sc.info.istudy.dominio.RequestConteudo;
@@ -87,13 +88,13 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 if(etNome.getText() == null || etNome.getText().toString().isEmpty()){
-                    Toast.makeText(getActivity(), "Insira seu Nome antes", Toast.LENGTH_LONG).show();
+                    new AvisoDialog(getActivity(), "Insira seu Nome antes!").iniciarAvisoDialog();
                 }else{
                     if(etEmail.getText() == null || etEmail.getText().toString().isEmpty()){
-                        Toast.makeText(getActivity(), "Insira seu Email antes", Toast.LENGTH_LONG).show();
+                        new AvisoDialog(getActivity(), "Insira seu Email antes!").iniciarAvisoDialog();
                     }else{
                         if(etSenha.getText() == null || etSenha.getText().toString().isEmpty()){
-                            Toast.makeText(getActivity(), "Insira sua Senha antes", Toast.LENGTH_LONG).show();
+                            new AvisoDialog(getActivity(), "Insira sua Senha antes!").iniciarAvisoDialog();
                         }else{
                             carregandoDialog.iniciarCarregandoDialog();
                             verificarEmail(etNome.getText().toString(), etEmail.getText().toString(), etSenha.getText().toString());
@@ -240,7 +241,7 @@ public class CadastroBottomSheetDialog extends BottomSheetDialogFragment {
                     }
                 }
                 if(emailIgual){
-                    Toast.makeText(getActivity(), "Email Já foi utilizado por outro usuário", Toast.LENGTH_LONG).show();
+                    new AvisoDialog(getActivity(), "Este email já foi utilizado por outro usuário!").iniciarAvisoDialog();
                     carregandoDialog.removerDialog();
                 }else{
                     cadastrar(nome, email, senha);

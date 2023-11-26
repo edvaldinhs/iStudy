@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.AvisoDialog;
 import br.edu.ifrn.sc.info.istudy.ViewModel.SharedViewModel;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterQuizzesByDisciplinas;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnQuizzesByDisciplinaClickListener;
@@ -121,8 +122,9 @@ public class QuizzesByDisciplina extends Fragment implements OnQuizzesByDiscipli
             @Override
             public void onFailure(Call<List<Disciplina>> call, Throwable t) {
                 try {
-                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    new AvisoDialog(getActivity(), "Não foi possível carregar as disciplinas").iniciarAvisoDialog();
                 }catch(NullPointerException nullPointerException){
+                    new AvisoDialog(getActivity(), "Não foi possível carregar as disciplinas").iniciarAvisoDialog();
                     Log.d("ErroPreencher",nullPointerException.getMessage());
                 }
 

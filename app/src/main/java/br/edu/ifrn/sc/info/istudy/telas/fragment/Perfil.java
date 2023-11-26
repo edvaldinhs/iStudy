@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifrn.sc.info.istudy.R;
+import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.AvisoDialog;
 import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.EscolherFotoDialog;
 import br.edu.ifrn.sc.info.istudy.ViewModel.SharedViewModel;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterConquistas;
@@ -137,7 +138,7 @@ public class Perfil extends Fragment implements OnConquistaClickListener {
                 if(deleted){
                     restartApp();
                 }else{
-                    Toast.makeText(getActivity(), "Não foi possível deslogar :(", Toast.LENGTH_LONG).show();
+                    new AvisoDialog(getActivity(), "Não foi possível Deslogar :(").iniciarAvisoDialog();
                 }
             }
         });
