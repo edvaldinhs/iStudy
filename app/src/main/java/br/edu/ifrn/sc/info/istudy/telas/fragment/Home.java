@@ -25,8 +25,10 @@ import java.util.List;
 import br.edu.ifrn.sc.info.istudy.R;
 import br.edu.ifrn.sc.info.istudy.SheetDialog.miscellaneous.AvisoDialog;
 import br.edu.ifrn.sc.info.istudy.ViewModel.SharedViewModel;
+import br.edu.ifrn.sc.info.istudy.adapters.AdapterAtividades;
 import br.edu.ifrn.sc.info.istudy.adapters.AdapterDisciplinas;
 import br.edu.ifrn.sc.info.istudy.adapters.holders.click.OnDisciplinaClickListener;
+import br.edu.ifrn.sc.info.istudy.dominio.Atividade;
 import br.edu.ifrn.sc.info.istudy.dominio.Disciplina;
 import br.edu.ifrn.sc.info.istudy.retrofit.RetrofitConfig;
 import br.edu.ifrn.sc.info.istudy.ws.DisciplinaWS;
@@ -43,6 +45,8 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
     //Armazena as disciplinas
     private List<Disciplina> disciplinas = new ArrayList<>();
 
+    private RecyclerView rvAtividadeInc;
+    private List<Atividade> atividadesInc = new ArrayList<>();
     private NavController navController;
 
     private String nomeDisciplina;
@@ -52,6 +56,7 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
     private Bundle extras;
 
     private AdapterDisciplinas adapterDisciplinas;
+    private AdapterAtividades adapterAtividades;
 
     private SharedViewModel sharedViewModel;
 
@@ -100,9 +105,11 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
         //Diz quem é e de onde veio o RecyclerView
         rvDisciplina = view.findViewById(R.id.recyclerview_Disciplinas);
 
+        rvAtividadeInc = view.findViewById(R.id.rvAtividadesIncompletas);
+
         //Usa uma classe chamada LinearLayoutManager pra organizar os cards de disciplina
         rvDisciplina.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
+        rvAtividadeInc.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         extras = getArguments();
 
         if(extras != null){
@@ -113,7 +120,15 @@ public class Home extends Fragment implements OnDisciplinaClickListener {
 
         preencherDisciplinas();
 
+        atividadesInc.add(new Atividade());
+
+        listarAtividadesInc();
+
         return view;
+    }
+    private void listarAtividadesInc(){
+        adapterAtividades = new AdapterAtividades(getActivity(), atividadesInc);
+        rvAtividadeInc.setAdapter(adapterAtividades);
     }
 
     public static int dpToPx(Context context, int dp) {
