@@ -119,12 +119,14 @@
                 android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnConfirmarLogin" />
+                app:layout_constraintTop_toBottomOf="@+id/btnConfirmarLogin"
+                app:layout_constraintEnd_toStartOf="@+id/tvCadastrar"/>
 
             <TextView
                 android:id="@+id/tvCadastrar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="108dp"
                 android:fontFamily="@font/inter_regularttf"
@@ -133,6 +135,7 @@
                 android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvNaoTemConta"
                 app:layout_constraintTop_toBottomOf="@+id/btnConfirmarLogin" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
