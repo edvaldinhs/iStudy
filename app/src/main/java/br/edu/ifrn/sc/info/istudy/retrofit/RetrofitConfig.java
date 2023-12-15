@@ -17,7 +17,7 @@ public class RetrofitConfig {
 
     public RetrofitConfig() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("http://18.231.44.245:8080/iStudyServer/webapi/")
+                .baseUrl("http://15.156.96.185:8080/iStudyServer/webapi/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }
