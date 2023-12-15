@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".telas.fragment.Quiz.MultiplaEscolha"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".telas.fragment.Quiz.MultiplaEscolha">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/titulo_conteudos"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintBottom_toTopOf="@id/numQuestao"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:context=".telas.fragment.Quiz.MultiplaEscolha">
+
+                <ImageView
+                    android:id="@+id/botaoTts"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/voltar"
+                    android:padding="7dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.303"
+                    app:layout_constraintStart_toEndOf="@+id/tvNivel"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5"
+                    app:srcCompat="@drawable/ic_volume"
+                    tools:srcCompat="@drawable/ic_volume" />
+
+                <TextView
+                    android:id="@+id/tvNivel"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/borda_redonda_port"
+                    android:fontFamily="@font/lexend_semiboldttf"
+                    android:gravity="center"
+                    android:text="NÍVEL"
+                    android:textAllCaps="false"
+                    android:textColor="@color/aristofany_white"
+                    android:textSize="15sp"
+                    app:cornerRadius="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/numQuestao"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/descricao"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titulo_conteudos"
+                app:layout_constraintVertical_bias="0.0"
+                tools:context=".telas.fragment.Quiz.MultiplaEscolha">
+
+                <TextView
+                    android:id="@+id/nQuestao5"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/quadrado_cinza"
+                    android:fontFamily="@font/lexend_semiboldttf"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textAllCaps="false"
+                    android:textColor="@color/aristofany_white"
+                    android:textSize="24sp"
+                    app:cornerRadius="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/nQuestao4"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/nQuestao4"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/quadrado_cinza"
+                    android:fontFamily="@font/lexend_semiboldttf"
+                    android:gravity="center"
+                    android:text="4"
+                    android:textAllCaps="false"
+                    android:textColor="@color/aristofany_white"
+                    android:textSize="24sp"
+                    app:cornerRadius="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/nQuestao5"
+                    app:layout_constraintStart_toEndOf="@+id/nQuestao3"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/nQuestao3"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/quadrado_cinza"
+                    android:fontFamily="@font/lexend_semiboldttf"
+                    android:gravity="center"
+                    android:text="3"
+                    android:textAllCaps="false"
+                    android:textColor="@color/aristofany_white"
+                    android:textSize="24sp"
+                    app:cornerRadius="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/nQuestao4"
+                    app:layout_constraintStart_toEndOf="@+id/nQuestao2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/nQuestao1"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/quadrado_cinza"
+                    android:fontFamily="@font/lexend_semiboldttf"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textAllCaps="false"
+                    android:textColor="@color/aristofany_white"
+                    android:textSize="24sp"
+                    app:cornerRadius="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/nQuestao2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/nQuestao2"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/quadrado_cinza"
+                    android:fontFamily="@font/lexend_semiboldttf"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textAllCaps="false"
+                    android:textColor="@color/aristofany_white"
+                    android:textSize="24sp"
+                    app:cornerRadius="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/nQuestao3"
+                    app:layout_constraintStart_toEndOf="@+id/nQuestao1"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/descricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/escolhas"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numQuestao">
+
+                <TextView
+                    android:id="@+id/tvTextoQuestao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lexend_semiboldttf"
+                    android:justificationMode="inter_word"
+                    android:lineSpacingExtra="4dp"
+                    android:text="Texto da questao"
+                    android:textAlignment="center"
+                    android:textColor="@color/aristofany_black"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/ivImagemQuestao"
+                    android:layout_width="380dp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/escolhas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/btnFinalizarConteudo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/descricao"
+                tools:context=".telas.fragment.Quiz.MultiplaEscolha">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clRespostaA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/borda"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="22dp"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/clRespostaB"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tvRespostaA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="@font/lexend_regularttf"
+                        android:text="A"
+                        android:textColor="@color/aristofany_black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvTextoRespostaA"
+                        android:layout_width="330dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lexend_regularttf"
+                        android:text="Resposta da letra A"
+                        android:textColor="@color/aristofany_black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.741"
+                        app:layout_constraintStart_toEndOf="@+id/tvRespostaA"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clRespostaB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/borda"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="22dp"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/clRespostaC"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clRespostaA">
+
+                    <TextView
+                        android:id="@+id/tvRespostaB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="@font/lexend_regularttf"
+                        android:text="B"
+                        android:textColor="@color/aristofany_black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvTextoRespostaB"
+                        android:layout_width="330dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lexend_regularttf"
+                        android:text="Resposta da letra B"
+                        android:textColor="@color/aristofany_black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.741"
+                        app:layout_constraintStart_toEndOf="@+id/tvRespostaB"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clRespostaC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/borda"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="22dp"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/clRespostaD"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clRespostaB">
+
+                    <TextView
+                        android:id="@+id/tvRespostaC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="@font/lexend_regularttf"
+                        android:text="C"
+                        android:textColor="@color/aristofany_black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvTextoRespostaC"
+                        android:layout_width="330dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lexend_regularttf"
+                        android:text="Resposta da letra C"
+                        android:textColor="@color/aristofany_black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.741"
+                        app:layout_constraintStart_toEndOf="@+id/tvRespostaC"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clRespostaD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/borda"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="22dp"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clRespostaC">
+
+                    <TextView
+                        android:id="@+id/tvRespostaD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="@font/lexend_regularttf"
+                        android:text="D"
+                        android:textColor="@color/aristofany_black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvTextoRespostaD"
+                        android:layout_width="330dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lexend_regularttf"
+                        android:text="Resposta da letra D"
+                        android:textColor="@color/aristofany_black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.741"
+                        app:layout_constraintStart_toEndOf="@+id/tvRespostaD"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <Button
+                android:id="@+id/btnFinalizarConteudo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/istudy_roxo"
+                android:fontFamily="@font/lexend_regularttf"
+                android:paddingHorizontal="20dp"
+                android:text="Confirmar"
+                android:textAllCaps="false"
+                android:textColor="@color/aristofany_white"
+                android:textSize="13sp"
+                app:cornerRadius="24dp"
+                app:layout_constraintBottom_toTopOf="@id/marginForBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/escolhas" />
+
+            <View
+                android:id="@+id/marginForBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnFinalizarConteudo"></View>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+    </FrameLayout>
+</ScrollView>

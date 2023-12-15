@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_principal"
+    app:startDestination="@id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_conteudo"
+            app:destination="@id/conteudo" />
+    </fragment>
+    <fragment
+        android:id="@+id/desempenho"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Desempenho"
+        android:label="Desempenho" />
+    <fragment
+        android:id="@+id/estudos"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.QuizzesByDisciplina"
+        android:label="fragment_quizzes"
+        tools:layout="@layout/fragment_quizzes_by_discipliana" >
+        <action
+            android:id="@+id/action_estudos_to_quiz"
+            app:destination="@id/quiz" />
+    </fragment>
+    <fragment
+        android:id="@+id/ranking"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Ranking"
+        android:label="fragment_ranking"
+        tools:layout="@layout/fragment_ranking" />
+    <fragment
+        android:id="@+id/perfil"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Perfil"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
+    <fragment
+        android:id="@+id/conteudo"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.FragConteudo"
+        android:label="fragment_conteudo"
+        tools:layout="@layout/fragment_conteudo" >
+        <action
+            android:id="@+id/action_conteudo_to_conteudoDescricao"
+            app:destination="@id/conteudoDescricao" />
+        <action
+            android:id="@+id/action_conteudo_to_conteudoDescricaoImagem"
+            app:destination="@id/conteudoDescricaoImagem" />
+    </fragment>
+    <fragment
+        android:id="@+id/quiz"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Quizzes"
+        android:label="fragment_quiz"
+        tools:layout="@layout/fragment_quizzes" >
+        <action
+            android:id="@+id/action_quiz_to_atividades"
+            app:destination="@id/atividades" />
+    </fragment>
+    <fragment
+        android:id="@+id/conteudoDescricaoImagem"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.ConteudoDescricaoImagem"
+        android:label="ConteudoDescricaoImagem" >
+        <action
+            android:id="@+id/action_conteudoDescricaoImagem_to_atividades"
+            app:destination="@id/atividades" />
+    </fragment>
+    <fragment
+        android:id="@+id/conteudoDescricao"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.ConteudoDescricao"
+        android:label="fragment_conteudo_descricao_imagem"
+        tools:layout="@layout/fragment_conteudo_descricao_imagem" >
+        <action
+            android:id="@+id/action_conteudoDescricao_to_atividades"
+            app:destination="@id/atividades" />
+    </fragment>
+    <fragment
+        android:id="@+id/atividades"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Atividades"
+        android:label="fragment_atividades"
+        tools:layout="@layout/fragment_atividades" >
+        <action
+            android:id="@+id/action_atividades_to_multiplaEscolha"
+            app:destination="@id/multiplaEscolha" />
+    </fragment>
+    <fragment
+        android:id="@+id/multiplaEscolha"
+        android:name="br.edu.ifrn.sc.info.istudy.telas.fragment.Quiz.MultiplaEscolha"
+        android:label="fragment_multipla_escolha"
+        tools:layout="@layout/fragment_multipla_escolha" >
+        <action
+            android:id="@+id/action_multiplaEscolha_to_conteudo"
+            app:destination="@id/conteudo" />
+        <action
+            android:id="@+id/action_multiplaEscolha_to_atividades"
+            app:destination="@id/atividades" />
+    </fragment>
+</navigation>

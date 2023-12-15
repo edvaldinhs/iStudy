@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clDialogFimAtividadeConcluida"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <Button
+        android:id="@+id/btnVoltarInicio"
+        android:layout_width="180dp"
+        android:layout_height="45dp"
+        android:background="@drawable/botao_matematica"
+        android:fontFamily="@font/inter_regularttf"
+        android:textColor="@color/aristofany_black"
+        android:text="Voltar para atividades"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRefazerQuiz" />
+
+    <Button
+        android:id="@+id/btnRefazerQuiz"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:background="@drawable/botao_matematica"
+        android:fontFamily="@font/inter_regularttf"
+        android:text="Refazer Quiz"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:backgroundTint="@color/istudy_roxo"
+        app:layout_constraintBottom_toTopOf="@+id/btnVoltarInicio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clAcertosEErros" />
+
+    <TextView
+        android:id="@+id/tvQuizConcluido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lexend_mediumttf"
+        android:text="Não foi dessa vez..."
+        android:textColor="@color/aristofany_black"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/ivTrofeu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivTrofeu"
+        android:layout_width="142dp"
+        android:layout_height="231dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvQuizConcluido"
+        app:layout_constraintBottom_toTopOf="@+id/tvPontuacao"
+        app:srcCompat="@drawable/sad_face" />
+
+    <TextView
+        android:id="@+id/tvPontuacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lexend_mediumttf"
+        android:text="Você não atingiu a\n pontuação mínima :("
+        android:textAlignment="center"
+        android:textColor="#242523"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvParabens"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivTrofeu" />
+
+    <TextView
+        android:id="@+id/tvParabens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regularttf"
+        android:text="Volte e refaça o quiz"
+        android:textColor="#242523"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/clAcertosEErros"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPontuacao" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clAcertosEErros"
+        android:layout_width="match_parent"
+        android:layout_height="107dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnRefazerQuiz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvParabens">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="81dp"
+            android:layout_height="47dp"
+            android:background="@drawable/display_acertos"
+            app:layout_constraintEnd_toStartOf="@+id/clTempo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvQAcertos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexend_mediumttf"
+                android:text="0"
+                android:textColor="@color/aristofany_white"
+                android:textSize="26dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.73"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.43" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="81dp"
+            android:layout_height="47dp"
+            android:background="@drawable/display_erros"
+            app:layout_constraintStart_toEndOf="@+id/clTempo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/tvQErros"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexend_mediumttf"
+                android:text="0"
+                android:textColor="@color/aristofany_white"
+                android:textSize="26dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.73"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.43" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTempo"
+            android:layout_width="123dp"
+            android:layout_height="47dp"
+            android:background="@drawable/display_tempo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout2"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvTempo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexend_mediumttf"
+                android:text="0:00"
+                android:textColor="@color/aristofany_white"
+                android:textSize="26dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.73"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.43" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

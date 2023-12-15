@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".telas.fragment.QuizzesByDisciplina"
+    android:background="@color/white">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/iStudyConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/frame_layout">
+
+        <TextView
+            android:id="@+id/tvPontos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:fontFamily="@font/lexend_semiboldttf"
+            android:text="0"
+            android:textSize="20dp"
+            android:textColor="@color/aristofany_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/foto"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+        <TextView
+            android:id="@+id/iStudyLogo"
+            android:layout_width="112dp"
+            android:layout_height="77dp"
+            android:fontFamily="@font/lexend_semiboldttf"
+            android:gravity="left|center"
+            android:text="iStudy"
+            android:textSize="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.483" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/foto"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="100dp"
+            app:flow_horizontalBias="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/iStudyLogo"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivFotoAluno"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@color/istudy_roxo_40"
+                android:layout_gravity="center">
+            </de.hdodenhof.circleimageview.CircleImageView>
+
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/voltar"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/voltar"
+            android:padding="7dp"
+            app:layout_constraintHorizontal_bias="0.90"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_arrow_left"
+            tools:srcCompat="@drawable/ic_arrow_left" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iStudyConstraintLayout"
+        app:navGraph="@navigation/nav_principal">
+
+    </androidx.fragment.app.FragmentContainerView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#F5F4F4"
+        app:itemTextColor="@drawable/seletor_cor_icone_navbar"
+        app:itemIconTint="@drawable/seletor_cor_icone_navbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame_layout"
+        app:menu="@menu/bottom_nav_menu"
+        ></com.google.android.material.bottomnavigation.BottomNavigationView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
